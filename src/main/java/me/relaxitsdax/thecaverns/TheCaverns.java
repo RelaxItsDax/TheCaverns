@@ -1,14 +1,16 @@
 package me.relaxitsdax.thecaverns;
 
+import me.relaxitsdax.thecaverns.Test.Test;
 import org.bukkit.plugin.java.JavaPlugin;
-
-import java.lang.reflect.Field;
 
 public final class TheCaverns extends JavaPlugin {
 
     public void onEnable() {
 
+        INSTANCE = this;
+
         System.out.println("hiiii");
+        getServer().getPluginManager().registerEvents(new Test(), this);
 
     }
 

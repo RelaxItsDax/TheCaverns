@@ -38,7 +38,7 @@
                             <goal>shade</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>D:\MC\Servers\Spigot 1.19.2\plugins</outputDirectory>
+                            <outputDirectory>D:\MC\TheCaverns\Server\plugins</outputDirectory>
                         </configuration>
                     </execution>
                 </executions>
