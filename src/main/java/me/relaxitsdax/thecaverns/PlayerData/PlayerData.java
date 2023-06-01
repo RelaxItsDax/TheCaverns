@@ -1,7 +1,6 @@
 package me.relaxitsdax.thecaverns.PlayerData;
 
 import me.relaxitsdax.thecaverns.TheCaverns;
-
 import java.util.Objects;
 import java.util.UUID;
 
