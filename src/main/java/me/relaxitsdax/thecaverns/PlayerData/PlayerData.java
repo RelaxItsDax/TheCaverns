@@ -13,7 +13,7 @@ public class PlayerData {
 
     public PlayerData(UUID uuid, double maxHealth, double health, double damage) {
         this.uuid = uuid;
-        this.health = maxHealth;
+        this.maxHealth = maxHealth;
         this.health = health;
         this.damage = damage;
 
