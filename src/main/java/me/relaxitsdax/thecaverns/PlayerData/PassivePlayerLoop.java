@@ -7,24 +7,28 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.UUID;
+
 public class PassivePlayerLoop {
 
-    public static void start(Player player) {
+    public static void start(UUID uuid) {
 
-        PlayerData data = DataManager.get(player.getUniqueId());
+        PlayerData data = DataManager.get(uuid);
+        Player player = TheCaverns.getInstance().getServer().getPlayer(uuid);
 
         new BukkitRunnable() {
             @Override
             public void run() {
                 double healthFraction = data.getHealth() / data.getMaxHealth();
-                double healthCalc = healthFraction;
-                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColor.RED + "Health: " + (int) data.getHealth() + " / " + (int) data.getMaxHealth()));
                 player.setHealth(data.getHealth() == data.getMaxHealth() ? 20 : healthFraction >= 0.1 ? Math.floor(20 * healthFraction) : 1);
                 //If health is equal to max health, then set hearts to 20, otherwise if the hearts are less than .5, set hearts to 0.5, otherwise do the hearts calc
 
+                String actionBar = ChatColor.RED + "Health: " + (int) data.getHealth() + " / " + (int) data.getMaxHealth() + " " + ChatColor.AQUA + "Mana: " + (int) data.getMana() + " / " + (int) data.getMaxMana();
+
+
                 double manaFraction = data.getMana() / data.getMaxMana();
                 player.setExp((float) manaFraction);
-                player.setLevel((int) Math.floor(data.getMana()));
+                player.setLevel(0);
             }
         }.runTaskTimer(TheCaverns.getInstance(), 0, 5);
 

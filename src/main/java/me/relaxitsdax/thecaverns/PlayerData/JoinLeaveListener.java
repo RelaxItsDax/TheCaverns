@@ -12,8 +12,6 @@ public class JoinLeaveListener implements Listener {
 
         Player player = event.getPlayer();
 
-
-
         if (!(DataManager.contains(player))) {
             DataManager.add(player.getUniqueId(), new PlayerData(player.getUniqueId()));
         } else {

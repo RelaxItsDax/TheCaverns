@@ -23,7 +23,7 @@ public class PlayerData {
 
         DataManager.add(uuid, this);
 
-        PassivePlayerLoop.start(TheCaverns.getInstance().getServer().getPlayer(uuid));
+        PassivePlayerLoop.start(uuid);
 
         TheCaverns.getInstance().getServer().getPlayer(uuid).sendMessage("Base Player Data Made!");
     }
@@ -38,7 +38,7 @@ public class PlayerData {
 
         DataManager.add(uuid, this);
 
-        PassivePlayerLoop.start(TheCaverns.getInstance().getServer().getPlayer(uuid));
+        PassivePlayerLoop.start(uuid);
 
         TheCaverns.getInstance().getServer().getPlayer(uuid).sendMessage("Player Data Made!");
     }

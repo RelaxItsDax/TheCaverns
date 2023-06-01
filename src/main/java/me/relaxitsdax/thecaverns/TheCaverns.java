@@ -19,7 +19,6 @@ public final class TheCaverns extends JavaPlugin {
 
 
 
-        System.out.println("please work");
         getServer().getPluginManager().registerEvents(new JoinLeaveListener(), this);
         getCommand("loaddata").setExecutor(new VariableCMD());
         getCommand("check").setExecutor(new GetData());
