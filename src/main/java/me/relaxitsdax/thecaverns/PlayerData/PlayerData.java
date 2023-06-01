@@ -1,7 +1,7 @@
 package me.relaxitsdax.thecaverns.PlayerData;
 
 import me.relaxitsdax.thecaverns.TheCaverns;
-import java.util.Objects;
+
 import java.util.UUID;
 
 public class PlayerData {
@@ -10,16 +10,41 @@ public class PlayerData {
     private double maxHealth;
     private double health;
     private double damage;
+    private double maxMana;
+    private double mana;
 
-    public PlayerData(UUID uuid, double maxHealth, double health, double damage) {
+    public PlayerData(UUID uuid) {
+        this.uuid = uuid;
+        this.maxHealth = 100;
+        this.health = 100;
+        this.damage = 10;
+        this.maxMana = 100;
+        this.mana = 100;
+
+        DataManager.add(uuid, this);
+
+        PassivePlayerLoop.start(TheCaverns.getInstance().getServer().getPlayer(uuid));
+
+        TheCaverns.getInstance().getServer().getPlayer(uuid).sendMessage("Base Player Data Made!");
+    }
+
+    public PlayerData(UUID uuid, double maxHealth, double health, double damage, double maxMana, double mana) {
         this.uuid = uuid;
         this.maxHealth = maxHealth;
         this.health = health;
         this.damage = damage;
+        this.maxMana = maxMana;
+        this.mana = mana;
 
-        DataManager.add(TheCaverns.getInstance().getServer().getPlayer(uuid), this);
+        DataManager.add(uuid, this);
 
-        TheCaverns.getInstance().getServer().getPlayer(uuid).sendMessage("Yabadabadoo");
+        PassivePlayerLoop.start(TheCaverns.getInstance().getServer().getPlayer(uuid));
+
+        TheCaverns.getInstance().getServer().getPlayer(uuid).sendMessage("Player Data Made!");
+    }
+
+    public String toString() {
+        return "Health: " + this.getHealth() + ", MaxHealth: " + this.maxHealth + ", Damage: " + this.damage;
     }
 
     public UUID getUuid() {
@@ -48,5 +73,21 @@ public class PlayerData {
 
     public void setDamage(double damage) {
         this.damage = damage;
+    }
+
+    public double getMaxMana() {
+        return maxMana;
+    }
+
+    public void setMaxMana(double maxMana) {
+        this.maxMana = maxMana;
+    }
+
+    public double getMana() {
+        return mana;
+    }
+
+    public void setMana(double mana) {
+        this.mana = mana;
     }
 }

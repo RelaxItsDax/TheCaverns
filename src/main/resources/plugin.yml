@@ -6,4 +6,7 @@ commands:
   loaddata:
     aliases:
       -ld
+  check:
+  setdata:
+
 

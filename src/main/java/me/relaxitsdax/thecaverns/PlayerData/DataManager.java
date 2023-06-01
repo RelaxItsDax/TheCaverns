@@ -2,21 +2,38 @@ package me.relaxitsdax.thecaverns.PlayerData;
 
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 public class DataManager {
 
-    private static Map<Player, PlayerData> playerDataMap;
+    private static final Map<UUID, PlayerData> dataMap = new HashMap<>();
 
-    public static void add(Player player, PlayerData data) {
-        playerDataMap.put(player, data);
+    public static void add(UUID uuid, PlayerData data) {
+        if (!(dataMap.containsKey(uuid))) {
+            dataMap.put(uuid, data);
+        }
     }
 
-    public static PlayerData get(Player player) {
-        if (!(playerDataMap.containsKey(player))) return null;
+    public static PlayerData get(UUID uuid) {
+        if (!(dataMap.containsKey(uuid))) return null;
 
-        return playerDataMap.get(player);
+        return dataMap.get(uuid);
+    }
+
+    public static boolean contains(Player player) {
+        return dataMap.containsKey(player.getUniqueId());
+    }
+
+    public static void printData() {
+
+        for (UUID key : dataMap.keySet()) {
+
+            System.out.println("Player: " + key + ", Data: " + dataMap.get(key));
+
+        }
+
     }
 
 }

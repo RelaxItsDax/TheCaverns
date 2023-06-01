@@ -7,22 +7,18 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class VariableCMD implements CommandExecutor {
+import javax.xml.crypto.Data;
+
+public class GetData implements CommandExecutor {
 
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
         if (sender instanceof Player) {
-
-            Player player = (Player) sender;
-
-            PlayerData playerData = new PlayerData(player.getUniqueId());
-            DataManager.add(player.getUniqueId(), playerData);
-
+            DataManager.printData();
+            sender.sendMessage("" + DataManager.contains((Player) sender));
         }
-
-
 
         return true;
     }
