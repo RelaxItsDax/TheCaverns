@@ -38,7 +38,7 @@
                             <goal>shade</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>D:\MC\TheCaverns\Server\plugins</outputDirectory>
+                            <outputDirectory>D:\Minecraft\TheCaverns\Server\plugins</outputDirectory>
                         </configuration>
                     </execution>
                 </executions>

@@ -17,6 +17,8 @@ public class PlayerData {
         this.health = health;
         this.damage = damage;
 
+        DataManager.add(TheCaverns.getInstance().getServer().getPlayer(uuid), this);
+
         TheCaverns.getInstance().getServer().getPlayer(uuid).sendMessage("Yabadabadoo");
     }
 

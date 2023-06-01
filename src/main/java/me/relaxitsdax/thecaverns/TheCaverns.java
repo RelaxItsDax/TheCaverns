@@ -16,6 +16,8 @@ public final class TheCaverns extends JavaPlugin {
         getCommand("loaddata").setExecutor(new VariableCMD());
 
 
+
+
     }
 
     public void onDisable() {
