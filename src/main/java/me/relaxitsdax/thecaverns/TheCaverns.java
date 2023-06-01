@@ -11,7 +11,7 @@ public final class TheCaverns extends JavaPlugin {
 
         INSTANCE = this;
 
-        System.out.println("hiiii");
+        System.out.println("please work");
         getServer().getPluginManager().registerEvents(new Test(), this);
         getCommand("loaddata").setExecutor(new VariableCMD());
 
