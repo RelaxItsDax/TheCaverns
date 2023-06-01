@@ -23,12 +23,14 @@ public class PassivePlayerLoop {
                 player.setHealth(data.getHealth() == data.getMaxHealth() ? 20 : healthFraction >= 0.1 ? Math.floor(20 * healthFraction) : 1);
                 //If health is equal to max health, then set hearts to 20, otherwise if the hearts are less than .5, set hearts to 0.5, otherwise do the hearts calc
 
-                String actionBar = ChatColor.RED + "Health: " + (int) data.getHealth() + " / " + (int) data.getMaxHealth() + " " + ChatColor.AQUA + "Mana: " + (int) data.getMana() + " / " + (int) data.getMaxMana();
+                String actionBar = ChatColor.RED + "Health: " + (int) data.getHealth() + " / " + (int) data.getMaxHealth() + "   " + ChatColor.AQUA + "Mana: " + (int) data.getMana() + " / " + (int) data.getMaxMana();
 
+                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(actionBar));
 
                 double manaFraction = data.getMana() / data.getMaxMana();
                 player.setExp((float) manaFraction);
                 player.setLevel(0);
+
             }
         }.runTaskTimer(TheCaverns.getInstance(), 0, 5);
 
