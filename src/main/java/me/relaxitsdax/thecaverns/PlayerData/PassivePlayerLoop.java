@@ -99,15 +99,6 @@ public class PassivePlayerLoop {
             }
         }.runTaskTimer(TheCaverns.getInstance(), 0, 5);
 
-        this.actionBarRunnable = new BukkitRunnable() {
-            @Override
-            public void run() {
-                String healthInBar = (data.getBarrier() > 0 ? ChatColor.GOLD : ChatColor.RED) + "" + (int) data.getEffectiveHealth();
-                String actionBar = ChatColor.RED + "❤ " + healthInBar + ChatColor.RED + "  / " + (int) data.getMaxHealth() + " ❤  " + ChatColor.GREEN + "\uD83D\uDEE1 " + (int) data.getDefense() + " \uD83D\uDEE1  " + ChatColor.AQUA + "★ " + (int) data.getMana() + " / " + (int) data.getMaxMana() + " ★";
-                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(actionBar));
-            }
-        }.runTaskTimer(TheCaverns.getInstance(), 0, 5);
-
     }
     public void end() {
         this.healthCalc.cancel();

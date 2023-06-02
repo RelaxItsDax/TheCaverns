@@ -31,6 +31,7 @@ public final class TheCaverns extends JavaPlugin {
             PlayerData data = new PlayerData(player.getUniqueId());
             DataManager.add(player.getUniqueId(), data);
             data.getPlayerLoop().start();
+            data.getActionBarLoop().start();
         }
 
 

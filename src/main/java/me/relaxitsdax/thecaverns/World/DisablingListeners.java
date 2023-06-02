@@ -13,7 +13,7 @@ public class DisablingListeners implements Listener {
         event.setDamage(0);
         if (event.getEntity() instanceof LivingEntity) {
             LivingEntity entity = (LivingEntity) event.getEntity();
-            entity.damage(0, event.getDamager());
+            entity.damage(0);
         } else {
             event.setCancelled(true);
         }

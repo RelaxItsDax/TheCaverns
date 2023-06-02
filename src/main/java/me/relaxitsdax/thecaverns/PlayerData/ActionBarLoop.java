@@ -27,9 +27,7 @@ public class ActionBarLoop {
             @Override
             public void run() {
 
-                String healthInBar = (data.getBarrier() > 0 ? ChatColor.GOLD : ChatColor.RED) + "" + (int) data.getEffectiveHealth();
-                String actionBar = ChatColor.RED + "❤ " + healthInBar + ChatColor.RED + "  / " + (int) data.getMaxHealth() + " ❤  " + ChatColor.GREEN + "\uD83D\uDEE1 " + (int) data.getDefense() + " \uD83D\uDEE1  " + ChatColor.AQUA + "★ " + (int) data.getMana() + " / " + (int) data.getMaxMana() + " ★";
-                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(actionBar));
+                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(build(data)));
 
             }
         }.runTaskTimer(TheCaverns.getInstance(), 0, 5);
@@ -39,11 +37,15 @@ public class ActionBarLoop {
         this.barLoop.cancel();
     }
 
-    public String build() {
-        String str = "";
+    public String build(PlayerData data) {
+
+        Stats health = Stats.HEALTH;
+        Stats barrier = Stats.BARRIER;
+        ChatColor color = (data.getBarrier() == 0 ? health.getColor() :  barrier.getColor());
+        String healthNum = color + health.getStatIcon() + " " + (int) data.getEffectiveHealth() + health.getColor() + " / " + (int) data.getMaxHealth() + " " + health.getStatIcon();
 
 
-        return str;
+        return healthNum;
     }
 
 }

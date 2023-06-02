@@ -6,6 +6,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
+import javax.swing.*;
+
 public class JoinLeaveListener implements Listener {
 
     @EventHandler
@@ -17,12 +19,18 @@ public class JoinLeaveListener implements Listener {
             PlayerData data = new PlayerData(player.getUniqueId());
             DataManager.add(player.getUniqueId(), data);
             data.getPlayerLoop().start();
+            data.getActionBarLoop().start();
 
         } else {
             player.sendMessage("Your data is already in the system!");
-            PassivePlayerLoop loop = DataManager.get(player.getUniqueId()).getPlayerLoop();
+            PlayerData data = DataManager.get(player.getUniqueId());
+            PassivePlayerLoop loop = data.getPlayerLoop();
+            ActionBarLoop barLoop = data.getActionBarLoop();
             loop.end();
+            barLoop.end();
             loop.start();
+            barLoop.start();
+
 
         }
 
