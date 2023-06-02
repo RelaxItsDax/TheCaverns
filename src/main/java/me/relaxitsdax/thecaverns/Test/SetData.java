@@ -28,6 +28,8 @@ public class SetData implements CommandExecutor {
             case "maxhealth":
                 data.setMaxHealth(number);
                 break;
+            case "barrier":
+                data.setBarrier(number);
             case "damage":
                 data.setDamage(number);
                 break;
@@ -37,6 +39,7 @@ public class SetData implements CommandExecutor {
             case "mana":
                 data.setMana(number);
                 break;
+
         }
 
         return true;

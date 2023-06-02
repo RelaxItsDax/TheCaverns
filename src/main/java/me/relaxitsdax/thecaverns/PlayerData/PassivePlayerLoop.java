@@ -19,16 +19,27 @@ public class PassivePlayerLoop {
         new BukkitRunnable() {
             @Override
             public void run() {
-                double healthFraction = data.getHealth() / data.getMaxHealth();
+
+                //Health Calculations
+                double healthFraction = (data.getHealth() - data.getBarrier()) / data.getMaxHealth();
                 player.setHealth(data.getHealth() == data.getMaxHealth() ? 20 : healthFraction >= 0.1 ? Math.floor(20 * healthFraction) : 1);
                 //If health is equal to max health, then set hearts to 20, otherwise if the hearts are less than .5, set hearts to 0.5, otherwise do the hearts calc
 
+                String healthInBar = (data.getBarrier() > 0 ? ChatColor.GOLD : ChatColor.RED) + "" + (int) data.getEffectiveHealth();
+
+                if (data.getBarrier() > 0) {
+                    data.setBarrier(data.getBarrier() - (0.01 * data.getMaxHealth()));
+                }
+
+                //Mana Calculations
                 double manaFraction = data.getMana() / data.getMaxMana();
                 player.setExp((float) manaFraction);
                 player.setLevel(0);
 
 
-                String actionBar = ChatColor.RED + "Health: " + (int) data.getHealth() + " / " + (int) data.getMaxHealth() + "   " + ChatColor.AQUA + "Mana: " + (int) data.getMana() + " / " + (int) data.getMaxMana();
+
+
+                String actionBar = ChatColor.RED + "Health: " + healthInBar + ChatColor.RED + " / " + (int) data.getMaxHealth() + "   " + ChatColor.AQUA + "Mana: " + (int) data.getMana() + " / " + (int) data.getMaxMana();
 
                 player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(actionBar));
 
