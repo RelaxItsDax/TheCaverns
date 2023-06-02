@@ -1,5 +1,6 @@
 package me.relaxitsdax.thecaverns.World;
 
+import me.relaxitsdax.thecaverns.TheCaverns;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
