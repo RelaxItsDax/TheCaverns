@@ -1,6 +1,5 @@
 package me.relaxitsdax.thecaverns.Game.Enemies;
 
-import me.relaxitsdax.thecaverns.PlayerData.ActionBarLoop;
 import me.relaxitsdax.thecaverns.PlayerData.PassivePlayerLoop;
 import org.bukkit.entity.Entity;
 
@@ -10,16 +9,20 @@ public class EnemyData {
 
 
     private final UUID uuid;
+    private final Entity entity;
+    private final PassiveEnemyLoop enemyLoop;
     private double maxHealth;
     private double health;
+    private double effectiveHealth;
     private double barrier;
     private double defense;
     private double damage;
     private double maxMana;
     private double mana;
 
-    public EnemyData(UUID uuid) {
+    public EnemyData(UUID uuid, Entity entity) {
         this.uuid = uuid;
+        this.entity = entity;
         this.maxHealth = 100;
         this.health = 100;
         this.barrier = 0;
@@ -27,10 +30,17 @@ public class EnemyData {
         this.damage = 10;
         this.maxMana = 100;
         this.mana = 100;
+
+        this.effectiveHealth = health + barrier;
+        this.enemyLoop = new PassiveEnemyLoop(uuid);
+
+        EnemyDataManager.add(uuid, this);
+
     }
 
-    public EnemyData(UUID uuid, double maxHealth, double health, double barrier, double defense, double damage, double maxMana, double mana) {
+    public EnemyData(UUID uuid, Entity entity, double maxHealth, double health, double barrier, double defense, double damage, double maxMana, double mana) {
         this.uuid = uuid;
+        this.entity = entity;
         this.maxHealth = maxHealth;
         this.health = health;
         this.barrier = barrier;
@@ -38,10 +48,22 @@ public class EnemyData {
         this.damage = damage;
         this.maxMana = maxMana;
         this.mana = mana;
+
+        this.effectiveHealth = health + barrier;
+        this.enemyLoop = new PassiveEnemyLoop(uuid);
+
+        EnemyDataManager.add(uuid, this);
     }
 
     public UUID getUuid() {
         return uuid;
+    }
+    public Entity getEntity() {
+        return entity;
+    }
+
+    public PassiveEnemyLoop getEnemyLoop() {
+        return enemyLoop;
     }
 
     public double getMaxHealth() {

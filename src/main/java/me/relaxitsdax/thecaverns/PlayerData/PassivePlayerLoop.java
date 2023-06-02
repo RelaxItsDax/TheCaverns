@@ -28,8 +28,10 @@ public class PassivePlayerLoop {
 
     public void start() {
 
+        TheCaverns INSTANCE = TheCaverns.getInstance();
+
         PlayerData data = DataManager.get(this.uuid);
-        Player player = TheCaverns.getInstance().getServer().getPlayer(this.uuid);
+        Player player = INSTANCE.getServer().getPlayer(this.uuid);
 
 
         this.effectiveHealthCalc = new BukkitRunnable() {
@@ -37,7 +39,7 @@ public class PassivePlayerLoop {
             public void run() {
                 data.setEffectiveHealth(data.getHealth() + data.getBarrier());
             }
-        }.runTaskTimer(TheCaverns.getInstance(), 0, 5);
+        }.runTaskTimer(INSTANCE, 0, 5);
 
         this.healthCalc = new BukkitRunnable() {
             @Override
@@ -48,11 +50,8 @@ public class PassivePlayerLoop {
                 //If health is equal to max health, then set hearts to 20, otherwise if the hearts are less than .5, set hearts to 0.5, otherwise do the hearts calc
 
                 player.setHealth(hearts);
-
-
-                data.setEffectiveHealth(data.getHealth() + data.getBarrier());
             }
-        }.runTaskTimer(TheCaverns.getInstance(), 0, 5);
+        }.runTaskTimer(INSTANCE, 0, 5);
 
         this.manaCalc = new BukkitRunnable() {
             @Override
@@ -61,7 +60,7 @@ public class PassivePlayerLoop {
                 player.setExp((float) manaFraction);
                 player.setLevel(0);
             }
-        }.runTaskTimer(TheCaverns.getInstance(), 0, 5);
+        }.runTaskTimer(INSTANCE, 0, 5);
 
         this.barrierCalc = new BukkitRunnable() {
             @Override
@@ -80,14 +79,14 @@ public class PassivePlayerLoop {
                     data.setBarrier(0);
                 }
             }
-        }.runTaskTimer(TheCaverns.getInstance(), 0, 5);
+        }.runTaskTimer(INSTANCE, 0, 5);
 
         this.healthRegenCalc = new BukkitRunnable() {
             @Override
             public void run() {
                 data.setHealth(Math.min(data.getHealth() + (0.005 * data.getMaxHealth()), data.getMaxHealth()));
             }
-        }.runTaskTimer(TheCaverns.getInstance(), 0, 20);
+        }.runTaskTimer(INSTANCE, 0, 20);
 
 
 
@@ -96,7 +95,7 @@ public class PassivePlayerLoop {
             public void run() {
                 data.setMana(Math.min(data.getMana() + 0.005 * data.getMaxMana(), data.getMaxMana()));
             }
-        }.runTaskTimer(TheCaverns.getInstance(), 0, 5);
+        }.runTaskTimer(INSTANCE, 0, 5);
 
     }
     public void end() {
