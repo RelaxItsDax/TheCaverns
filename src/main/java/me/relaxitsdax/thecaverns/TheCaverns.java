@@ -26,9 +26,9 @@ public final class TheCaverns extends JavaPlugin {
         getCommand("setdata").setExecutor(new SetData());
 
         for (Player player : getServer().getOnlinePlayers()) {
-
-            DataManager.add(player.getUniqueId(), new PlayerData(player.getUniqueId()));
-
+            PlayerData data = new PlayerData(player.getUniqueId());
+            DataManager.add(player.getUniqueId(), data);
+            data.getPlayerLoop().start();
         }
 
 

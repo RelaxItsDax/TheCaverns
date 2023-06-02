@@ -4,6 +4,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
+
+import javax.xml.crypto.Data;
 
 public class JoinLeaveListener implements Listener {
 
@@ -13,11 +16,25 @@ public class JoinLeaveListener implements Listener {
         Player player = event.getPlayer();
 
         if (!(DataManager.contains(player))) {
-            DataManager.add(player.getUniqueId(), new PlayerData(player.getUniqueId()));
+            PlayerData data = new PlayerData(player.getUniqueId());
+            DataManager.add(player.getUniqueId(), data);
+            data.getPlayerLoop().start();
+
         } else {
             player.sendMessage("Your data is already in the system!");
+            PassivePlayerLoop loop = DataManager.get(player.getUniqueId()).getPlayerLoop();
+            loop.end();
+            loop.start();
+
         }
 
+    }
+
+    @EventHandler
+    public void onLeave(PlayerQuitEvent event) {
+        Player player = event.getPlayer();
+
+        DataManager.get(player.getUniqueId()).getPlayerLoop().end();
     }
 
 }

@@ -7,6 +7,7 @@ import java.util.UUID;
 public class PlayerData {
 
     private final UUID uuid;
+    private final PassivePlayerLoop playerLoop;
     private double maxHealth;
     private double health;
     private double effectiveHealth; //health + barrier, subtract from this when dealing normal damage
@@ -14,6 +15,7 @@ public class PlayerData {
     private double damage;
     private double maxMana;
     private double mana;
+
 
     public PlayerData(UUID uuid) {
         this.uuid = uuid;
@@ -25,10 +27,9 @@ public class PlayerData {
         this.mana = 100;
 
         this.effectiveHealth = this.health + this.barrier;
+        this.playerLoop = new PassivePlayerLoop(this.uuid);
 
         DataManager.add(uuid, this);
-
-        startPlayerLoop();
 
         TheCaverns.getInstance().getServer().getPlayer(uuid).sendMessage("Base Player Data Made!");
     }
@@ -43,17 +44,13 @@ public class PlayerData {
         this.mana = mana;
 
         this.effectiveHealth = this.health + this.barrier;
+        this.playerLoop = new PassivePlayerLoop(this.uuid);
 
         DataManager.add(uuid, this);
-
-        startPlayerLoop();
 
         TheCaverns.getInstance().getServer().getPlayer(uuid).sendMessage("Player Data Made!");
     }
 
-    public void startPlayerLoop() {
-        PassivePlayerLoop.start(this.uuid);
-    }
 
     public String toString() {
         return "Health: " + this.getHealth() + ", MaxHealth: " + this.maxHealth + ", Damage: " + this.damage;
@@ -61,6 +58,10 @@ public class PlayerData {
 
     public UUID getUuid() {
         return uuid;
+    }
+
+    public PassivePlayerLoop getPlayerLoop() {
+        return playerLoop;
     }
 
     public double getMaxHealth() {
