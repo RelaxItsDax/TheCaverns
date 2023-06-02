@@ -9,6 +9,8 @@ public class PlayerData {
     private final UUID uuid;
     private double maxHealth;
     private double health;
+    private double effectiveHealth; //health + barrier, subtract from this when dealing normal damage
+    private double barrier;
     private double damage;
     private double maxMana;
     private double mana;
@@ -17,9 +19,12 @@ public class PlayerData {
         this.uuid = uuid;
         this.maxHealth = 100;
         this.health = 100;
+        this.barrier = 0;
         this.damage = 10;
         this.maxMana = 100;
         this.mana = 100;
+
+        this.effectiveHealth = this.health + this.barrier;
 
         DataManager.add(uuid, this);
 
@@ -28,13 +33,16 @@ public class PlayerData {
         TheCaverns.getInstance().getServer().getPlayer(uuid).sendMessage("Base Player Data Made!");
     }
 
-    public PlayerData(UUID uuid, double maxHealth, double health, double damage, double maxMana, double mana) {
+    public PlayerData(UUID uuid, double maxHealth, double health, double barrier, double damage, double maxMana, double mana) {
         this.uuid = uuid;
         this.maxHealth = maxHealth;
         this.health = health;
+        this.barrier = barrier;
         this.damage = damage;
         this.maxMana = maxMana;
         this.mana = mana;
+
+        this.effectiveHealth = this.health + this.barrier;
 
         DataManager.add(uuid, this);
 
@@ -65,6 +73,18 @@ public class PlayerData {
 
     public void setHealth(double health) {
         this.health = health;
+    }
+
+    public double getBarrier() {
+        return barrier;
+    }
+
+    public void setBarrier(double barrier) {
+        this.barrier = barrier;
+    }
+
+    public double getEffectiveHealth() {
+        return effectiveHealth;
     }
 
     public double getDamage() {
