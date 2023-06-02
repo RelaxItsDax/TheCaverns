@@ -13,7 +13,7 @@ import java.util.UUID;
 public class PassivePlayerLoop {
 
 
-    private UUID uuid;
+    private final UUID uuid;
     private BukkitTask effectiveHealthCalc;
     private BukkitTask healthCalc;
     private BukkitTask manaCalc;
@@ -47,9 +47,14 @@ public class PassivePlayerLoop {
         this.healthCalc = new BukkitRunnable() {
             @Override
             public void run() {
+
                 double healthFraction = (data.getHealth() / data.getMaxHealth());
-                player.setHealth(data.getHealth() == data.getMaxHealth() ? 20 : healthFraction >= 0.1 ? Math.floor(20 * healthFraction) : 1);
+                double hearts = (data.getHealth() == data.getMaxHealth() ? 20 : healthFraction >= 0.1 ? Math.floor(20 * healthFraction) : 1);
                 //If health is equal to max health, then set hearts to 20, otherwise if the hearts are less than .5, set hearts to 0.5, otherwise do the hearts calc
+
+                player.setHealth(hearts);
+
+
                 data.setEffectiveHealth(data.getHealth() + data.getBarrier());
             }
         }.runTaskTimer(TheCaverns.getInstance(), 0, 5);
@@ -85,13 +90,11 @@ public class PassivePlayerLoop {
         this.healthRegenCalc = new BukkitRunnable() {
             @Override
             public void run() {
-                if ((data.getHealth() + (0.005 * data.getMaxHealth())) < data.getMaxHealth()) {
-                    data.setHealth(data.getHealth() + (0.005 * data.getMaxHealth()));
-                } else if ((data.getHealth() + (0.005 * data.getMaxHealth())) >= data.getMaxHealth() && (data.getHealth() + (0.005 * data.getMaxHealth())) < data.getMaxHealth() + (0.005 * data.getMaxHealth())) {
-                    data.setHealth(data.getMaxHealth());
-                }
+                data.setHealth(Math.min(data.getHealth() + (0.005 * data.getMaxHealth()), data.getMaxHealth()));
             }
         }.runTaskTimer(TheCaverns.getInstance(), 0, 20);
+
+
 
         this.manaRegenCalc = new BukkitRunnable() {
             @Override
