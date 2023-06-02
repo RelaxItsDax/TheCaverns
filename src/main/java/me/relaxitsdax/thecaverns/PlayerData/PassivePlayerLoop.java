@@ -99,13 +99,9 @@ public class PassivePlayerLoop {
         this.manaRegenCalc = new BukkitRunnable() {
             @Override
             public void run() {
-                if ((data.getMana() + (0.02 * data.getMaxMana())) < data.getMaxMana()) {
-                    data.setMana(data.getMana() + (0.02 * data.getMaxMana()));
-                } else if ((data.getMana() + (0.02 * data.getMaxMana())) >= data.getMaxMana() && (data.getMana() + (0.02 * data.getMaxMana())) < data.getMaxMana() + (0.02 * data.getMaxMana())) {
-                    data.setMana(data.getMaxMana());
-                }
+                data.setMana(Math.min(data.getMana() + 0.005 * data.getMaxMana(), data.getMaxMana()));
             }
-        }.runTaskTimer(TheCaverns.getInstance(), 0, 20);
+        }.runTaskTimer(TheCaverns.getInstance(), 0, 5);
 
         this.actionBarRunnable = new BukkitRunnable() {
             @Override
