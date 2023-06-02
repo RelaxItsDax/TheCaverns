@@ -75,12 +75,20 @@ public class PlayerData {
         this.health = health;
     }
 
+    public void addHealth(double healing) {
+        this.health = Math.min(this.health + healing, this.maxHealth);
+    }
+
     public double getBarrier() {
         return barrier;
     }
 
     public void setBarrier(double barrier) {
         this.barrier = Math.min(barrier, 100);
+    }
+
+    public void addBarrier(double addBarrier) {
+        this.barrier = Math.min(this.barrier + addBarrier, this.maxHealth);
     }
 
     public double getEffectiveHealth() {
