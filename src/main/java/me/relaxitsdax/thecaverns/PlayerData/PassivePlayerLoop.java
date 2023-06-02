@@ -21,6 +21,8 @@ public class PassivePlayerLoop {
     private BukkitTask healthRegenCalc;
     private BukkitTask actionBarRunnable;
 
+    private BukkitTask manaRegenCalc;
+
     public PassivePlayerLoop(UUID uuid) {
         this.uuid = uuid;
     }
@@ -91,6 +93,17 @@ public class PassivePlayerLoop {
             }
         }.runTaskTimer(TheCaverns.getInstance(), 0, 20);
 
+        this.manaRegenCalc = new BukkitRunnable() {
+            @Override
+            public void run() {
+                if ((data.getMana() + (0.02 * data.getMaxMana())) < data.getMaxMana()) {
+                    data.setMana(data.getMana() + (0.02 * data.getMaxMana()));
+                } else if ((data.getMana() + (0.02 * data.getMaxMana())) >= data.getMaxMana() && (data.getMana() + (0.02 * data.getMaxMana())) < data.getMaxMana() + (0.02 * data.getMaxMana())) {
+                    data.setMana(data.getMaxMana());
+                }
+            }
+        }.runTaskTimer(TheCaverns.getInstance(), 0, 20);
+
         this.actionBarRunnable = new BukkitRunnable() {
             @Override
             public void run() {
@@ -100,6 +113,8 @@ public class PassivePlayerLoop {
             }
         }.runTaskTimer(TheCaverns.getInstance(), 0, 5);
 
+
+
     }
     public void end() {
         this.healthCalc.cancel();
@@ -107,6 +122,7 @@ public class PassivePlayerLoop {
         this.manaCalc.cancel();
         this.effectiveHealthCalc.cancel();
         this.healthRegenCalc.cancel();
+        this.manaRegenCalc.cancel();
         this.actionBarRunnable.cancel();
     }
 
