@@ -41,11 +41,14 @@ public class ActionBarLoop {
 
         Stats health = Stats.HEALTH;
         Stats barrier = Stats.BARRIER;
+        Stats defense = Stats.DEFENSE;
+        Stats mana = Stats.MANA;
         ChatColor color = (data.getBarrier() == 0 ? health.getColor() :  barrier.getColor());
         String healthNum = color + health.getStatIcon() + " " + (int) data.getEffectiveHealth() + health.getColor() + " / " + (int) data.getMaxHealth() + " " + health.getStatIcon();
+        String defenseNum = defense.getColor() + defense.getStatIcon() + " " + (int) data.getDefense() + " " + defense.getStatIcon();
+        String manaNum = mana.getColor() + mana.getStatIcon() + " " + (int) data.getMana() + " / " + (int) data.getMaxMana() + " " + mana.getStatIcon();
 
-
-        return healthNum;
+        return healthNum + "  " + defenseNum + "  " + manaNum;
     }
 
 }
