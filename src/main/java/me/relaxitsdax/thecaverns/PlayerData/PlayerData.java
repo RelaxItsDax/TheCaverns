@@ -12,6 +12,7 @@ public class PlayerData {
     private double health;
     private double effectiveHealth; //health + barrier, subtract from this when dealing normal damage
     private double barrier;
+    private double defense;
     private double damage;
     private double maxMana;
     private double mana;
@@ -22,6 +23,7 @@ public class PlayerData {
         this.maxHealth = 100;
         this.health = 100;
         this.barrier = 0;
+        this.defense = 0;
         this.damage = 10;
         this.maxMana = 100;
         this.mana = 100;
@@ -34,11 +36,12 @@ public class PlayerData {
         TheCaverns.getInstance().getServer().getPlayer(uuid).sendMessage("Base Player Data Made!");
     }
 
-    public PlayerData(UUID uuid, double maxHealth, double health, double barrier, double damage, double maxMana, double mana) {
+    public PlayerData(UUID uuid, double maxHealth, double health, double barrier, double defense, double damage, double maxMana, double mana) {
         this.uuid = uuid;
         this.maxHealth = maxHealth;
         this.health = health;
         this.barrier = barrier;
+        this.defense = defense;
         this.damage = damage;
         this.maxMana = maxMana;
         this.mana = mana;
@@ -94,6 +97,50 @@ public class PlayerData {
 
     public void addBarrier(double addBarrier) {
         this.barrier = Math.min(this.barrier + addBarrier, this.maxHealth);
+    }
+
+    public double getDefense() {
+        return defense;
+    }
+
+    public void setDefense(double defense) {
+        this.defense = defense;
+    }
+
+    public void dealDamage(double damage) {
+        damage *= 100 / (this.defense + 100);
+
+        double finalHealth = this.health;
+        if (damage >= this.barrier) {
+            this.barrier -= damage;
+        } else {
+            this.barrier = 0;
+            finalHealth -= (damage - this.barrier);
+        }
+
+        if (finalHealth <= 0) {
+            this.health = this.maxHealth;
+            TheCaverns.getInstance().getServer().getPlayer(this.uuid).sendMessage("You died!");
+        } else {
+            this.health = finalHealth;
+        }
+    }
+
+    public void dealTrueDamage(double trueDamage) {
+        double finalHealth = this.health;
+        if (damage >= barrier) {
+            this.barrier -= this.damage;
+        } else {
+            this.barrier = 0;
+            finalHealth -= (this.damage - this.barrier);
+        }
+
+        if (finalHealth <= 0) {
+            this.health = this.maxHealth;
+            TheCaverns.getInstance().getServer().getPlayer(this.uuid).sendMessage("You died!");
+        } else {
+            this.health = finalHealth;
+        }
     }
 
     public double getEffectiveHealth() {

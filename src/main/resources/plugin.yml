@@ -3,10 +3,8 @@ version: '${project.version}'
 main: me.relaxitsdax.thecaverns.TheCaverns
 api-version: 1.19
 commands:
-  loaddata:
-    aliases:
-      -ld
-  check:
   setdata:
+  getdata:
+  dealdamagetoself:
 
 
