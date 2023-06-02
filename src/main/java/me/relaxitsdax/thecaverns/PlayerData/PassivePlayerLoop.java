@@ -6,19 +6,32 @@ import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scheduler.BukkitScheduler;
+import org.bukkit.scheduler.BukkitTask;
 
 import java.util.UUID;
 
 public class PassivePlayerLoop {
 
-    public static void start(UUID uuid) {
 
-        PlayerData data = DataManager.get(uuid);
-        Player player = TheCaverns.getInstance().getServer().getPlayer(uuid);
+    private UUID uuid;
+    private BukkitTask effectiveHealthCalc;
+    private BukkitTask healthCalc;
+    private BukkitTask manaCalc;
+    private BukkitTask barrierCalc;
+    private BukkitTask healthRegenCalc;
+    private BukkitTask actionBarRunnable;
 
-        //Health and Mana Display
-        new BukkitRunnable() {
+    public PassivePlayerLoop(UUID uuid) {
+        this.uuid = uuid;
+    }
+
+    public void start() {
+
+        PlayerData data = DataManager.get(this.uuid);
+        Player player = TheCaverns.getInstance().getServer().getPlayer(this.uuid);
+
+
+        this.effectiveHealthCalc = new BukkitRunnable() {
             @Override
             public void run() {
                 data.setEffectiveHealth(data.getHealth() + data.getBarrier());
@@ -29,8 +42,7 @@ public class PassivePlayerLoop {
             }
         }.runTaskTimer(TheCaverns.getInstance(), 0, 5);
 
-        //Health Calculations
-        new BukkitRunnable() {
+        this.healthCalc = new BukkitRunnable() {
             @Override
             public void run() {
                 double healthFraction = (data.getHealth() / data.getMaxHealth());
@@ -40,8 +52,7 @@ public class PassivePlayerLoop {
             }
         }.runTaskTimer(TheCaverns.getInstance(), 0, 5);
 
-        //Mana Calculations
-        new BukkitRunnable() {
+        this.manaCalc = new BukkitRunnable() {
             @Override
             public void run() {
                 double manaFraction = data.getMana() / data.getMaxMana();
@@ -50,8 +61,7 @@ public class PassivePlayerLoop {
             }
         }.runTaskTimer(TheCaverns.getInstance(), 0, 5);
 
-        //Absorption
-        new BukkitRunnable() {
+        this.barrierCalc = new BukkitRunnable() {
             @Override
             public void run() {
                 if (data.getBarrier() > 0) {
@@ -70,8 +80,7 @@ public class PassivePlayerLoop {
             }
         }.runTaskTimer(TheCaverns.getInstance(), 0, 5);
 
-        //Health Regen
-        new BukkitRunnable() {
+        this.healthRegenCalc = new BukkitRunnable() {
             @Override
             public void run() {
                 if ((data.getHealth() + (0.005 * data.getMaxHealth())) < data.getMaxHealth()) {
@@ -82,6 +91,23 @@ public class PassivePlayerLoop {
             }
         }.runTaskTimer(TheCaverns.getInstance(), 0, 20);
 
+        this.actionBarRunnable = new BukkitRunnable() {
+            @Override
+            public void run() {
+                String healthInBar = (data.getBarrier() > 0 ? ChatColor.GOLD : ChatColor.RED) + "" + (int) data.getEffectiveHealth();
+                String actionBar = ChatColor.RED + "Health: " + healthInBar + ChatColor.RED + " / " + (int) data.getMaxHealth() + "   " + ChatColor.AQUA + "Mana: " + (int) data.getMana() + " / " + (int) data.getMaxMana();
+                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(actionBar));
+            }
+        }.runTaskTimer(TheCaverns.getInstance(), 0, 5);
+
+    }
+    public void end() {
+        this.healthCalc.cancel();
+        this.barrierCalc.cancel();
+        this.manaCalc.cancel();
+        this.effectiveHealthCalc.cancel();
+        this.healthRegenCalc.cancel();
+        this.actionBarRunnable.cancel();
     }
 
 }
