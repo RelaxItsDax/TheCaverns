@@ -111,7 +111,7 @@ public class PassivePlayerLoop {
             @Override
             public void run() {
                 String healthInBar = (data.getBarrier() > 0 ? ChatColor.GOLD : ChatColor.RED) + "" + (int) data.getEffectiveHealth();
-                String actionBar = ChatColor.RED + "Health: " + healthInBar + ChatColor.RED + " / " + (int) data.getMaxHealth() + "   " + ChatColor.AQUA + "Mana: " + (int) data.getMana() + " / " + (int) data.getMaxMana();
+                String actionBar = ChatColor.RED + "Health: " + healthInBar + ChatColor.RED + " / " + (int) data.getMaxHealth() + "  " + ChatColor.GREEN + "" + (int) data.getDefense() + "  " + ChatColor.AQUA + "Mana: " + (int) data.getMana() + " / " + (int) data.getMaxMana();
                 player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(actionBar));
             }
         }.runTaskTimer(TheCaverns.getInstance(), 0, 5);

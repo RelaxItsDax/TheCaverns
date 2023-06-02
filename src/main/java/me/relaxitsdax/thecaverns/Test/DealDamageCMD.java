@@ -6,6 +6,8 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.Objects;
+
 public class DealDamageCMD implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -19,8 +21,10 @@ public class DealDamageCMD implements CommandExecutor {
 
             double damage = Double.parseDouble(args[0]);
 
-            if (args[1] == "true") {
-                DataManager.get(player.getUniqueId()).dealTrueDamage(damage);
+            if (args.length > 1) {
+                if (args[1].equals("true")) {
+                    DataManager.get(player.getUniqueId()).dealTrueDamage(damage);
+                }
             } else {
                 DataManager.get(player.getUniqueId()).dealDamage(damage);
             }

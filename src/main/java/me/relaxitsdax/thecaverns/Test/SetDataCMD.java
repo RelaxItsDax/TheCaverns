@@ -28,6 +28,10 @@ public class SetDataCMD implements CommandExecutor {
                 break;
             case "barrier":
                 data.setBarrier(number);
+                break;
+            case "defense":
+                data.setDefense(number);
+                break;
             case "damage":
                 data.setDamage(number);
                 break;

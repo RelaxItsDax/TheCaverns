@@ -111,7 +111,7 @@ public class PlayerData {
         damage *= 100 / (this.defense + 100);
 
         double finalHealth = this.health;
-        if (damage >= this.barrier) {
+        if (damage <= this.barrier) {
             this.barrier -= damage;
         } else {
             this.barrier = 0;
@@ -128,11 +128,11 @@ public class PlayerData {
 
     public void dealTrueDamage(double trueDamage) {
         double finalHealth = this.health;
-        if (damage >= barrier) {
-            this.barrier -= this.damage;
+        if (trueDamage <= barrier) {
+            this.barrier -= trueDamage;
         } else {
             this.barrier = 0;
-            finalHealth -= (this.damage - this.barrier);
+            finalHealth -= (trueDamage - this.barrier);
         }
 
         if (finalHealth <= 0) {
