@@ -112,8 +112,6 @@ public class PassivePlayerLoop {
             }
         }.runTaskTimer(TheCaverns.getInstance(), 0, 5);
 
-
-
     }
     public void end() {
         this.healthCalc.cancel();
