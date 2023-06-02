@@ -39,8 +39,10 @@ public class JoinLeaveListener implements Listener {
     @EventHandler
     public void onLeave(PlayerQuitEvent event) {
         Player player = event.getPlayer();
+        PlayerData data = DataManager.get(player.getUniqueId());
 
-        DataManager.get(player.getUniqueId()).getPlayerLoop().end();
+        data.getPlayerLoop().end();
+        data.getActionBarLoop().end();
     }
 
 }

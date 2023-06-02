@@ -19,7 +19,6 @@ public class PassivePlayerLoop {
     private BukkitTask manaCalc;
     private BukkitTask barrierCalc;
     private BukkitTask healthRegenCalc;
-    private BukkitTask actionBarRunnable;
 
     private BukkitTask manaRegenCalc;
 
@@ -107,7 +106,6 @@ public class PassivePlayerLoop {
         this.effectiveHealthCalc.cancel();
         this.healthRegenCalc.cancel();
         this.manaRegenCalc.cancel();
-        this.actionBarRunnable.cancel();
     }
 
 }
