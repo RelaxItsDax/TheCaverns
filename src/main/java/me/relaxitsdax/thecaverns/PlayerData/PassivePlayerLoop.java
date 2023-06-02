@@ -34,8 +34,16 @@ public class PassivePlayerLoop {
             }
         }.runTaskTimer(TheCaverns.getInstance(), 0, 5);
 
-
-
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                if ((data.getHealth() + (0.005 * data.getMaxHealth())) < data.getMaxHealth()) {
+                    data.setHealth(data.getHealth() + (0.005 * data.getMaxHealth()));
+                } else if ((data.getHealth() + (0.005 * data.getMaxHealth())) >= data.getMaxHealth() && (data.getHealth() + (0.005 * data.getMaxHealth())) < data.getMaxHealth() + (0.005 * data.getMaxHealth())) {
+                    data.setHealth(data.getMaxHealth());
+                }
+            }
+        }.runTaskTimer(TheCaverns.getInstance(), 0, 20);
 
 
     }
