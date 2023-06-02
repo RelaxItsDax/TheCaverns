@@ -80,11 +80,15 @@ public class PlayerData {
     }
 
     public void setBarrier(double barrier) {
-        this.barrier = barrier;
+        this.barrier = Math.min(barrier, 100);
     }
 
     public double getEffectiveHealth() {
         return effectiveHealth;
+    }
+
+    public void setEffectiveHealth(double effectiveHealth) {
+        this.effectiveHealth = effectiveHealth;
     }
 
     public double getDamage() {
