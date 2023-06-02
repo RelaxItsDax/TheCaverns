@@ -1,6 +1,7 @@
 package me.relaxitsdax.thecaverns.PlayerData;
 
 import me.relaxitsdax.thecaverns.TheCaverns;
+import org.checkerframework.checker.units.qual.A;
 
 import java.util.UUID;
 
@@ -8,6 +9,7 @@ public class PlayerData {
 
     private final UUID uuid;
     private final PassivePlayerLoop playerLoop;
+    private final ActionBarLoop actionBarLoop;
     private double maxHealth;
     private double health;
     private double effectiveHealth; //health + barrier, subtract from this when dealing normal damage
@@ -30,6 +32,7 @@ public class PlayerData {
 
         this.effectiveHealth = this.health + this.barrier;
         this.playerLoop = new PassivePlayerLoop(this.uuid);
+        this.actionBarLoop = new ActionBarLoop(this.uuid);
 
         DataManager.add(uuid, this);
 
@@ -48,6 +51,7 @@ public class PlayerData {
 
         this.effectiveHealth = this.health + this.barrier;
         this.playerLoop = new PassivePlayerLoop(this.uuid);
+        this.actionBarLoop = new ActionBarLoop(this.uuid);
 
         DataManager.add(uuid, this);
 
@@ -65,6 +69,10 @@ public class PlayerData {
 
     public PassivePlayerLoop getPlayerLoop() {
         return playerLoop;
+    }
+
+    public ActionBarLoop getActionBarLoop() {
+        return actionBarLoop;
     }
 
     public double getMaxHealth() {

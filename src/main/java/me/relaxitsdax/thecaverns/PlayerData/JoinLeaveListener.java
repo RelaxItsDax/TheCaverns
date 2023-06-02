@@ -6,8 +6,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-import javax.xml.crypto.Data;
-
 public class JoinLeaveListener implements Listener {
 
     @EventHandler
