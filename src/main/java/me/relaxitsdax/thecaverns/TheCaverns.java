@@ -6,6 +6,7 @@ import me.relaxitsdax.thecaverns.PlayerData.PlayerData;
 import me.relaxitsdax.thecaverns.Test.DealDamageCMD;
 import me.relaxitsdax.thecaverns.Test.GetDataCMD;
 import me.relaxitsdax.thecaverns.Test.SetDataCMD;
+import me.relaxitsdax.thecaverns.World.DisablingListeners;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -20,6 +21,7 @@ public final class TheCaverns extends JavaPlugin {
 
 
         getServer().getPluginManager().registerEvents(new JoinLeaveListener(), this);
+        getServer().getPluginManager().registerEvents(new DisablingListeners(), this);
 
         getCommand("dealdamagetoself").setExecutor(new DealDamageCMD());
         getCommand("getdata").setExecutor(new GetDataCMD());
