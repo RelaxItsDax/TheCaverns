@@ -1,15 +1,12 @@
 package me.relaxitsdax.thecaverns;
 
-import me.relaxitsdax.thecaverns.Game.Enemies.EnemyData;
-import me.relaxitsdax.thecaverns.Game.Enemies.EnemyDataManager;
-import me.relaxitsdax.thecaverns.PlayerData.DataManager;
-import me.relaxitsdax.thecaverns.PlayerData.JoinLeaveListener;
-import me.relaxitsdax.thecaverns.PlayerData.PlayerData;
-import me.relaxitsdax.thecaverns.Test.CheckEntityListener;
-import me.relaxitsdax.thecaverns.Test.DealDamageCMD;
-import me.relaxitsdax.thecaverns.Test.GetDataCMD;
-import me.relaxitsdax.thecaverns.Test.SetDataCMD;
-import me.relaxitsdax.thecaverns.World.DisablingListeners;
+import me.relaxitsdax.thecaverns.Game.Entities.EntityData;
+import me.relaxitsdax.thecaverns.Game.Entities.EntityDataManager;
+import me.relaxitsdax.thecaverns.Game.Entities.Players.PlayerDataManager;
+import me.relaxitsdax.thecaverns.Game.Entities.Players.JoinLeaveListener;
+import me.relaxitsdax.thecaverns.Game.Entities.Players.PlayerData;
+import me.relaxitsdax.thecaverns.Test.*;
+import me.relaxitsdax.thecaverns.World.DamageEventHandlers;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -21,29 +18,29 @@ public final class TheCaverns extends JavaPlugin {
     public void onEnable() {
 
         INSTANCE = this;
-        dataManager = new DataManager();
+        playerDataManager = new PlayerDataManager();
 
 
 
         getServer().getPluginManager().registerEvents(new JoinLeaveListener(), this);
-        getServer().getPluginManager().registerEvents(new DisablingListeners(), this);
+        getServer().getPluginManager().registerEvents(new DamageEventHandlers(), this);
         getServer().getPluginManager().registerEvents(new CheckEntityListener(), this);
 
+        getCommand("giveentitiesdata").setExecutor(new GiveEnemiesDataCMD());
         getCommand("dealdamagetoself").setExecutor(new DealDamageCMD());
         getCommand("getdata").setExecutor(new GetDataCMD());
         getCommand("setdata").setExecutor(new SetDataCMD());
+        getCommand("adddata").setExecutor(new AddStatCMD());
+
 
         for (Player player : getServer().getOnlinePlayers()) {
             PlayerData data = new PlayerData(player.getUniqueId());
-            DataManager.add(player.getUniqueId(), data);
-            data.getPlayerLoop().start();
-            data.getActionBarLoop().start();
+            //data.getActionBarLoop().start();
         }
 
         for (World world : getServer().getWorlds()) {
             for (Entity entity : world.getEntities()) {
-                EnemyData data = new EnemyData(entity.getUniqueId(), entity);
-                EnemyDataManager.add(entity.getUniqueId(), data);
+                EntityData data = new EntityData(entity.getUniqueId());
                 data.getEnemyLoop().start();
             }
         }
@@ -66,8 +63,8 @@ public final class TheCaverns extends JavaPlugin {
         return INSTANCE;
     }
 
-    private static DataManager dataManager;
-    public static DataManager getDataManager(){return dataManager;}
+    private static PlayerDataManager playerDataManager;
+    public static PlayerDataManager getDataManager(){return playerDataManager;}
 
 
 }

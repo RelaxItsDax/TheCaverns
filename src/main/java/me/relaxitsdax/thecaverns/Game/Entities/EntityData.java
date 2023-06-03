@@ -1,26 +1,26 @@
-package me.relaxitsdax.thecaverns.PlayerData;
+package me.relaxitsdax.thecaverns.Game.Entities;
 
 import me.relaxitsdax.thecaverns.TheCaverns;
-import org.checkerframework.checker.units.qual.A;
+import org.bukkit.entity.Entity;
 
 import java.util.UUID;
 
-public class PlayerData {
+public class EntityData {
+
 
     private final UUID uuid;
-    private final PassivePlayerLoop playerLoop;
-    private final ActionBarLoop actionBarLoop;
+    private final Entity entity;
+    private final PassiveEntityLoop enemyLoop;
     private double maxHealth;
     private double health;
-    private double effectiveHealth; //health + barrier, subtract from this when dealing normal damage
+    private double effectiveHealth;
     private double barrier;
     private double defense;
     private double damage;
     private double maxMana;
     private double mana;
 
-
-    public PlayerData(UUID uuid) {
+    public EntityData(UUID uuid) {
         this.uuid = uuid;
         this.maxHealth = 100;
         this.health = 100;
@@ -30,16 +30,16 @@ public class PlayerData {
         this.maxMana = 100;
         this.mana = 100;
 
-        this.effectiveHealth = this.health + this.barrier;
-        this.playerLoop = new PassivePlayerLoop(this.uuid);
-        this.actionBarLoop = new ActionBarLoop(this.uuid);
+        this.effectiveHealth = health + barrier;
+        this.enemyLoop = new PassiveEntityLoop(uuid);
 
-        DataManager.add(uuid, this);
+        this.entity = TheCaverns.getInstance().getServer().getEntity(uuid);
 
-        TheCaverns.getInstance().getServer().getPlayer(uuid).sendMessage("Base Player Data Made!");
+        EntityDataManager.add(this.getUuid(), this);
+
     }
 
-    public PlayerData(UUID uuid, double maxHealth, double health, double barrier, double defense, double damage, double maxMana, double mana) {
+    public EntityData(UUID uuid, double maxHealth, double health, double barrier, double defense, double damage, double maxMana, double mana) {
         this.uuid = uuid;
         this.maxHealth = maxHealth;
         this.health = health;
@@ -49,30 +49,23 @@ public class PlayerData {
         this.maxMana = maxMana;
         this.mana = mana;
 
-        this.effectiveHealth = this.health + this.barrier;
-        this.playerLoop = new PassivePlayerLoop(this.uuid);
-        this.actionBarLoop = new ActionBarLoop(this.uuid);
+        this.effectiveHealth = health + barrier;
+        this.enemyLoop = new PassiveEntityLoop(uuid);
 
-        DataManager.add(uuid, this);
+        this.entity = TheCaverns.getInstance().getServer().getEntity(uuid);
 
-        TheCaverns.getInstance().getServer().getPlayer(uuid).sendMessage("Player Data Made!");
-    }
-
-
-    public String toString() {
-        return "Health: " + this.getHealth() + ", MaxHealth: " + this.maxHealth + ", Damage: " + this.damage;
+        EntityDataManager.add(this.getUuid(), this);
     }
 
     public UUID getUuid() {
         return uuid;
     }
-
-    public PassivePlayerLoop getPlayerLoop() {
-        return playerLoop;
+    public Entity getEntity() {
+        return entity;
     }
 
-    public ActionBarLoop getActionBarLoop() {
-        return actionBarLoop;
+    public PassiveEntityLoop getEnemyLoop() {
+        return enemyLoop;
     }
 
     public double getMaxHealth() {
@@ -91,8 +84,12 @@ public class PlayerData {
         this.health = health;
     }
 
-    public void addHealth(double healing) {
-        this.health = Math.min(this.health + healing, this.maxHealth);
+    public double getEffectiveHealth() {
+        return effectiveHealth;
+    }
+
+    public void setEffectiveHealth(double effectiveHealth) {
+        this.effectiveHealth = effectiveHealth;
     }
 
     public double getBarrier() {
@@ -100,11 +97,11 @@ public class PlayerData {
     }
 
     public void setBarrier(double barrier) {
-        this.barrier = Math.min(barrier, 100);
+        this.barrier = barrier;
     }
 
-    public void addBarrier(double addBarrier) {
-        this.barrier = Math.min(this.barrier + addBarrier, this.maxHealth);
+    public void addBarrier(double barrier) {
+        this.barrier = Math.min(this.barrier + barrier + (0.01 * getMaxHealth()), maxHealth + (0.01 * getMaxHealth()));
     }
 
     public double getDefense() {
@@ -113,6 +110,30 @@ public class PlayerData {
 
     public void setDefense(double defense) {
         this.defense = defense;
+    }
+
+    public double getDamage() {
+        return damage;
+    }
+
+    public void setDamage(double damage) {
+        this.damage = damage;
+    }
+
+    public double getMaxMana() {
+        return maxMana;
+    }
+
+    public void setMaxMana(double maxMana) {
+        this.maxMana = maxMana;
+    }
+
+    public double getMana() {
+        return mana;
+    }
+
+    public void setMana(double mana) {
+        this.mana = mana;
     }
 
     public void dealDamage(double damage) {
@@ -149,37 +170,5 @@ public class PlayerData {
         } else {
             this.health = finalHealth;
         }
-    }
-
-    public double getEffectiveHealth() {
-        return effectiveHealth;
-    }
-
-    public void setEffectiveHealth(double effectiveHealth) {
-        this.effectiveHealth = effectiveHealth;
-    }
-
-    public double getDamage() {
-        return damage;
-    }
-
-    public void setDamage(double damage) {
-        this.damage = damage;
-    }
-
-    public double getMaxMana() {
-        return maxMana;
-    }
-
-    public void setMaxMana(double maxMana) {
-        this.maxMana = maxMana;
-    }
-
-    public double getMana() {
-        return mana;
-    }
-
-    public void setMana(double mana) {
-        this.mana = mana;
     }
 }

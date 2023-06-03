@@ -1,12 +1,10 @@
 package me.relaxitsdax.thecaverns.Test;
 
-import me.relaxitsdax.thecaverns.PlayerData.DataManager;
+import me.relaxitsdax.thecaverns.Game.Entities.Players.PlayerDataManager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import java.util.Objects;
 
 public class DealDamageCMD implements CommandExecutor {
     @Override
@@ -23,10 +21,10 @@ public class DealDamageCMD implements CommandExecutor {
 
             if (args.length > 1) {
                 if (args[1].equals("true")) {
-                    DataManager.get(player.getUniqueId()).dealTrueDamage(damage);
+                    PlayerDataManager.get(player.getUniqueId()).dealTrueDamage(damage);
                 }
             } else {
-                DataManager.get(player.getUniqueId()).dealDamage(damage);
+                PlayerDataManager.get(player.getUniqueId()).dealDamage(damage);
             }
         }
 

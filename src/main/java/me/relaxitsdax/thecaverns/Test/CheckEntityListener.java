@@ -1,7 +1,7 @@
 package me.relaxitsdax.thecaverns.Test;
 
-import me.relaxitsdax.thecaverns.Game.Enemies.EnemyData;
-import me.relaxitsdax.thecaverns.Game.Enemies.EnemyDataManager;
+import me.relaxitsdax.thecaverns.Game.Entities.EntityData;
+import me.relaxitsdax.thecaverns.Game.Entities.EntityDataManager;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -17,7 +17,7 @@ public class CheckEntityListener implements Listener {
         Entity clicked = event.getRightClicked();
         if (clicked instanceof Player) player.sendMessage("Please click on a real entity and not a player!");
 
-        EnemyData data = EnemyDataManager.get(clicked.getUniqueId());
+        EntityData data = EntityDataManager.get(clicked.getUniqueId());
 
         if (data != null) player.sendMessage("This entity has data!");
 

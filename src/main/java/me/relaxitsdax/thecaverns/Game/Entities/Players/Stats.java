@@ -1,4 +1,4 @@
-package me.relaxitsdax.thecaverns.PlayerData;
+package me.relaxitsdax.thecaverns.Game.Entities.Players;
 
 import org.bukkit.ChatColor;
 
