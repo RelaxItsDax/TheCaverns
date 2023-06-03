@@ -16,12 +16,12 @@ public class JoinLeaveListener implements Listener {
 
         if (!(PlayerDataManager.contains(player))) {
             PlayerData data = new PlayerData(player.getUniqueId());
-            data.getEnemyLoop().start();
+            data.getEntityLoop().start();
 
         } else {
             player.sendMessage("Your data is already in the system!");
             PlayerData data = PlayerDataManager.get(player.getUniqueId());
-            PassiveEntityLoop loop = data.getEnemyLoop();
+            PassiveEntityLoop loop = data.getEntityLoop();
             loop.end();
             loop.start();
 
@@ -35,7 +35,7 @@ public class JoinLeaveListener implements Listener {
         Player player = event.getPlayer();
         PlayerData data = PlayerDataManager.get(player.getUniqueId());
 
-        data.getEnemyLoop().end();
+        data.getEntityLoop().end();
     }
 
 }

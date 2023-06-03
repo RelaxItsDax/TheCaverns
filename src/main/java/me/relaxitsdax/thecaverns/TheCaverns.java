@@ -1,7 +1,6 @@
 package me.relaxitsdax.thecaverns;
 
 import me.relaxitsdax.thecaverns.Game.Entities.EntityData;
-import me.relaxitsdax.thecaverns.Game.Entities.EntityDataManager;
 import me.relaxitsdax.thecaverns.Game.Entities.Players.PlayerDataManager;
 import me.relaxitsdax.thecaverns.Game.Entities.Players.JoinLeaveListener;
 import me.relaxitsdax.thecaverns.Game.Entities.Players.PlayerData;
@@ -40,7 +39,7 @@ public final class TheCaverns extends JavaPlugin {
         for (World world : getServer().getWorlds()) {
             for (Entity entity : world.getEntities()) {
                 EntityData data = new EntityData(entity.getUniqueId());
-                data.getEnemyLoop().start();
+                data.getEntityLoop().start();
             }
         }
 

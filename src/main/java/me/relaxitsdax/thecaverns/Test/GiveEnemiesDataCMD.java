@@ -22,7 +22,7 @@ public class GiveEnemiesDataCMD implements CommandExecutor {
                     if (!(EntityDataManager.contains(entity))) {
                         EntityData data = new EntityData(entity.getUniqueId());
                         EntityDataManager.add(entity.getUniqueId(), data);
-                        data.getEnemyLoop().start();
+                        data.getEntityLoop().start();
                         count++;
                     }
                     System.out.println(count + " entities were given data!");

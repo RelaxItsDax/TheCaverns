@@ -13,7 +13,7 @@ public class EntityData {
 
     private final UUID uuid;
     private final Entity entity;
-    private final PassiveEntityLoop enemyLoop;
+    private final PassiveEntityLoop entityLoop;
     private double maxHealth;
     private double health;
     private double effectiveHealth;
@@ -34,7 +34,7 @@ public class EntityData {
         this.mana = 100;
 
         this.effectiveHealth = health + barrier;
-        this.enemyLoop = new PassiveEntityLoop(uuid);
+        this.entityLoop = new PassiveEntityLoop(uuid);
 
         this.entity = TheCaverns.getInstance().getServer().getEntity(uuid);
 
@@ -53,7 +53,7 @@ public class EntityData {
         this.mana = mana;
 
         this.effectiveHealth = health + barrier;
-        this.enemyLoop = new PassiveEntityLoop(uuid);
+        this.entityLoop = new PassiveEntityLoop(uuid);
 
         this.entity = TheCaverns.getInstance().getServer().getEntity(uuid);
 
@@ -67,8 +67,8 @@ public class EntityData {
         return entity;
     }
 
-    public PassiveEntityLoop getEnemyLoop() {
-        return enemyLoop;
+    public PassiveEntityLoop getEntityLoop() {
+        return entityLoop;
     }
 
     public double getMaxHealth() {
@@ -200,7 +200,7 @@ public class EntityData {
                 entity.remove();
             }
             EntityDataManager.remove(uuid);
-            getEnemyLoop().end();
+            getEntityLoop().end();
         }
     }
 
