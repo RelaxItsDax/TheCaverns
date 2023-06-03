@@ -22,6 +22,10 @@ public class EntityDataManager {
         return dataMap.get(uuid);
     }
 
+    public static void remove(UUID uuid) {
+        if (dataMap.containsKey(uuid)) dataMap.remove(uuid);
+    }
+
     public static boolean contains(Entity entity) {
         return dataMap.containsKey(entity.getUniqueId());
     }

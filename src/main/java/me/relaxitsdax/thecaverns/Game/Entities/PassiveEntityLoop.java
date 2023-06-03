@@ -38,10 +38,7 @@ public class PassiveEntityLoop {
         this.healthNameCalc = new BukkitRunnable() {
             @Override
             public void run() {
-
-                entity.setCustomName(ChatColor.RED + "❤ " + (int) data.getHealth() + " / " + (int) data.getMaxHealth() + " ❤");
-                entity.setCustomNameVisible(true);
-
+                data.updateEntityHealthBar();
             }
         }.runTaskTimer(INSTANCE, 0, 5);
 
@@ -116,9 +113,10 @@ public class PassiveEntityLoop {
     public void end() {
         this.healthNameCalc.cancel();
         this.healthCalc.cancel();
-        this.playerVisualLoop.cancel();
         this.manaRegenCalc.cancel();
-
+        if (EntityDataManager.get(uuid) instanceof Player) {
+            this.playerVisualLoop.cancel();
+        }
     }
 
 

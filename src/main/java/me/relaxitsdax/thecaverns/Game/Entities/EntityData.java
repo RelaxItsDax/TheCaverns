@@ -1,7 +1,10 @@
 package me.relaxitsdax.thecaverns.Game.Entities;
 
 import me.relaxitsdax.thecaverns.TheCaverns;
-import org.bukkit.entity.Entity;
+import me.relaxitsdax.thecaverns.util.Util;
+import org.bukkit.ChatColor;
+import org.bukkit.entity.*;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.UUID;
 
@@ -136,26 +139,12 @@ public class EntityData {
         this.mana = mana;
     }
 
-    public void dealDamage(double damage) {
+    public void dealDamage(double damage, boolean showTick) {
         damage *= 100 / (this.defense + 100);
-
-        double finalHealth = this.health;
-        if (damage <= this.barrier) {
-            this.barrier -= damage;
-        } else {
-            this.barrier = 0;
-            finalHealth -= (damage - this.barrier);
-        }
-
-        if (finalHealth <= 0) {
-            this.health = this.maxHealth;
-            TheCaverns.getInstance().getServer().getPlayer(this.uuid).sendMessage("You died!");
-        } else {
-            this.health = finalHealth;
-        }
+        dealTrueDamage(damage, showTick);
     }
 
-    public void dealTrueDamage(double trueDamage) {
+    public void dealTrueDamage(double trueDamage, boolean showTick) {
         double finalHealth = this.health;
         if (trueDamage <= barrier) {
             this.barrier -= trueDamage;
@@ -166,9 +155,53 @@ public class EntityData {
 
         if (finalHealth <= 0) {
             this.health = this.maxHealth;
-            TheCaverns.getInstance().getServer().getPlayer(this.uuid).sendMessage("You died!");
-        } else {
+                killEntity();
+            } else {
             this.health = finalHealth;
         }
+
+        if (showTick) {
+
+            ArmorStand armorStand = (ArmorStand) entity.getWorld().spawnEntity(entity.getLocation().add(Util.randNegative() * 0.5 * entity.getWidth(), 0.8 * entity.getHeight(), Util.randNegative() * 0.5 * entity.getWidth()), EntityType.ARMOR_STAND);
+            armorStand.setInvisible(true);
+            armorStand.setCustomName(ChatColor.GRAY + "" + (int) damage);
+            armorStand.setCustomNameVisible(true);
+            armorStand.setGravity(false);
+            armorStand.setMarker(true);
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    armorStand.remove();
+                }
+            }.runTaskLater(TheCaverns.getInstance(), 20);
+        }
     }
+
+    public void updateEntityHealthBar() {
+        if (!(entity instanceof Player)) {
+
+            entity.setCustomName(ChatColor.RED + "❤ " + (int) getHealth() + " / " + (int) getMaxHealth() + " ❤");
+            entity.setCustomNameVisible(true);
+
+        }
+    }
+
+    public void killEntity() {
+        if (entity instanceof Player) {
+            Player player = (Player) entity;
+            player.sendTitle(ChatColor.RED + "YOU DIED!", ChatColor.GRAY + "Respawned!", 3, 60, 20);
+        } else {
+            if (entity instanceof LivingEntity) {
+                LivingEntity le = (LivingEntity) entity;
+                le.setLastDamageCause(null);
+                le.setHealth(0);
+
+            } else {
+                entity.remove();
+            }
+            EntityDataManager.remove(uuid);
+            getEnemyLoop().end();
+        }
+    }
+
 }

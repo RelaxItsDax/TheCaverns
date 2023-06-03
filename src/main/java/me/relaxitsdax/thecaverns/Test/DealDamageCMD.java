@@ -22,10 +22,10 @@ public class DealDamageCMD implements CommandExecutor {
 
             if (args.length > 1) {
                 if (args[1].equals("true")) {
-                    EntityDataManager.get(player.getUniqueId()).dealTrueDamage(damage);
+                    EntityDataManager.get(player.getUniqueId()).dealTrueDamage(damage, true);
                 }
             } else {
-                EntityDataManager.get(player.getUniqueId()).dealDamage(damage);
+                EntityDataManager.get(player.getUniqueId()).dealDamage(damage, true);
             }
         }
 

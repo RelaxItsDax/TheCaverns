@@ -29,7 +29,9 @@ public class DamageEventHandlers implements Listener {
             EntityData targetData = EntityDataManager.get(entity.getUniqueId());
             EntityData damagerData = EntityDataManager.get(damager.getUniqueId());
 
-            targetData.dealDamage(damagerData.getDamage());
+
+            targetData.dealDamage(damagerData.getDamage(), true);
+            targetData.updateEntityHealthBar();
 
         }
 
