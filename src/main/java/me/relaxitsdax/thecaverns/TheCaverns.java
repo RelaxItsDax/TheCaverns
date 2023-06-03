@@ -35,7 +35,6 @@ public final class TheCaverns extends JavaPlugin {
 
         for (Player player : getServer().getOnlinePlayers()) {
             PlayerData data = new PlayerData(player.getUniqueId());
-            //data.getActionBarLoop().start();
         }
 
         for (World world : getServer().getWorlds()) {
