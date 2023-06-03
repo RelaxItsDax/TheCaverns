@@ -16,18 +16,22 @@ public class DamageEventHandlers implements Listener {
         Entity entity = event.getEntity();
         Entity damager = event.getDamager();
         event.setDamage(0);
-        if (event.getEntity() instanceof LivingEntity) {
-            LivingEntity livingEntity = (LivingEntity) event.getEntity();
-            livingEntity.damage(0);
-        } else {
-            event.setCancelled(true);
+
+        if (EntityDataManager.contains(entity) && EntityDataManager.contains(damager)) {
+
+            if (event.getEntity() instanceof LivingEntity) {
+                LivingEntity livingEntity = (LivingEntity) event.getEntity();
+                livingEntity.damage(0);
+            } else {
+                event.setCancelled(true);
+            }
+
+            EntityData targetData = EntityDataManager.get(entity.getUniqueId());
+            EntityData damagerData = EntityDataManager.get(damager.getUniqueId());
+
+            targetData.dealDamage(damagerData.getDamage());
+
         }
-
-        EntityData targetData = EntityDataManager.get(entity.getUniqueId());
-        EntityData damagerData = EntityDataManager.get(damager.getUniqueId());
-
-        targetData.dealDamage(damagerData.getDamage());
-
 
 
     }
