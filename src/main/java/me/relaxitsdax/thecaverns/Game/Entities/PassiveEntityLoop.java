@@ -49,7 +49,7 @@ public class PassiveEntityLoop {
             @Override
             public void run() {
 
-                data.setHealth(Math.min(data.getHealth() + (0.005 * data.getMaxHealth()), data.getMaxHealth()));
+                data.setHealth(Math.min(data.getHealth() + (0.00125 * data.getMaxHealth()), data.getMaxHealth()));
 
                 if (data.getBarrier() > 0) {
                     data.setBarrier(data.getBarrier() - (0.01 * data.getMaxHealth()));
@@ -67,7 +67,7 @@ public class PassiveEntityLoop {
         this.manaRegenCalc = new BukkitRunnable() {
             @Override
             public void run() {
-                data.setMana(Math.min(data.getMana() + 0.005 * data.getMaxMana(), data.getMaxMana()));
+                data.setMana(Math.min(data.getMana() + 0.0025 * data.getMaxMana(), data.getMaxMana()));
             }
         }.runTaskTimer(INSTANCE, 0, 5);
 
