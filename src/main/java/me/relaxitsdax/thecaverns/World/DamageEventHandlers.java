@@ -1,5 +1,7 @@
 package me.relaxitsdax.thecaverns.World;
 
+import me.relaxitsdax.thecaverns.Game.Entities.EntityData;
+import me.relaxitsdax.thecaverns.Game.Entities.EntityDataManager;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
@@ -20,6 +22,11 @@ public class DamageEventHandlers implements Listener {
         } else {
             event.setCancelled(true);
         }
+
+        EntityData targetData = EntityDataManager.get(entity.getUniqueId());
+        EntityData damagerData = EntityDataManager.get(damager.getUniqueId());
+
+        targetData.dealDamage(damagerData.getDamage());
 
 
 

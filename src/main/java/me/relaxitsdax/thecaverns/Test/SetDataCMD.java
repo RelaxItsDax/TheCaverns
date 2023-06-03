@@ -1,5 +1,7 @@
 package me.relaxitsdax.thecaverns.Test;
 
+import me.relaxitsdax.thecaverns.Game.Entities.EntityData;
+import me.relaxitsdax.thecaverns.Game.Entities.EntityDataManager;
 import me.relaxitsdax.thecaverns.Game.Entities.Players.PlayerDataManager;
 import me.relaxitsdax.thecaverns.Game.Entities.Players.PlayerData;
 import org.bukkit.command.Command;
@@ -15,7 +17,7 @@ public class SetDataCMD implements CommandExecutor {
 
         assert sender instanceof Player;
         Player player = (Player) sender;
-        PlayerData data = PlayerDataManager.get(player.getUniqueId());
+        EntityData data = EntityDataManager.get(player.getUniqueId());
         double number = Integer.parseInt(args[1]);
         assert data != null;
 

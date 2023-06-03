@@ -15,7 +15,6 @@ public class GetDataCMD implements CommandExecutor {
 
         if (sender instanceof Player) {
             PlayerDataManager.printData();
-            sender.sendMessage("" + EntityDataManager.contains((Player) sender));
             System.out.println(" --- ");
             EntityDataManager.printData();
 

@@ -1,5 +1,7 @@
 package me.relaxitsdax.thecaverns.Game.Entities.Players;
 
+import me.relaxitsdax.thecaverns.Game.Entities.EntityData;
+import me.relaxitsdax.thecaverns.Game.Entities.EntityDataManager;
 import me.relaxitsdax.thecaverns.TheCaverns;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -20,7 +22,7 @@ public class PlayerBarLoop {
     }
 
     public void start() {
-        PlayerData data = PlayerDataManager.get(uuid);
+        EntityData data = EntityDataManager.get(uuid);
         Player player = TheCaverns.getInstance().getServer().getPlayer(uuid);
 
         playerVisualLoop = new BukkitRunnable() {

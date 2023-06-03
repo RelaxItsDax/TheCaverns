@@ -1,5 +1,6 @@
 package me.relaxitsdax.thecaverns.Test;
 
+import me.relaxitsdax.thecaverns.Game.Entities.EntityDataManager;
 import me.relaxitsdax.thecaverns.Game.Entities.Players.PlayerDataManager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -21,10 +22,10 @@ public class DealDamageCMD implements CommandExecutor {
 
             if (args.length > 1) {
                 if (args[1].equals("true")) {
-                    PlayerDataManager.get(player.getUniqueId()).dealTrueDamage(damage);
+                    EntityDataManager.get(player.getUniqueId()).dealTrueDamage(damage);
                 }
             } else {
-                PlayerDataManager.get(player.getUniqueId()).dealDamage(damage);
+                EntityDataManager.get(player.getUniqueId()).dealDamage(damage);
             }
         }
 

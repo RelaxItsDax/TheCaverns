@@ -1,5 +1,7 @@
 package me.relaxitsdax.thecaverns.Test;
 
+import me.relaxitsdax.thecaverns.Game.Entities.EntityData;
+import me.relaxitsdax.thecaverns.Game.Entities.EntityDataManager;
 import me.relaxitsdax.thecaverns.Game.Entities.Players.PlayerData;
 import me.relaxitsdax.thecaverns.Game.Entities.Players.PlayerDataManager;
 import org.bukkit.command.Command;
@@ -14,7 +16,7 @@ public class AddStatCMD implements CommandExecutor {
         if (!(sender instanceof Player)) {sender.sendMessage("You need to be a player!");}
         assert sender instanceof Player;
         Player player = (Player) sender;
-        PlayerData data = PlayerDataManager.get(player.getUniqueId());
+        EntityData data = EntityDataManager.get(player.getUniqueId());
         double number = Integer.parseInt(args[1]);
         assert data != null;
 
