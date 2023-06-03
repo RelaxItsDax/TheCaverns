@@ -1,4 +1,4 @@
-package me.relaxitsdax.thecaverns.Test;
+package me.relaxitsdax.thecaverns.test;
 
 import me.relaxitsdax.thecaverns.Game.Entities.EntityData;
 import me.relaxitsdax.thecaverns.Game.Entities.EntityDataManager;

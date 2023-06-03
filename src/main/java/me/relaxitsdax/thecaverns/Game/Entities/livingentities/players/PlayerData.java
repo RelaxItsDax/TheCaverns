@@ -1,17 +1,16 @@
-package me.relaxitsdax.thecaverns.Game.Entities.Players;
+package me.relaxitsdax.thecaverns.Game.Entities.livingentities.players;
 
 import me.relaxitsdax.thecaverns.Game.Entities.EntityData;
+import me.relaxitsdax.thecaverns.Game.Entities.livingentities.LivingEntityData;
 import me.relaxitsdax.thecaverns.TheCaverns;
 
 import java.util.UUID;
 
-public class PlayerData extends EntityData {
+public class PlayerData extends LivingEntityData {
 
 
     public PlayerData(UUID uuid) {
         super(uuid);
-
-        super.setEffectiveHealth(super.getHealth() + super.getBarrier());
 
         PlayerDataManager.add(uuid, this);
 

@@ -153,8 +153,12 @@ public class EntityData {
             finalHealth -= (trueDamage - this.barrier);
         }
 
-        if (finalHealth <= 0) {
-            this.health = this.maxHealth;
+        if (Math.floor(finalHealth) <= 0) {
+            if (entity instanceof Player) {
+                this.health = this.maxHealth;
+            } else {
+                this.health = 0;
+            }
                 killEntity();
             } else {
             this.health = finalHealth;
@@ -164,7 +168,7 @@ public class EntityData {
 
             ArmorStand armorStand = (ArmorStand) entity.getWorld().spawnEntity(entity.getLocation().add(Util.randNegative() * 0.5 * entity.getWidth(), 0.8 * entity.getHeight(), Util.randNegative() * 0.5 * entity.getWidth()), EntityType.ARMOR_STAND);
             armorStand.setInvisible(true);
-            armorStand.setCustomName(ChatColor.GRAY + "" + (int) damage);
+            armorStand.setCustomName(ChatColor.GRAY + "" + (int) trueDamage);
             armorStand.setCustomNameVisible(true);
             armorStand.setGravity(false);
             armorStand.setMarker(true);

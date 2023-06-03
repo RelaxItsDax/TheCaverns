@@ -1,13 +1,15 @@
 package me.relaxitsdax.thecaverns;
 
 import me.relaxitsdax.thecaverns.Game.Entities.EntityData;
-import me.relaxitsdax.thecaverns.Game.Entities.Players.PlayerDataManager;
-import me.relaxitsdax.thecaverns.Game.Entities.Players.JoinLeaveListener;
-import me.relaxitsdax.thecaverns.Game.Entities.Players.PlayerData;
-import me.relaxitsdax.thecaverns.Test.*;
-import me.relaxitsdax.thecaverns.World.DamageEventHandlers;
+import me.relaxitsdax.thecaverns.Game.Entities.livingentities.LivingEntityData;
+import me.relaxitsdax.thecaverns.Game.Entities.livingentities.players.PlayerDataManager;
+import me.relaxitsdax.thecaverns.Game.Entities.livingentities.players.JoinLeaveListener;
+import me.relaxitsdax.thecaverns.Game.Entities.livingentities.players.PlayerData;
+import me.relaxitsdax.thecaverns.test.*;
+import me.relaxitsdax.thecaverns.world.DamageEventHandlers;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -38,8 +40,10 @@ public final class TheCaverns extends JavaPlugin {
 
         for (World world : getServer().getWorlds()) {
             for (Entity entity : world.getEntities()) {
-                EntityData data = new EntityData(entity.getUniqueId());
-                data.getEntityLoop().start();
+                if (entity instanceof LivingEntity) {
+                    LivingEntityData data = new LivingEntityData(entity.getUniqueId());
+                    data.getEntityLoop().start();
+                }
             }
         }
 

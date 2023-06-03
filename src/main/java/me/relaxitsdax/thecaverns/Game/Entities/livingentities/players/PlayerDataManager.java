@@ -1,4 +1,4 @@
-package me.relaxitsdax.thecaverns.Game.Entities.Players;
+package me.relaxitsdax.thecaverns.Game.Entities.livingentities.players;
 
 import org.bukkit.entity.Player;
 

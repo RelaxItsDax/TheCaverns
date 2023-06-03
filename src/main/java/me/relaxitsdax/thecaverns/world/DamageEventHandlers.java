@@ -1,4 +1,4 @@
-package me.relaxitsdax.thecaverns.World;
+package me.relaxitsdax.thecaverns.world;
 
 import me.relaxitsdax.thecaverns.Game.Entities.EntityData;
 import me.relaxitsdax.thecaverns.Game.Entities.EntityDataManager;
@@ -32,10 +32,7 @@ public class DamageEventHandlers implements Listener {
 
             targetData.dealDamage(damagerData.getDamage(), true);
             targetData.updateEntityHealthBar();
-
         }
-
-
     }
 
     @EventHandler

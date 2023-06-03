@@ -1,12 +1,11 @@
 package me.relaxitsdax.thecaverns.Game.Entities;
 
-import me.relaxitsdax.thecaverns.Game.Entities.Players.Stats;
+import me.relaxitsdax.thecaverns.Game.Entities.livingentities.players.Stats;
 import me.relaxitsdax.thecaverns.TheCaverns;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
