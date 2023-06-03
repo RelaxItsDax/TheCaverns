@@ -1,24 +1,22 @@
-package me.relaxitsdax.thecaverns.Game.Enemies;
+package me.relaxitsdax.thecaverns.Game.Entities;
 
-import me.relaxitsdax.thecaverns.PlayerData.PlayerData;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.Player;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public class EnemyDataManager {
+public class EntityDataManager {
 
-    private static final Map<UUID, EnemyData> dataMap = new HashMap<>();
+    private static final Map<UUID, EntityData> dataMap = new HashMap<>();
 
-    public static void add(UUID uuid, EnemyData data) {
+    public static void add(UUID uuid, EntityData data) {
         if (!(dataMap.containsKey(uuid))) {
             dataMap.put(uuid, data);
         }
     }
 
-    public static EnemyData get(UUID uuid) {
+    public static EntityData get(UUID uuid) {
         if (!(dataMap.containsKey(uuid))) return null;
 
         return dataMap.get(uuid);
