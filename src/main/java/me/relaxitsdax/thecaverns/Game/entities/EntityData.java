@@ -3,6 +3,7 @@ package me.relaxitsdax.thecaverns.Game.entities;
 import me.relaxitsdax.thecaverns.TheCaverns;
 import me.relaxitsdax.thecaverns.util.Util;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.*;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -183,7 +184,7 @@ public class EntityData {
         if (showTick) {
             Entity entity = getEntity();
 
-            ArmorStand armorStand = ((ArmorStand) entity.getWorld().spawnEntity(entity.getLocation().add(Util.randNegative() * 0.5 * entity.getWidth(), 0.8 * entity.getHeight(), Util.randNegative() * 0.5 * entity.getWidth()), EntityType.ARMOR_STAND));
+            ArmorStand armorStand = ((ArmorStand) entity.getWorld().spawnEntity(entity.getLocation().add(Math.cos(Math.toRadians(Util.randIntInclusive(0, 360))), 1 + Math.cos(Math.toRadians(Util.randIntInclusive(0, 360))) / 2, Math.sin(Math.toRadians(Util.randIntInclusive(0, 360)))), EntityType.ARMOR_STAND));
             armorStand.setInvisible(true);
             armorStand.setCustomName(ChatColor.GRAY + "" + (int) trueDamage);
             armorStand.setCustomNameVisible(true);
