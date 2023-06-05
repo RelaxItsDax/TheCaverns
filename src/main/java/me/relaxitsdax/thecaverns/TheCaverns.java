@@ -1,11 +1,11 @@
 package me.relaxitsdax.thecaverns;
 
-import me.relaxitsdax.thecaverns.Game.entities.livingentities.LivingEntityData;
-import me.relaxitsdax.thecaverns.Game.entities.livingentities.players.PlayerDataManager;
-import me.relaxitsdax.thecaverns.Game.entities.livingentities.players.JoinLeaveListener;
-import me.relaxitsdax.thecaverns.Game.entities.livingentities.players.PlayerData;
+import me.relaxitsdax.thecaverns.game.entities.livingentities.LivingEntityData;
+import me.relaxitsdax.thecaverns.game.entities.livingentities.players.PlayerDataManager;
+import me.relaxitsdax.thecaverns.game.entities.livingentities.players.JoinLeaveListener;
+import me.relaxitsdax.thecaverns.game.entities.livingentities.players.PlayerData;
 import me.relaxitsdax.thecaverns.test.*;
-import me.relaxitsdax.thecaverns.world.DamageEventHandlers;
+import me.relaxitsdax.thecaverns.game.world.DamageEventHandlers;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;

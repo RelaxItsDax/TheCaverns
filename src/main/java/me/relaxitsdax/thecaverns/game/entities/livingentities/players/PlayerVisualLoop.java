@@ -1,6 +1,6 @@
-package me.relaxitsdax.thecaverns.Game.entities.livingentities.players;
+package me.relaxitsdax.thecaverns.game.entities.livingentities.players;
 
-import me.relaxitsdax.thecaverns.Game.entities.Stats;
+import me.relaxitsdax.thecaverns.game.entities.Stats;
 import me.relaxitsdax.thecaverns.TheCaverns;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -8,9 +8,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
-import org.bukkit.scoreboard.Scoreboard;
-import org.bukkit.scoreboard.ScoreboardManager;
-import org.bukkit.scoreboard.Team;
 
 import java.util.UUID;
 

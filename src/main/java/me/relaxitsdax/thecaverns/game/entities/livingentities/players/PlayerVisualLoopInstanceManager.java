@@ -1,14 +1,14 @@
-package me.relaxitsdax.thecaverns.Game.entities;
+package me.relaxitsdax.thecaverns.game.entities.livingentities.players;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public class PassiveEntityLoopInstanceManager {
+public class PlayerVisualLoopInstanceManager {
 
-    private static final Map<UUID, PassiveEntityLoop> dataMap = new HashMap<>();
+    private static final Map<UUID, PlayerVisualLoop> dataMap = new HashMap<>();
 
-    public static void add(UUID uuid, PassiveEntityLoop loop) {
+    public static void add(UUID uuid, PlayerVisualLoop loop) {
         dataMap.put(uuid, loop);
     }
 
@@ -19,4 +19,5 @@ public class PassiveEntityLoopInstanceManager {
     public static boolean contains(UUID uuid) {
         return dataMap.containsKey(uuid);
     }
+
 }

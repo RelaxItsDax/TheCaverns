@@ -1,6 +1,6 @@
-package me.relaxitsdax.thecaverns.Game.entities.livingentities.players;
+package me.relaxitsdax.thecaverns.game.entities.livingentities.players;
 
-import me.relaxitsdax.thecaverns.Game.entities.livingentities.LivingEntityData;
+import me.relaxitsdax.thecaverns.game.entities.livingentities.LivingEntityData;
 import me.relaxitsdax.thecaverns.TheCaverns;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Team;

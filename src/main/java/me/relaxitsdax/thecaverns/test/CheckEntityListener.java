@@ -1,7 +1,7 @@
 package me.relaxitsdax.thecaverns.test;
 
-import me.relaxitsdax.thecaverns.Game.entities.EntityData;
-import me.relaxitsdax.thecaverns.Game.entities.EntityDataManager;
+import me.relaxitsdax.thecaverns.game.entities.EntityData;
+import me.relaxitsdax.thecaverns.game.entities.EntityDataManager;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

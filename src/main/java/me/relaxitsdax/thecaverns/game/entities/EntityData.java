@@ -1,10 +1,8 @@
-package me.relaxitsdax.thecaverns.Game.entities;
+package me.relaxitsdax.thecaverns.game.entities;
 
 import me.relaxitsdax.thecaverns.TheCaverns;
 import me.relaxitsdax.thecaverns.util.Util;
 import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.World;
 import org.bukkit.entity.*;
 import org.bukkit.scheduler.BukkitRunnable;
 
