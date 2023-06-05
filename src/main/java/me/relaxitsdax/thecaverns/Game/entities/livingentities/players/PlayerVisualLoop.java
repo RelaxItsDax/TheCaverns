@@ -22,8 +22,6 @@ public class PlayerVisualLoop {
     public PlayerVisualLoop(UUID uuid) {
         Player player = TheCaverns.getInstance().getServer().getPlayer(uuid);
 
-        player.sendMessage("Loop logic runnin");
-
         TheCaverns INSTANCE = TheCaverns.getInstance();
 
 

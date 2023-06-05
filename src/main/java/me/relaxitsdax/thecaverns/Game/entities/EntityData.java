@@ -69,8 +69,10 @@ public class EntityData {
         return entityLoop;
     }
 
-    public void newPassiveLoop() {
+    public void reloadPassiveLoop() {
+        if (PassiveEntityLoopInstanceManager.contains(getUuid())) PassiveEntityLoopInstanceManager.remove(getUuid());
         this.entityLoop = new PassiveEntityLoop(uuid);
+        PassiveEntityLoopInstanceManager.add(getUuid(), this.entityLoop);
     }
 
     public double getMaxHealth() {
@@ -168,6 +170,7 @@ public class EntityData {
                 this.health = this.maxHealth;
             } else {
                 this.health = 0;
+                this.effectiveHealth = 0;
             }
                 killEntity();
             } else {
@@ -196,11 +199,19 @@ public class EntityData {
         this.nameBar = (barrier > 0 ? ChatColor.GOLD : ChatColor.RED) + "❤ " + (int) getEffectiveHealth() + ChatColor.RED + " / " + (int) getMaxHealth() + " ❤";
     }
 
+    public void setBar(String str) {
+        this.nameBar = str;
+        entity.setCustomName(entity.getType() + ": " + this.nameBar);
+    }
+
     public void killEntity() {
-        if (entity instanceof Player) {
-            Player player = (Player) entity;
+
+        if (TheCaverns.getInstance().getServer().getEntity(uuid) instanceof Player)  {
+            Player player = (Player) TheCaverns.getInstance().getServer().getEntity(uuid);
             player.sendTitle(ChatColor.RED + "YOU DIED!", ChatColor.GRAY + "Respawned!", 3, 60, 20);
         } else {
+            this.nameBar = ChatColor.RED + "❤ 0 / " + (int) getMaxHealth() + " ❤";
+            setBar(this.nameBar);
             if (entity instanceof LivingEntity) {
                 LivingEntity le = (LivingEntity) entity;
                 le.setLastDamageCause(null);
@@ -211,7 +222,6 @@ public class EntityData {
             }
             EntityDataManager.remove(uuid);
             entityLoop.cancel();
-            this.nameBar = ChatColor.RED + "❤ 0 / " + (int) getMaxHealth() + " ❤";
         }
     }
 

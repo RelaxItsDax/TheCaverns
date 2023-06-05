@@ -24,7 +24,7 @@ public class PassiveEntityLoop {
 
         TheCaverns INSTANCE = TheCaverns.getInstance();
         EntityData data = EntityDataManager.get(uuid);
-        Entity entity = data.getEntity();
+        Entity entity = INSTANCE.getServer().getEntity(uuid);
 
         if (!(PassiveEntityLoopInstanceManager.contains(uuid))) {
             this.healthCalc = new BukkitRunnable() {
@@ -42,9 +42,11 @@ public class PassiveEntityLoop {
 
                     data.setEffectiveHealth(data.getHealth() + data.getBarrier());
 
-                    data.updateEntityHealthBar();
-                    if (!(entity instanceof Player)) {
-                        entity.setCustomName(entity.getType() + data.getNameBar());
+                    if (Math.floor(data.getEffectiveHealth()) > 0) {
+                        data.updateEntityHealthBar();
+                    }
+                    if (!(entity instanceof Player) && entity != null) {
+                        entity.setCustomName(entity.getType() + ": " +data.getNameBar());
                         entity.setCustomNameVisible(true);
                     }
 

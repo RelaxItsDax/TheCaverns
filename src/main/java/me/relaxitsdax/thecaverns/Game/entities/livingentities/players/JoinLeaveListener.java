@@ -15,16 +15,16 @@ public class JoinLeaveListener implements Listener {
 
         if (!(PlayerDataManager.contains(player))) {
             PlayerData data = new PlayerData(player.getUniqueId());
-            data.newPassiveLoop();
-            data.newVisualLoop();
+            data.reloadPassiveLoop();
+            data.reloadVisualLoop();
 
         } else {
             player.sendMessage("Your data is already in the system!");
             PlayerData data = PlayerDataManager.get(player.getUniqueId());
 
 
-            data.newPassiveLoop();
-            data.newVisualLoop();
+            data.reloadPassiveLoop();
+            data.reloadVisualLoop();
         }
 
     }
