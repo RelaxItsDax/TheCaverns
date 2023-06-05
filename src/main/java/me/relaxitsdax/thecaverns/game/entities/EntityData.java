@@ -92,6 +92,10 @@ public class EntityData {
         this.health = health;
     }
 
+    public void heal(double health) {
+        this.health += health;
+    }
+
     public String getNameBar() {
         return nameBar;
     }

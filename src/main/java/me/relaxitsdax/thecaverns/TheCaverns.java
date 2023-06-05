@@ -1,5 +1,6 @@
 package me.relaxitsdax.thecaverns;
 
+import me.relaxitsdax.thecaverns.game.abilities.AbilityExecutor;
 import me.relaxitsdax.thecaverns.game.entities.livingentities.LivingEntityData;
 import me.relaxitsdax.thecaverns.game.entities.livingentities.players.PlayerDataManager;
 import me.relaxitsdax.thecaverns.game.entities.livingentities.players.JoinLeaveListener;
