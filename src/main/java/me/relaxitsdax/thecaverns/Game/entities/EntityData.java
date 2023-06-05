@@ -3,6 +3,7 @@ package me.relaxitsdax.thecaverns.Game.entities;
 import me.relaxitsdax.thecaverns.TheCaverns;
 import me.relaxitsdax.thecaverns.util.Util;
 import org.bukkit.ChatColor;
+import org.bukkit.World;
 import org.bukkit.entity.*;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -12,7 +13,7 @@ public class EntityData {
 
 
     private final UUID uuid;
-    private final Entity entity;
+    private Entity entity;
     private PassiveEntityLoop entityLoop;
     private double maxHealth;
     private double health;
@@ -62,6 +63,7 @@ public class EntityData {
         return uuid;
     }
     public Entity getEntity() {
+        this.entity = TheCaverns.getInstance().getServer().getEntity(this.uuid);
         return entity;
     }
 
@@ -179,6 +181,7 @@ public class EntityData {
         updateEntityHealthBar();
 
         if (showTick) {
+            Entity entity = getEntity();
 
             ArmorStand armorStand = ((ArmorStand) entity.getWorld().spawnEntity(entity.getLocation().add(Util.randNegative() * 0.5 * entity.getWidth(), 0.8 * entity.getHeight(), Util.randNegative() * 0.5 * entity.getWidth()), EntityType.ARMOR_STAND));
             armorStand.setInvisible(true);
