@@ -26,6 +26,7 @@ public final class TheCaverns extends JavaPlugin {
             team.unregister();
         }
 
+
         getServer().getPluginManager().registerEvents(new JoinLeaveListener(), this);
         getServer().getPluginManager().registerEvents(new DamageEventHandlers(), this);
         getServer().getPluginManager().registerEvents(new CheckEntityListener(), this);
