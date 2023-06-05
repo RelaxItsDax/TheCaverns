@@ -1,7 +1,7 @@
 package me.relaxitsdax.thecaverns.world;
 
-import me.relaxitsdax.thecaverns.Game.Entities.EntityData;
-import me.relaxitsdax.thecaverns.Game.Entities.EntityDataManager;
+import me.relaxitsdax.thecaverns.Game.entities.EntityData;
+import me.relaxitsdax.thecaverns.Game.entities.EntityDataManager;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
@@ -31,7 +31,6 @@ public class DamageEventHandlers implements Listener {
 
 
             targetData.dealDamage(damagerData.getDamage(), true);
-            targetData.updateEntityHealthBar();
         }
     }
 

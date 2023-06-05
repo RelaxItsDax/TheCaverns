@@ -1,7 +1,7 @@
 package me.relaxitsdax.thecaverns.test;
 
-import me.relaxitsdax.thecaverns.Game.Entities.EntityData;
-import me.relaxitsdax.thecaverns.Game.Entities.EntityDataManager;
+import me.relaxitsdax.thecaverns.Game.entities.EntityData;
+import me.relaxitsdax.thecaverns.Game.entities.EntityDataManager;
 import me.relaxitsdax.thecaverns.TheCaverns;
 import org.bukkit.World;
 import org.bukkit.command.Command;
@@ -22,7 +22,6 @@ public class GiveEnemiesDataCMD implements CommandExecutor {
                     if (!(EntityDataManager.contains(entity))) {
                         EntityData data = new EntityData(entity.getUniqueId());
                         EntityDataManager.add(entity.getUniqueId(), data);
-                        data.getEntityLoop().start();
                         count++;
                     }
                     System.out.println(count + " entities were given data!");

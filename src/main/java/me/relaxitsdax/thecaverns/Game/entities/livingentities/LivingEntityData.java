@@ -1,7 +1,6 @@
-package me.relaxitsdax.thecaverns.Game.Entities.livingentities;
+package me.relaxitsdax.thecaverns.Game.entities.livingentities;
 
-import me.relaxitsdax.thecaverns.Game.Entities.EntityData;
-import me.relaxitsdax.thecaverns.Game.Entities.livingentities.players.PlayerDataManager;
+import me.relaxitsdax.thecaverns.Game.entities.EntityData;
 
 import java.util.UUID;
 

@@ -1,6 +1,6 @@
 package me.relaxitsdax.thecaverns.test;
 
-import me.relaxitsdax.thecaverns.Game.Entities.EntityDataManager;
+import me.relaxitsdax.thecaverns.Game.entities.EntityDataManager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;

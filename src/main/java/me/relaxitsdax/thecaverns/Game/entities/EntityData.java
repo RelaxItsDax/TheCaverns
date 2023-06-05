@@ -1,4 +1,4 @@
-package me.relaxitsdax.thecaverns.Game.Entities;
+package me.relaxitsdax.thecaverns.Game.entities;
 
 import me.relaxitsdax.thecaverns.TheCaverns;
 import me.relaxitsdax.thecaverns.util.Util;
@@ -13,9 +13,10 @@ public class EntityData {
 
     private final UUID uuid;
     private final Entity entity;
-    private final PassiveEntityLoop entityLoop;
+    private PassiveEntityLoop entityLoop;
     private double maxHealth;
     private double health;
+    private String nameBar;
     private double effectiveHealth;
     private double barrier;
     private double defense;
@@ -34,12 +35,10 @@ public class EntityData {
         this.mana = 100;
 
         this.effectiveHealth = health + barrier;
-        this.entityLoop = new PassiveEntityLoop(uuid);
-
         this.entity = TheCaverns.getInstance().getServer().getEntity(uuid);
 
         EntityDataManager.add(this.getUuid(), this);
-
+        this.entityLoop = new PassiveEntityLoop(uuid);
     }
 
     public EntityData(UUID uuid, double maxHealth, double health, double barrier, double defense, double damage, double maxMana, double mana) {
@@ -53,11 +52,10 @@ public class EntityData {
         this.mana = mana;
 
         this.effectiveHealth = health + barrier;
-        this.entityLoop = new PassiveEntityLoop(uuid);
-
         this.entity = TheCaverns.getInstance().getServer().getEntity(uuid);
 
         EntityDataManager.add(this.getUuid(), this);
+        this.entityLoop = new PassiveEntityLoop(uuid);
     }
 
     public UUID getUuid() {
@@ -69,6 +67,10 @@ public class EntityData {
 
     public PassiveEntityLoop getEntityLoop() {
         return entityLoop;
+    }
+
+    public void newPassiveLoop() {
+        this.entityLoop = new PassiveEntityLoop(uuid);
     }
 
     public double getMaxHealth() {
@@ -85,6 +87,14 @@ public class EntityData {
 
     public void setHealth(double health) {
         this.health = health;
+    }
+
+    public String getNameBar() {
+        return nameBar;
+    }
+
+    public void setNameBar(String nameBar) {
+        this.nameBar = nameBar;
     }
 
     public double getEffectiveHealth() {
@@ -163,10 +173,11 @@ public class EntityData {
             } else {
             this.health = finalHealth;
         }
+        updateEntityHealthBar();
 
         if (showTick) {
 
-            ArmorStand armorStand = (ArmorStand) entity.getWorld().spawnEntity(entity.getLocation().add(Util.randNegative() * 0.5 * entity.getWidth(), 0.8 * entity.getHeight(), Util.randNegative() * 0.5 * entity.getWidth()), EntityType.ARMOR_STAND);
+            ArmorStand armorStand = ((ArmorStand) entity.getWorld().spawnEntity(entity.getLocation().add(Util.randNegative() * 0.5 * entity.getWidth(), 0.8 * entity.getHeight(), Util.randNegative() * 0.5 * entity.getWidth()), EntityType.ARMOR_STAND));
             armorStand.setInvisible(true);
             armorStand.setCustomName(ChatColor.GRAY + "" + (int) trueDamage);
             armorStand.setCustomNameVisible(true);
@@ -182,12 +193,7 @@ public class EntityData {
     }
 
     public void updateEntityHealthBar() {
-        if (!(entity instanceof Player)) {
-
-            entity.setCustomName(ChatColor.RED + "❤ " + (int) getHealth() + " / " + (int) getMaxHealth() + " ❤");
-            entity.setCustomNameVisible(true);
-
-        }
+        this.nameBar = (barrier > 0 ? ChatColor.GOLD : ChatColor.RED) + "❤ " + (int) getEffectiveHealth() + ChatColor.RED + " / " + (int) getMaxHealth() + " ❤";
     }
 
     public void killEntity() {
@@ -204,7 +210,8 @@ public class EntityData {
                 entity.remove();
             }
             EntityDataManager.remove(uuid);
-            getEntityLoop().end();
+            entityLoop.cancel();
+            this.nameBar = ChatColor.RED + "❤ 0 / " + (int) getMaxHealth() + " ❤";
         }
     }
 

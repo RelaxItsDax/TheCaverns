@@ -1,78 +1,50 @@
-package me.relaxitsdax.thecaverns.Game.Entities;
+package me.relaxitsdax.thecaverns.Game.entities.livingentities.players;
 
-import me.relaxitsdax.thecaverns.Game.Entities.livingentities.players.Stats;
+import me.relaxitsdax.thecaverns.Game.entities.Stats;
 import me.relaxitsdax.thecaverns.TheCaverns;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
+import org.bukkit.scoreboard.Scoreboard;
+import org.bukkit.scoreboard.ScoreboardManager;
+import org.bukkit.scoreboard.Team;
 
 import java.util.UUID;
 
-public class PassiveEntityLoop {
+public class PlayerVisualLoop {
 
-    private final UUID uuid;
-    private BukkitTask healthNameCalc;
-    private BukkitTask healthCalc;
-    private BukkitTask playerVisualLoop;
+    private final BukkitTask nameLoop;
+    private final BukkitTask barLoop;
 
-    private BukkitTask manaRegenCalc;
+    public PlayerVisualLoop(UUID uuid) {
+        Player player = TheCaverns.getInstance().getServer().getPlayer(uuid);
 
-
-    public PassiveEntityLoop(UUID uuid) {
-        this.uuid = uuid;
-    }
-
-
-    public void start() {
+        player.sendMessage("Loop logic runnin");
 
         TheCaverns INSTANCE = TheCaverns.getInstance();
 
-        EntityData data = EntityDataManager.get(uuid);
-        Entity entity = data.getEntity();
 
-        this.healthNameCalc = new BukkitRunnable() {
-            @Override
-            public void run() {
-                data.updateEntityHealthBar();
-            }
-        }.runTaskTimer(INSTANCE, 0, 5);
-
-        this.healthCalc = new BukkitRunnable() {
-            @Override
-            public void run() {
-
-                data.setHealth(Math.min(data.getHealth() + (0.00125 * data.getMaxHealth()), data.getMaxHealth()));
-
-                if (data.getBarrier() > 0) {
-                    data.setBarrier(data.getBarrier() - (0.01 * data.getMaxHealth()));
-                }
-                if (data.getBarrier() <= 0) {
-                    data.setBarrier(0);
-                }
-
-                data.setEffectiveHealth(data.getHealth() + data.getBarrier());
-
-
-            }
-        }.runTaskTimer(INSTANCE, 0, 5);
-
-        this.manaRegenCalc = new BukkitRunnable() {
-            @Override
-            public void run() {
-                data.setMana(Math.min(data.getMana() + 0.0025 * data.getMaxMana(), data.getMaxMana()));
-            }
-        }.runTaskTimer(INSTANCE, 0, 5);
-
-
-        if (entity instanceof Player) {
-            Player player = (Player) entity;
-            this.playerVisualLoop = new BukkitRunnable() {
+            this.nameLoop = new BukkitRunnable() {
                 @Override
                 public void run() {
+                    PlayerData data = PlayerDataManager.get(uuid);
+
+                    String prefix = ChatColor.AQUA + "";
+
+                    String suffix = ": " + data.getNameBar();
+
+                    data.getTeam().setPrefix(prefix);
+                    data.getTeam().setSuffix(suffix);
+                }
+            }.runTaskTimer(INSTANCE, 0, 5);
+
+            this.barLoop = new BukkitRunnable() {
+                @Override
+                public void run() {
+                    PlayerData data = PlayerDataManager.get(uuid);
 
                     double manaFraction = data.getMana() / data.getMaxMana();
                     player.setExp((float) manaFraction);
@@ -102,21 +74,23 @@ public class PassiveEntityLoop {
 
                     player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(healthNum + "  " + defenseNum + "  " + manaNum));
 
-
                 }
             }.runTaskTimer(INSTANCE, 0, 5);
-        }
 
+
+        PlayerVisualLoopInstanceManager.add(uuid, this);
     }
 
-    public void end() {
-        this.healthNameCalc.cancel();
-        this.healthCalc.cancel();
-        this.manaRegenCalc.cancel();
-        if (EntityDataManager.get(uuid) instanceof Player) {
-            this.playerVisualLoop.cancel();
-        }
+    public BukkitTask getNameLoop() {
+        return nameLoop;
     }
 
+    public BukkitTask getBarLoop() {
+        return barLoop;
+    }
 
+    public void cancel() {
+        barLoop.cancel();
+        nameLoop.cancel();
+    }
 }

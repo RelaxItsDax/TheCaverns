@@ -1,4 +1,4 @@
-package me.relaxitsdax.thecaverns.Game.Entities.livingentities;
+package me.relaxitsdax.thecaverns.Game.entities.livingentities;
 
 import java.util.HashMap;
 import java.util.Map;

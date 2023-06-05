@@ -1,10 +1,9 @@
 package me.relaxitsdax.thecaverns;
 
-import me.relaxitsdax.thecaverns.Game.Entities.EntityData;
-import me.relaxitsdax.thecaverns.Game.Entities.livingentities.LivingEntityData;
-import me.relaxitsdax.thecaverns.Game.Entities.livingentities.players.PlayerDataManager;
-import me.relaxitsdax.thecaverns.Game.Entities.livingentities.players.JoinLeaveListener;
-import me.relaxitsdax.thecaverns.Game.Entities.livingentities.players.PlayerData;
+import me.relaxitsdax.thecaverns.Game.entities.livingentities.LivingEntityData;
+import me.relaxitsdax.thecaverns.Game.entities.livingentities.players.PlayerDataManager;
+import me.relaxitsdax.thecaverns.Game.entities.livingentities.players.JoinLeaveListener;
+import me.relaxitsdax.thecaverns.Game.entities.livingentities.players.PlayerData;
 import me.relaxitsdax.thecaverns.test.*;
 import me.relaxitsdax.thecaverns.world.DamageEventHandlers;
 import org.bukkit.World;
@@ -12,6 +11,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scoreboard.Team;
 
 public final class TheCaverns extends JavaPlugin {
 
@@ -21,7 +21,10 @@ public final class TheCaverns extends JavaPlugin {
         INSTANCE = this;
         playerDataManager = new PlayerDataManager();
 
-
+        //TEAM RESET LOGIC
+        for (Team team : getServer().getScoreboardManager().getMainScoreboard().getTeams()) {
+            team.unregister();
+        }
 
         getServer().getPluginManager().registerEvents(new JoinLeaveListener(), this);
         getServer().getPluginManager().registerEvents(new DamageEventHandlers(), this);
@@ -42,17 +45,9 @@ public final class TheCaverns extends JavaPlugin {
             for (Entity entity : world.getEntities()) {
                 if (entity instanceof LivingEntity) {
                     LivingEntityData data = new LivingEntityData(entity.getUniqueId());
-                    data.getEntityLoop().start();
                 }
             }
         }
-
-
-
-
-
-
-
 
     }
 

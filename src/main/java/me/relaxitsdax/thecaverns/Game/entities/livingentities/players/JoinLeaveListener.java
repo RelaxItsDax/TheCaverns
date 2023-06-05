@@ -1,6 +1,5 @@
-package me.relaxitsdax.thecaverns.Game.Entities.livingentities.players;
+package me.relaxitsdax.thecaverns.Game.entities.livingentities.players;
 
-import me.relaxitsdax.thecaverns.Game.Entities.PassiveEntityLoop;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -16,16 +15,16 @@ public class JoinLeaveListener implements Listener {
 
         if (!(PlayerDataManager.contains(player))) {
             PlayerData data = new PlayerData(player.getUniqueId());
-            data.getEntityLoop().start();
+            data.newPassiveLoop();
+            data.newVisualLoop();
 
         } else {
             player.sendMessage("Your data is already in the system!");
             PlayerData data = PlayerDataManager.get(player.getUniqueId());
-            PassiveEntityLoop loop = data.getEntityLoop();
-            loop.end();
-            loop.start();
 
 
+            data.newPassiveLoop();
+            data.newVisualLoop();
         }
 
     }
@@ -35,7 +34,9 @@ public class JoinLeaveListener implements Listener {
         Player player = event.getPlayer();
         PlayerData data = PlayerDataManager.get(player.getUniqueId());
 
-        data.getEntityLoop().end();
+        PlayerVisualLoopInstanceManager.remove(player.getUniqueId());
+        data.getEntityLoop().cancel();
+        data.getVisualLoop().cancel();
     }
 
 }
