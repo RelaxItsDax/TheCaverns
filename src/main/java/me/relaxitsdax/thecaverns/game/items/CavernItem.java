@@ -1,6 +1,8 @@
 package me.relaxitsdax.thecaverns.game.items;
 
 import me.relaxitsdax.thecaverns.TheCaverns;
+import me.relaxitsdax.thecaverns.game.abilities.Ability;
+import me.relaxitsdax.thecaverns.game.abilities.PassiveAbility;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -27,15 +29,31 @@ public class CavernItem {
     private StatBonuses bonuses;
     private Rarity rarity;
     private ItemStack itemstack;
+    private Ability rightClickAbility;
+    private Ability leftClickAbility;
+    private Ability shiftRightClickAbility;
+    private Ability shiftLeftClickAbility;
+    private PassiveAbility[] passiveAbilities;
 
-    public CavernItem(UUID uuid, Material material, String name, StatBonuses bonuses, Rarity rarity) {
+
+
+    public CavernItem(UUID uuid, Material material, String name, StatBonuses bonuses, Rarity rarity, Ability rightClickAbility, Ability leftClickAbility, Ability shiftRightClickAbility, Ability shiftLeftClickAbility, PassiveAbility[] passiveAbilities) {
         this.uuid = uuid;
         this.material = material;
         this.name = name;
         this.bonuses = bonuses;
         this.rarity = rarity;
+        this.rightClickAbility = rightClickAbility;
+        this.leftClickAbility = leftClickAbility;
+        this.shiftRightClickAbility = shiftRightClickAbility;
+        this.shiftLeftClickAbility = shiftLeftClickAbility;
+        this.passiveAbilities = passiveAbilities;
 
         toItemStack();
+    }
+
+    public CavernItem(UUID uuid, Material material, String name, StatBonuses bonuses, Rarity rarity) {
+        new CavernItem(uuid, material, name, bonuses, rarity, null, null, null, null, null);
     }
 
     public CavernItem(Player player, int index) { //For getting existing cavern items
@@ -86,6 +104,15 @@ public class CavernItem {
         container.set(key("rarity"), PersistentDataType.STRING, this.rarity.toString());
 
         container.set(key("name"), PersistentDataType.STRING, this.name);
+
+        container.set(key("rightclickability"), PersistentDataType.STRING, this.rightClickAbility.toString());
+        container.set(key("leftclickability"), PersistentDataType.STRING, this.leftClickAbility.toString());
+        container.set(key("shiftrightclickability"), PersistentDataType.STRING, this.shiftRightClickAbility.toString());
+        container.set(key("shiftleftclickability"), PersistentDataType.STRING, this.shiftLeftClickAbility.toString());
+
+        for (int i = 0; i < passiveAbilities.length; i++) {
+            container.set(key("ability" + i), PersistentDataType.STRING, this.passiveAbilities[i].toString());
+        }
 
         for (ItemStatBonuses bonus : this.bonuses.keySet()) {
             container.set(key(bonus.toString()), PersistentDataType.DOUBLE, bonuses.getBonusesMap().get(bonus));

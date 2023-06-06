@@ -33,7 +33,7 @@ public class AbilityExecutor {
         return entityData;
     }
 
-    public void execute(Abilities ability) {
+    public void execute(Ability ability) {
 
         switch(ability) {
             case HEAL:
