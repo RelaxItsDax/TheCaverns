@@ -1,6 +1,8 @@
 package me.relaxitsdax.thecaverns.game.entities;
 
 import me.relaxitsdax.thecaverns.TheCaverns;
+import me.relaxitsdax.thecaverns.game.items.ItemStatBonuses;
+import me.relaxitsdax.thecaverns.game.items.StatBonuses;
 import me.relaxitsdax.thecaverns.util.Util;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.*;
@@ -230,5 +232,32 @@ public class EntityData {
             entityLoop.cancel();
         }
     }
+
+    public void addStats(StatBonuses statBonuses) {
+        for (ItemStatBonuses bonus : statBonuses.keySet()) {
+            double num = statBonuses.get(bonus);
+            switch (bonus) {
+                case DAMAGE:
+                    this.damage += num;
+                    break;
+                case MAXHEALTH:
+                    this.maxHealth += num;
+            }
+        }
+    }
+
+    public void subtractStats(StatBonuses statBonuses) {
+        for (ItemStatBonuses bonus : statBonuses.keySet()) {
+            double num = statBonuses.get(bonus);
+            switch (bonus) {
+                case DAMAGE:
+                    this.damage -= num;
+                    break;
+                case MAXHEALTH:
+                    this.maxHealth -= num;
+            }
+        }
+    }
+
 
 }

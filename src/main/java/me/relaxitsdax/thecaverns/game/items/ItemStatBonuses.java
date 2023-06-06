@@ -2,11 +2,15 @@ package me.relaxitsdax.thecaverns.game.items;
 
 import org.bukkit.ChatColor;
 
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+
 public enum ItemStatBonuses {
 
-    DAMAGE("Damage", ChatColor.RED, "d", 1),
-    DAMAGEPERCENT("Damage", ChatColor.RED, "% d", 2),
-    MAXHEALTH("Max Health", ChatColor.RED, "h", 3),
+    DAMAGE("Damage", ChatColor.RED, "d", 0),
+    DAMAGEPERCENT("Damage", ChatColor.RED, "% d", 1),
+    MAXHEALTH("Max Health", ChatColor.RED, "h", 2),
     ;
 
 
@@ -36,5 +40,21 @@ public enum ItemStatBonuses {
 
     public int getPriority() {
         return priority;
+    }
+
+
+
+    public static ItemStatBonuses fromString(String str) {
+        switch (str.toLowerCase()) {
+            case "damage":
+                return DAMAGE;
+            case "damagepercent":
+                return DAMAGEPERCENT;
+            case "maxhealth":
+                return MAXHEALTH;
+            default:
+                return null;
+        }
+
     }
 }

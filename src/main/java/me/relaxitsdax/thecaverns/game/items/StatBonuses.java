@@ -4,7 +4,7 @@ import java.util.*;
 
 public class StatBonuses {
 
-    private final Map<ItemStatBonuses, Double> bonuses;
+    private Map<ItemStatBonuses, Double> bonuses;
 
     public StatBonuses(Map<ItemStatBonuses, Double> bonuses) {
         this.bonuses = bonuses;
@@ -18,10 +18,20 @@ public class StatBonuses {
         bonuses.put(stat, value);
     }
 
-    public void sort() {
-        for (ItemStatBonuses bonus : bonuses.keySet()) {
+    public double get(ItemStatBonuses bonus) {
+        return bonuses.get(bonus);
+    }
 
+    public void sort() {
+        Map<Integer, ItemStatBonuses> list = new HashMap<>();
+        for (ItemStatBonuses bonus : bonuses.keySet()) {
+            list.put(bonus.getPriority(), bonus);
         }
+        Map<ItemStatBonuses, Double> sorted = new HashMap<>();
+        for (ItemStatBonuses bonusInOrder : list.values()) {
+            sorted.put(bonusInOrder, bonuses.get(bonusInOrder));
+        }
+        this.bonuses = sorted;
     }
 
     public List<String> toLore() {
@@ -36,7 +46,17 @@ public class StatBonuses {
             list.add(str);
         }
 
+        list.add("");
+
         return list;
+    }
+
+    public Collection<Double> values() {
+        return this.bonuses.values();
+    }
+
+    public Collection<ItemStatBonuses> keySet() {
+        return this.bonuses.keySet();
     }
 
 

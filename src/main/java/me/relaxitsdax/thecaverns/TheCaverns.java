@@ -5,6 +5,8 @@ import me.relaxitsdax.thecaverns.game.entities.livingentities.LivingEntityData;
 import me.relaxitsdax.thecaverns.game.entities.livingentities.players.PlayerDataManager;
 import me.relaxitsdax.thecaverns.game.entities.livingentities.players.JoinLeaveListener;
 import me.relaxitsdax.thecaverns.game.entities.livingentities.players.PlayerData;
+import me.relaxitsdax.thecaverns.game.items.AddStatListener;
+import me.relaxitsdax.thecaverns.game.items.CavernItem;
 import me.relaxitsdax.thecaverns.test.*;
 import me.relaxitsdax.thecaverns.game.world.DamageEventHandlers;
 import org.bukkit.World;
@@ -31,16 +33,24 @@ public final class TheCaverns extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new JoinLeaveListener(), this);
         getServer().getPluginManager().registerEvents(new DamageEventHandlers(), this);
         getServer().getPluginManager().registerEvents(new CheckEntityListener(), this);
+        getServer().getPluginManager().registerEvents(new AddStatListener(), this);
 
         getCommand("giveentitiesdata").setExecutor(new GiveEnemiesDataCMD());
         getCommand("dealdamagetoself").setExecutor(new DealDamageCMD());
         getCommand("getdata").setExecutor(new GetDataCMD());
         getCommand("setdata").setExecutor(new SetDataCMD());
         getCommand("adddata").setExecutor(new AddStatCMD());
+        getCommand("giveitem").setExecutor(new PlayerGiveCavernItemCMD());
+        getCommand("dupeitem").setExecutor(new DupeItemCMD());
 
 
         for (Player player : getServer().getOnlinePlayers()) {
             PlayerData data = new PlayerData(player.getUniqueId());
+
+            if (player.getInventory().getItem(player.getInventory().getHeldItemSlot()) != null) {
+                CavernItem item = new CavernItem(player, player.getInventory().getHeldItemSlot());
+                if (item.isCavernItem()) data.addStats(item.getBonuses());
+            }
         }
 
         for (World world : getServer().getWorlds()) {
@@ -50,6 +60,8 @@ public final class TheCaverns extends JavaPlugin {
                 }
             }
         }
+
+
 
     }
 
