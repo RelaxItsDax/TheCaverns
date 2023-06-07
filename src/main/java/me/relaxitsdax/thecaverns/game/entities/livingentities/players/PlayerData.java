@@ -2,6 +2,7 @@ package me.relaxitsdax.thecaverns.game.entities.livingentities.players;
 
 import me.relaxitsdax.thecaverns.game.entities.livingentities.LivingEntityData;
 import me.relaxitsdax.thecaverns.TheCaverns;
+import me.relaxitsdax.thecaverns.game.items.CavernItem;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Team;
 
@@ -10,7 +11,7 @@ import java.util.UUID;
 public class PlayerData extends LivingEntityData {
 
     private Player player;
-    private PlayerVisualLoop loop;
+    private PlayerLoop loop;
     private final Team team;
 
 
@@ -40,15 +41,19 @@ public class PlayerData extends LivingEntityData {
 
         TheCaverns.getInstance().getServer().getPlayer(uuid).sendMessage("Player Data Made!");
         reloadVisualLoop();
+        addBonusStats(new CavernItem(player, player.getInventory().getHeldItemSlot()).getBonuses());
     }
 
-    public PlayerVisualLoop getVisualLoop() {
+
+
+
+    public PlayerLoop getVisualLoop() {
         return this.loop;
     }
 
     public void reloadVisualLoop() {
         if (PlayerVisualLoopInstanceManager.contains(getUuid())) PlayerVisualLoopInstanceManager.remove(getUuid());
-        this.loop = new PlayerVisualLoop(getUuid());
+        this.loop = new PlayerLoop(getUuid());
         PlayerVisualLoopInstanceManager.add(getUuid(), this.loop);
     }
 
