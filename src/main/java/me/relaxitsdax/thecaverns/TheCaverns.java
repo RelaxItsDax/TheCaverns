@@ -1,6 +1,7 @@
 package me.relaxitsdax.thecaverns;
 
 import me.relaxitsdax.thecaverns.game.abilities.AbilityExecutor;
+import me.relaxitsdax.thecaverns.game.abilities.UseAbilityListener;
 import me.relaxitsdax.thecaverns.game.entities.livingentities.LivingEntityData;
 import me.relaxitsdax.thecaverns.game.entities.livingentities.players.PlayerDataManager;
 import me.relaxitsdax.thecaverns.game.entities.livingentities.players.JoinLeaveListener;
@@ -34,6 +35,7 @@ public final class TheCaverns extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new DamageEventHandlers(), this);
         getServer().getPluginManager().registerEvents(new CheckEntityListener(), this);
         getServer().getPluginManager().registerEvents(new AddStatListener(), this);
+        getServer().getPluginManager().registerEvents(new UseAbilityListener(), this);
 
         getCommand("giveentitiesdata").setExecutor(new GiveEnemiesDataCMD());
         getCommand("dealdamagetoself").setExecutor(new DealDamageCMD());

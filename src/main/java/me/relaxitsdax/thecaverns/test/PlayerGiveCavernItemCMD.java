@@ -1,5 +1,7 @@
 package me.relaxitsdax.thecaverns.test;
 
+import me.relaxitsdax.thecaverns.game.abilities.Ability;
+import me.relaxitsdax.thecaverns.game.abilities.PassiveAbility;
 import me.relaxitsdax.thecaverns.game.items.CavernItem;
 import me.relaxitsdax.thecaverns.game.items.ItemStatBonuses;
 import me.relaxitsdax.thecaverns.game.items.Rarity;
@@ -27,7 +29,8 @@ public class PlayerGiveCavernItemCMD implements CommandExecutor {
             map.put(ItemStatBonuses.MAXHEALTH, 20.0);
             StatBonuses bonuses = new StatBonuses(map);
 
-            CavernItem item = new CavernItem(UUID.randomUUID(), Material.DIAMOND_SWORD, "Sord", bonuses, Rarity.DIVINE, null, null, null, null, null);
+            PassiveAbility[] a = {null, null, null, null, null};
+            CavernItem item = new CavernItem(UUID.randomUUID(), Material.DIAMOND_SWORD, "Sord", bonuses, Rarity.DIVINE, Ability.HEAL, null, Ability.BARRIER, null, a);
             player.getInventory().addItem(item.toItemStack());
 
         }

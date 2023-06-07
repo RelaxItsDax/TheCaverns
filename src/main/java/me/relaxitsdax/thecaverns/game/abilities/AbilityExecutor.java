@@ -34,14 +34,15 @@ public class AbilityExecutor {
     }
 
     public void execute(Ability ability) {
-
-        switch(ability) {
-            case HEAL:
-                entityData.heal(10);
-                break;
-            case BARRIER:
-                entityData.addBarrier(20);
-                break;
+        if (ability != null) {
+            switch (ability) {
+                case HEAL:
+                    entityData.heal(10);
+                    break;
+                case BARRIER:
+                    entityData.addBarrier(20);
+                    break;
+            }
         }
     }
 
