@@ -1,5 +1,7 @@
 package me.relaxitsdax.thecaverns.game.entities.livingentities.players;
 
+import me.relaxitsdax.thecaverns.game.abilities.players.PlayerAbilityExecutorManager;
+import me.relaxitsdax.thecaverns.game.abilities.players.PlayerPassiveAbilityExecutor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -12,6 +14,7 @@ public class JoinLeaveListener implements Listener {
     public void onJoin(PlayerJoinEvent event) {
 
         Player player = event.getPlayer();
+        new PlayerPassiveAbilityExecutor(player.getUniqueId());
 
         if (!(PlayerDataManager.contains(player))) {
             PlayerData data = new PlayerData(player.getUniqueId());
@@ -33,6 +36,8 @@ public class JoinLeaveListener implements Listener {
     public void onLeave(PlayerQuitEvent event) {
         Player player = event.getPlayer();
         PlayerData data = PlayerDataManager.get(player.getUniqueId());
+
+        PlayerAbilityExecutorManager.remove(player.getUniqueId());
 
         PlayerVisualLoopInstanceManager.remove(player.getUniqueId());
         data.getEntityLoop().cancel();

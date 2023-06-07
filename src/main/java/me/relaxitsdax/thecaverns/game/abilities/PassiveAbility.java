@@ -1,18 +1,21 @@
 package me.relaxitsdax.thecaverns.game.abilities;
 
 public enum PassiveAbility {
-    LIFESTEAL("Lifesteal", PassiveAbilityProcType.ONHIT, 20),
+    NONE(null, null, null),
+    LIFESTEAL("Lifesteal", PassiveAbilityProcType.ONHIT, 5),
     REGENERATION("Regeneration", PassiveAbilityProcType.WHILEHOLDING, 5),
+    GROWTH("Growth", PassiveAbilityProcType.ONKILL, 5),
+    PHOENIX("Phoenix", PassiveAbilityProcType.ONDEATH, 1200),
     ;
 
     private final String name;
     private final PassiveAbilityProcType procType;
-    private final double tickCooldown;
+    private final Integer tickCooldown;
 
-    PassiveAbility(String name, PassiveAbilityProcType procType, double cooldown) {
+    PassiveAbility(String name, PassiveAbilityProcType procType, Integer tickCooldown) {
         this.name = name;
         this.procType = procType;
-        this.tickCooldown = cooldown;
+        this.tickCooldown = tickCooldown;
     }
 
     public String getName() {
@@ -20,10 +23,13 @@ public enum PassiveAbility {
     }
 
     public PassiveAbilityProcType getProcType() {
-        return procType;
+        if (this != null) {
+            return procType;
+        }
+        return null;
     }
 
-    public double getTickCooldown() {
+    public int getTickCooldown() {
         return tickCooldown;
     }
 }

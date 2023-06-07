@@ -6,12 +6,7 @@ import me.relaxitsdax.thecaverns.game.abilities.PassiveAbility;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
-import org.bukkit.attribute.Attribute;
-import org.bukkit.attribute.AttributeModifier;
-import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.InventoryType;
-import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -29,15 +24,17 @@ public class CavernItem {
     private StatBonuses bonuses;
     private Rarity rarity;
     private ItemStack itemstack;
+
     private Ability rightClickAbility;
     private Ability leftClickAbility;
-    private Ability shiftRightClickAbility;
-    private Ability shiftLeftClickAbility;
+    private Ability sneakRightClickAbility;
+    private Ability sneakLeftClickAbility;
     private PassiveAbility[] passiveAbilities;
 
 
 
-    public CavernItem(UUID uuid, Material material, String name, StatBonuses bonuses, Rarity rarity, Ability rightClickAbility, Ability leftClickAbility, Ability shiftRightClickAbility, Ability shiftLeftClickAbility, PassiveAbility[] passiveAbilities) {
+
+    public CavernItem(UUID uuid, Material material, String name, StatBonuses bonuses, Rarity rarity, Ability rightClickAbility, Ability leftClickAbility, Ability sneakRightClickAbility, Ability sneakLeftClickAbility, PassiveAbility[] passiveAbilities) {
         this.uuid = uuid;
         this.material = material;
         this.name = name;
@@ -45,16 +42,15 @@ public class CavernItem {
         this.rarity = rarity;
         this.rightClickAbility = rightClickAbility;
         this.leftClickAbility = leftClickAbility;
-        this.shiftRightClickAbility = shiftRightClickAbility;
-        this.shiftLeftClickAbility = shiftLeftClickAbility;
+        this.sneakRightClickAbility = sneakRightClickAbility;
+        this.sneakLeftClickAbility = sneakLeftClickAbility;
         this.passiveAbilities = passiveAbilities;
 
         toItemStack();
     }
 
     public CavernItem(UUID uuid, Material material, String name, StatBonuses bonuses, Rarity rarity) {
-        PassiveAbility[] a = {null, null, null, null, null};
-        new CavernItem(uuid, material, name, bonuses, rarity, null, null, null, null, a);
+        new CavernItem(uuid, material, name, bonuses, rarity, null, null, null, null, null);
     }
 
     public CavernItem(Player player, int index) { //For getting existing cavern items
@@ -63,37 +59,13 @@ public class CavernItem {
 
         ItemMeta meta = player.getInventory().getItem(index).getItemMeta();
 
-        if (meta.getPersistentDataContainer().get(key("uuid"), new UUIDDataType()) != null) {
+        if (meta.getPersistentDataContainer().get(key("UUID"), new UUIDDataType()) != null) {
 
-            this.uuid = (meta.getPersistentDataContainer().get(key("uuid"), new UUIDDataType()));
-            this.rarity = (Rarity.valueOf(meta.getPersistentDataContainer().get(key("rarity"), PersistentDataType.STRING).toUpperCase()));
-            this.name = (meta.getPersistentDataContainer().get(key("name"), PersistentDataType.STRING));
+            this.uuid = (meta.getPersistentDataContainer().get(key("UUID"), new UUIDDataType()));
+            this.rarity = (Rarity.valueOf(meta.getPersistentDataContainer().get(key("Rarity"), PersistentDataType.STRING).toUpperCase()));
+            this.name = (meta.getPersistentDataContainer().get(key("Name"), PersistentDataType.STRING));
 
 
-            String rca = meta.getPersistentDataContainer().get(key("rightclickability"), PersistentDataType.STRING);
-            this.rightClickAbility = rca.equals("null") ? null : Ability.valueOf(rca.toUpperCase());
-
-            String lca = meta.getPersistentDataContainer().get(key("leftclickability"), PersistentDataType.STRING);
-            this.rightClickAbility = lca.equals("null") ? null : Ability.valueOf(lca.toUpperCase());
-
-            String srca = meta.getPersistentDataContainer().get(key("shiftrightclickability"), PersistentDataType.STRING);
-            this.rightClickAbility = srca.equals("null") ? null : Ability.valueOf(srca.toUpperCase());
-
-            String slca = meta.getPersistentDataContainer().get(key("shiftleftclickability"), PersistentDataType.STRING);
-            this.rightClickAbility = slca.equals("null") ? null : Ability.valueOf(slca.toUpperCase());
-
-            this.passiveAbilities = new PassiveAbility[]{null, null, null, null, null};
-
-            for (int i = 0; i < 5; i++) {
-                if (meta.getPersistentDataContainer().has(key("ability" + i), PersistentDataType.STRING)) {
-                    String abilityStr = (meta.getPersistentDataContainer().get(key("ability" + i), PersistentDataType.STRING));
-                    if (abilityStr.equals("null")) {
-                        this.passiveAbilities[i] = null;
-                    } else {
-                        this.passiveAbilities[i] = PassiveAbility.valueOf(abilityStr.toUpperCase());
-                    }
-                }
-            }
 
 
             Map<ItemStatBonuses, Double> bonusMap = new HashMap<>();
@@ -115,7 +87,6 @@ public class CavernItem {
 
         ItemMeta meta = itemstack.getItemMeta();
         meta.setDisplayName(rarity.getColor() + name);
-        meta.setLore(this.buildLore());
         meta.setUnbreakable(true);
 
         meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
@@ -125,58 +96,89 @@ public class CavernItem {
 
         PersistentDataContainer container = meta.getPersistentDataContainer();
 
+
+
         UUID uuid = UUID.randomUUID();
 
-        container.set(key("uuid"), new UUIDDataType(), uuid);
+        container.set(key("UUID"), new UUIDDataType(), uuid);
 
-        container.set(key("rarity"), PersistentDataType.STRING, this.rarity.toString());
+        container.set(key("Rarity"), PersistentDataType.STRING, this.rarity.toString());
 
-        container.set(key("name"), PersistentDataType.STRING, this.name);
-
-
-        String rca = this.rightClickAbility != null ? this.rightClickAbility.toString() : "null";
-        String lca = this.leftClickAbility != null ? this.leftClickAbility.toString() : "null";
-        String srca = this.shiftRightClickAbility != null ? this.shiftRightClickAbility.toString() : "null";
-        String slca = this.shiftLeftClickAbility != null ? this.shiftLeftClickAbility.toString() : "null";
-
-
-
-        container.set(key("rightclickability"), PersistentDataType.STRING, rca);
-        container.set(key("leftclickability"), PersistentDataType.STRING, lca);
-        container.set(key("shiftrightclickability"), PersistentDataType.STRING, srca);
-        container.set(key("shiftleftclickability"), PersistentDataType.STRING, slca);
-
-        for (int i = 0; i < 5; i++) {
-            if (i < this.passiveAbilities.length) {
-                String ab = this.passiveAbilities[i] != null ? this.passiveAbilities[i].toString() : "null";
-                container.set(key("ability" + i), PersistentDataType.STRING, ab);
-            } else {
-                container.set(key("ability" + i), PersistentDataType.STRING, "null");
-            }
-        }
+        container.set(key("Name"), PersistentDataType.STRING, this.name);
 
         for (ItemStatBonuses bonus : this.bonuses.keySet()) {
             container.set(key(bonus.toString()), PersistentDataType.DOUBLE, bonuses.getBonusesMap().get(bonus));
         }
 
+        container.set(key("RightClickAbility"), PersistentDataType.STRING, this.rightClickAbility != null ? this.rightClickAbility.toString().toUpperCase() : "null");
+        container.set(key("LeftClickAbility"), PersistentDataType.STRING, this.leftClickAbility != null ? this.leftClickAbility.toString().toUpperCase() : "null");
+        container.set(key("ShiftRightClickAbility"), PersistentDataType.STRING, this.sneakRightClickAbility != null ? this.sneakRightClickAbility.toString().toUpperCase() : "null");
+        container.set(key("ShiftLeftClickAbility"), PersistentDataType.STRING, this.sneakLeftClickAbility != null ? this.sneakLeftClickAbility.toString().toUpperCase() : "null");
+
+        if (passiveAbilities != null) {
+            for (int i = 0; i < 5; i++) {
+                container.set(key("PassiveAbility" + i), PersistentDataType.STRING, this.passiveAbilities[i] != null ? this.passiveAbilities[i].toString().toUpperCase() : "null");
+            }
+        } else {
+            for (int i = 0; i < 5; i++) {
+                container.set(key("PassiveAbility" + i), PersistentDataType.STRING, "null");
+            }
+        }
+
+        meta.setLore(this.buildLore());
         this.itemstack.setItemMeta(meta);
 
         return this.itemstack;
     }
 
     public List<String> buildLore() {
-        List<String> lore = new ArrayList<>();
-        lore.addAll(this.bonuses.toLore());
-        lore.add("");
+        List<String> lore = new ArrayList<>(this.bonuses.toLore());
+
+
+        if (rightClickAbility != null) {
+            lore.add(ChatColor.YELLOW + "" + ChatColor.BOLD + "RIGHT CLICK ABILITY: " + rightClickAbility.getRarity().getColor() + "" + rightClickAbility.getName());
+            lore.addAll(rightClickAbility.getLore());
+            lore.add(ChatColor.AQUA + "(" + (int) rightClickAbility.getManaCost() + " Mana)");
+            lore.add("");
+        }
+
+        if (sneakRightClickAbility != null) {
+            lore.add(ChatColor.YELLOW + "" + ChatColor.BOLD + "SNEAK RIGHT CLICK ABILITY: " + sneakRightClickAbility.getRarity().getColor() + "" + sneakRightClickAbility.getName());
+            lore.addAll(sneakRightClickAbility.getLore());
+            lore.add(ChatColor.AQUA + "(" + (int) sneakRightClickAbility.getManaCost() + " Mana)");
+            lore.add("");
+        }
+
+        if (leftClickAbility != null) {
+            lore.add(ChatColor.YELLOW + "" + ChatColor.BOLD + "LEFT CLICK ABILITY: " + leftClickAbility.getRarity().getColor() + "" + leftClickAbility.getName());
+            lore.addAll(leftClickAbility.getLore());
+            lore.add(ChatColor.AQUA + "(" + (int) leftClickAbility.getManaCost() + " Mana)");
+            lore.add("");
+        }
+
+        if (sneakLeftClickAbility != null) {
+            lore.add(ChatColor.YELLOW + "" + ChatColor.BOLD + "SNEAK LEFT CLICK ABILITY: " + sneakLeftClickAbility.getRarity().getColor() + "" + sneakLeftClickAbility.getName());
+            lore.addAll(sneakLeftClickAbility.getLore());
+            lore.add(ChatColor.AQUA + "(" + (int) sneakLeftClickAbility.getManaCost() + " Mana)");
+            lore.add("");
+        }
+
         lore.add(rarity.getColor() + "" + ChatColor.BOLD + "" + rarity.getName());
+
         return lore;
     }
 
     public boolean isCavernItem() {
-        return (this.itemstack.getItemMeta().getPersistentDataContainer().has(key("uuid"), new UUIDDataType()));
+        return (this.itemstack.getItemMeta().getPersistentDataContainer().has(key("UUID"), new UUIDDataType()));
     }
 
+    public static boolean isCavernItem(ItemStack stack) {
+        return (stack != null ? stack.getItemMeta().getPersistentDataContainer().has(key("UUID"), new UUIDDataType()) : false);
+    }
 
+    public ItemStack getItemStack() {
+        return itemstack;
+    }
 
     public UUID getUuid() {
         return uuid;
@@ -219,46 +221,61 @@ public class CavernItem {
     }
 
     public Ability getRightClickAbility() {
-        return rightClickAbility;
+        String ability = this.getItemStack().getItemMeta().getPersistentDataContainer().get(key("RightClickAbility"), PersistentDataType.STRING);
+        return ability.equals("null") ? null : Ability.valueOf(ability);
     }
 
-    public void setRightClickAbility(Ability rightClickAbility) {
-        this.rightClickAbility = rightClickAbility;
-    }
 
     public Ability getLeftClickAbility() {
-        return leftClickAbility;
+        String ability = this.getItemStack().getItemMeta().getPersistentDataContainer().get(key("LeftClickAbility"), PersistentDataType.STRING);
+        return ability.equals("null") ? null : Ability.valueOf(ability);
     }
 
-    public void setLeftClickAbility(Ability leftClickAbility) {
-        this.leftClickAbility = leftClickAbility;
+
+
+    public Ability getSneakRightClickAbility() {
+        String ability = this.getItemStack().getItemMeta().getPersistentDataContainer().get(key("ShiftRightClickAbility"), PersistentDataType.STRING);
+        return ability.equals("null") ? null : Ability.valueOf(ability);
     }
 
-    public Ability getShiftRightClickAbility() {
-        return shiftRightClickAbility;
+
+    public Ability getSneakLeftClickAbility() {
+        String ability = this.getItemStack().getItemMeta().getPersistentDataContainer().get(key("ShiftLeftClickAbility"), PersistentDataType.STRING);
+        return ability.equals("null") ? null : Ability.valueOf(ability);
     }
 
-    public void setShiftRightClickAbility(Ability shiftRightClickAbility) {
-        this.shiftRightClickAbility = shiftRightClickAbility;
+    public boolean hasRightClickAbility() {
+        return !this.getItemStack().getItemMeta().getPersistentDataContainer().get(key("RightClickAbility"), PersistentDataType.STRING).equals("null");
     }
 
-    public Ability getShiftLeftClickAbility() {
-        return shiftLeftClickAbility;
+    public boolean hasLeftClickAbility() {
+        return !this.getItemStack().getItemMeta().getPersistentDataContainer().get(key("LeftClickAbility"), PersistentDataType.STRING).equals("null");
     }
 
-    public void setShiftLeftClickAbility(Ability shiftLeftClickAbility) {
-        this.shiftLeftClickAbility = shiftLeftClickAbility;
+
+
+    public boolean hasSneakRightClickAbility() {
+        return !this.getItemStack().getItemMeta().getPersistentDataContainer().get(key("ShiftRightClickAbility"), PersistentDataType.STRING).equals("null");
     }
 
-    public PassiveAbility[] getPassiveAbilities() {
-        return passiveAbilities;
+
+    public boolean hasSneakLeftClickAbility() {
+        return !this.getItemStack().getItemMeta().getPersistentDataContainer().get(key("ShiftLeftClickAbility"), PersistentDataType.STRING).equals("null");
     }
 
-    public void setPassiveAbilities(PassiveAbility[] passiveAbilities) {
-        this.passiveAbilities = passiveAbilities;
+
+
+    public PassiveAbility getPassiveAbility(int index) {
+        String ability = this.getItemStack().getItemMeta().getPersistentDataContainer().get(key("PassiveAbility" + index), PersistentDataType.STRING);
+        return ability.equals("null") ? null : PassiveAbility.valueOf(ability);
     }
 
-    public NamespacedKey key(String str) {
+    public boolean hasPassiveAbility(int index) {
+        return !this.getItemStack().getItemMeta().getPersistentDataContainer().get(key("PassiveAbility" + index), PersistentDataType.STRING).equals("null");
+    }
+
+
+    public static NamespacedKey key(String str) {
         return new NamespacedKey(TheCaverns.getInstance(), str);
     }
 

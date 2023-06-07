@@ -2,6 +2,9 @@ package me.relaxitsdax.thecaverns;
 
 import me.relaxitsdax.thecaverns.game.abilities.AbilityExecutor;
 import me.relaxitsdax.thecaverns.game.abilities.UseAbilityListener;
+import me.relaxitsdax.thecaverns.game.abilities.players.PlayerAbilityExecutor;
+import me.relaxitsdax.thecaverns.game.abilities.players.PlayerAbilityExecutorManager;
+import me.relaxitsdax.thecaverns.game.abilities.players.PlayerPassiveAbilityExecutor;
 import me.relaxitsdax.thecaverns.game.entities.livingentities.LivingEntityData;
 import me.relaxitsdax.thecaverns.game.entities.livingentities.players.PlayerDataManager;
 import me.relaxitsdax.thecaverns.game.entities.livingentities.players.JoinLeaveListener;
@@ -24,6 +27,8 @@ public final class TheCaverns extends JavaPlugin {
 
         INSTANCE = this;
         playerDataManager = new PlayerDataManager();
+        playerAbilityExecutorManager = new PlayerAbilityExecutorManager();
+
 
         //TEAM RESET LOGIC
         for (Team team : getServer().getScoreboardManager().getMainScoreboard().getTeams()) {
@@ -48,10 +53,11 @@ public final class TheCaverns extends JavaPlugin {
 
         for (Player player : getServer().getOnlinePlayers()) {
             PlayerData data = new PlayerData(player.getUniqueId());
+            new PlayerAbilityExecutor(player.getUniqueId());
 
             if (player.getInventory().getItem(player.getInventory().getHeldItemSlot()) != null) {
                 CavernItem item = new CavernItem(player, player.getInventory().getHeldItemSlot());
-                if (item.isCavernItem()) data.addStats(item.getBonuses());
+                data.addBonusStats(item.getBonuses());
             }
         }
 
@@ -77,7 +83,14 @@ public final class TheCaverns extends JavaPlugin {
     }
 
     private static PlayerDataManager playerDataManager;
-    public static PlayerDataManager getDataManager(){return playerDataManager;}
+    public static PlayerDataManager getDataManager() {
+        return playerDataManager;
+    }
+
+    private static PlayerAbilityExecutorManager playerAbilityExecutorManager;
+    public static PlayerAbilityExecutorManager getPlayerAbilityExecutorManager() {
+        return playerAbilityExecutorManager;
+    }
 
 
 }

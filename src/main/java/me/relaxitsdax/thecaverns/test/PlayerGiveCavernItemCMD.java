@@ -29,9 +29,9 @@ public class PlayerGiveCavernItemCMD implements CommandExecutor {
             map.put(ItemStatBonuses.MAXHEALTH, 20.0);
             StatBonuses bonuses = new StatBonuses(map);
 
-            PassiveAbility[] a = {null, null, null, null, null};
+            PassiveAbility[] a = {PassiveAbility.REGENERATION, PassiveAbility.LIFESTEAL, PassiveAbility.GROWTH, PassiveAbility.PHOENIX, null};
             CavernItem item = new CavernItem(UUID.randomUUID(), Material.DIAMOND_SWORD, "Sord", bonuses, Rarity.DIVINE, Ability.HEAL, null, Ability.BARRIER, null, a);
-            player.getInventory().addItem(item.toItemStack());
+            player.getInventory().addItem(item.getItemStack());
 
         }
 

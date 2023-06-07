@@ -1,13 +1,20 @@
 package me.relaxitsdax.thecaverns.game.world;
 
+import me.relaxitsdax.thecaverns.game.abilities.PassiveAbility;
+import me.relaxitsdax.thecaverns.game.abilities.PassiveAbilityExecutor;
+import me.relaxitsdax.thecaverns.game.abilities.PassiveAbilityProcType;
+import me.relaxitsdax.thecaverns.game.abilities.players.PlayerPassiveAbilityExecutor;
 import me.relaxitsdax.thecaverns.game.entities.EntityData;
 import me.relaxitsdax.thecaverns.game.entities.EntityDataManager;
+import me.relaxitsdax.thecaverns.game.items.CavernItem;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.inventory.ItemStack;
 
 public class DamageEventHandlers implements Listener {
 
@@ -31,6 +38,27 @@ public class DamageEventHandlers implements Listener {
 
 
             targetData.dealDamage(damagerData.getDamage(), true);
+
+
+            if (damager instanceof Player) {
+                Player player = (Player) damager;
+                ItemStack stack = player.getInventory().getItem(player.getInventory().getHeldItemSlot());
+                if (CavernItem.isCavernItem(stack)) {
+                    CavernItem item = new CavernItem(player, player.getInventory().getHeldItemSlot());
+
+                    for (int i = 0; i < 5; i++) {
+                        PassiveAbility ability =  item.getPassiveAbility(i);
+                        if (ability != null) if (ability.getProcType() == PassiveAbilityProcType.ONHIT) new PlayerPassiveAbilityExecutor(player.getUniqueId()).playerExecute(ability);
+                    }
+
+                    if (targetData.isDead()) {
+                        for (int i = 0; i < 5; i++) {
+                            PassiveAbility ability =  item.getPassiveAbility(i);
+                            if (ability != null) if (ability.getProcType() == PassiveAbilityProcType.ONKILL) new PlayerPassiveAbilityExecutor(player.getUniqueId()).playerExecute(ability);
+                        }
+                    }
+                }
+            }
         }
     }
 

@@ -1,6 +1,10 @@
 package me.relaxitsdax.thecaverns.game.entities;
 
 import me.relaxitsdax.thecaverns.TheCaverns;
+import me.relaxitsdax.thecaverns.game.abilities.PassiveAbility;
+import me.relaxitsdax.thecaverns.game.abilities.PassiveAbilityProcType;
+import me.relaxitsdax.thecaverns.game.abilities.players.PlayerPassiveAbilityExecutor;
+import me.relaxitsdax.thecaverns.game.items.CavernItem;
 import me.relaxitsdax.thecaverns.game.items.ItemStatBonuses;
 import me.relaxitsdax.thecaverns.game.items.StatBonuses;
 import me.relaxitsdax.thecaverns.util.Util;
@@ -16,25 +20,38 @@ public class EntityData {
     private final UUID uuid;
     private Entity entity;
     private PassiveEntityLoop entityLoop;
-    private double maxHealth;
-    private double health;
     private String nameBar;
+    private boolean isDead = false;
+    private double maxHealth;
+    private double baseMaxHealth;
+    private double bonusMaxHealth;
+    private double health;
     private double effectiveHealth;
     private double barrier;
+
     private double defense;
+    private double baseDefense;
+    private double bonusDefense;
+
     private double damage;
+    private double baseDamage;
+    private double bonusDamage;
     private double maxMana;
+    private double baseMaxMana;
+    private double bonusMaxMana;
     private double mana;
 
     public EntityData(UUID uuid) {
         this.uuid = uuid;
-        this.maxHealth = 100;
+        this.baseMaxHealth = 100;
         this.health = 100;
         this.barrier = 0;
-        this.defense = 0;
-        this.damage = 10;
-        this.maxMana = 100;
+        this.baseDefense = 0;
+        this.baseDamage = 10;
+        this.baseMaxMana = 100;
         this.mana = 100;
+
+        resetBonuses();
 
         this.effectiveHealth = health + barrier;
         this.entity = TheCaverns.getInstance().getServer().getEntity(uuid);
@@ -52,6 +69,8 @@ public class EntityData {
         this.damage = damage;
         this.maxMana = maxMana;
         this.mana = mana;
+
+        resetBonuses();
 
         this.effectiveHealth = health + barrier;
         this.entity = TheCaverns.getInstance().getServer().getEntity(uuid);
@@ -94,8 +113,8 @@ public class EntityData {
         this.health = health;
     }
 
-    public void heal(double health) {
-        this.health += health;
+    public void addHealth(double health) {
+        this.health = Math.min(this.health + health, this.maxHealth);
     }
 
     public String getNameBar() {
@@ -158,6 +177,16 @@ public class EntityData {
         this.mana = mana;
     }
 
+    public void useMana(double mana) {
+        if (hasMana(mana)) {
+            this.mana -= mana;
+        }
+    }
+
+    public boolean hasMana(double mana) {
+        return mana <= this.mana;
+    }
+
     public void dealDamage(double damage, boolean showTick) {
         damage *= 100 / (this.defense + 100);
         dealTrueDamage(damage, showTick);
@@ -172,14 +201,22 @@ public class EntityData {
             finalHealth -= (trueDamage - this.barrier);
         }
 
+
         if (Math.floor(finalHealth) <= 0) {
             if (entity instanceof Player) {
                 this.health = this.maxHealth;
+                Player player =  (Player) entity;
+                CavernItem item = new CavernItem(player, player.getInventory().getHeldItemSlot());
+                for (int i = 0; i < 5; i++) {
+                    PassiveAbility ability =  item.getPassiveAbility(i);
+                    if (ability != null) if (ability.getProcType() == PassiveAbilityProcType.ONDEATH) new PlayerPassiveAbilityExecutor(player.getUniqueId()).playerExecute(ability);
+                }
             } else {
                 this.health = 0;
                 this.effectiveHealth = 0;
             }
                 killEntity();
+                this.isDead = true;
             } else {
             this.health = finalHealth;
         }
@@ -218,6 +255,7 @@ public class EntityData {
             Player player = (Player) TheCaverns.getInstance().getServer().getEntity(uuid);
             player.sendTitle(ChatColor.RED + "YOU DIED!", ChatColor.GRAY + "Respawned!", 3, 60, 20);
         } else {
+
             this.nameBar = ChatColor.RED + "❤ 0 / " + (int) getMaxHealth() + " ❤";
             setBar(this.nameBar);
             if (entity instanceof LivingEntity) {
@@ -233,31 +271,24 @@ public class EntityData {
         }
     }
 
-    public void addStats(StatBonuses statBonuses) {
-        for (ItemStatBonuses bonus : statBonuses.keySet()) {
-            double num = statBonuses.get(bonus);
-            switch (bonus) {
-                case DAMAGE:
-                    this.damage += num;
-                    break;
-                case MAXHEALTH:
-                    this.maxHealth += num;
-            }
-        }
+    public boolean isDead() {
+        return isDead;
     }
 
-    public void subtractStats(StatBonuses statBonuses) {
-        for (ItemStatBonuses bonus : statBonuses.keySet()) {
-            double num = statBonuses.get(bonus);
-            switch (bonus) {
-                case DAMAGE:
-                    this.damage -= num;
-                    break;
-                case MAXHEALTH:
-                    this.maxHealth -= num;
-            }
-        }
+    public void addBonusStats(StatBonuses statBonuses) {
+        this.bonusDamage = statBonuses.get(ItemStatBonuses.DAMAGE);
+        this.bonusMaxHealth = statBonuses.get(ItemStatBonuses.MAXHEALTH);
+
+        this.damage = baseDamage + bonusDamage;
+        this.maxHealth = baseMaxHealth + bonusMaxHealth;
+        this.maxMana = baseMaxMana + bonusMaxMana;
     }
 
+    public void resetBonuses() {
 
+        this.damage = baseDamage;
+        this.maxHealth = baseMaxHealth;
+        this.maxMana = baseMaxMana;
+
+    }
 }

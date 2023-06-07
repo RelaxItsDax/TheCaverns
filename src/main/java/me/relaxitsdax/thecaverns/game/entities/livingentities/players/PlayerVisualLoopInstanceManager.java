@@ -6,9 +6,9 @@ import java.util.UUID;
 
 public class PlayerVisualLoopInstanceManager {
 
-    private static final Map<UUID, PlayerVisualLoop> dataMap = new HashMap<>();
+    private static final Map<UUID, PlayerLoop> dataMap = new HashMap<>();
 
-    public static void add(UUID uuid, PlayerVisualLoop loop) {
+    public static void add(UUID uuid, PlayerLoop loop) {
         dataMap.put(uuid, loop);
     }
 
