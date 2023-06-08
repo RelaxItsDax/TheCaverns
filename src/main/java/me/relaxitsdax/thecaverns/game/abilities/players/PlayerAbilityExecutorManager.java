@@ -19,4 +19,8 @@ public class PlayerAbilityExecutorManager {
     public static void remove(UUID uuid) {
         abilityMap.remove(uuid);
     }
+
+    public static boolean has(UUID uuid) {
+        return abilityMap.containsKey(uuid);
+    }
 }

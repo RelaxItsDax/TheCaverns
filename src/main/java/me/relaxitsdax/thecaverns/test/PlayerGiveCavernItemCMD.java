@@ -25,8 +25,8 @@ public class PlayerGiveCavernItemCMD implements CommandExecutor {
             Player player = (Player) sender;
 
             Map<ItemStatBonuses, Double> map = new HashMap<>();
-            map.put(ItemStatBonuses.DAMAGE, 50.0);
-            map.put(ItemStatBonuses.MAXHEALTH, 20.0);
+            map.put(ItemStatBonuses.DAMAGE, 100.0);
+            map.put(ItemStatBonuses.MAXHEALTH, 900.0);
             StatBonuses bonuses = new StatBonuses(map);
 
             PassiveAbility[] a = {PassiveAbility.REGENERATION, PassiveAbility.LIFESTEAL, PassiveAbility.GROWTH, PassiveAbility.PHOENIX, null};

@@ -18,7 +18,13 @@ public class UseAbilityListener implements Listener {
         if (stack != null) {
             if (CavernItem.isCavernItem(stack)) {
             CavernItem item = new CavernItem(player, player.getInventory().getHeldItemSlot());
-            PlayerAbilityExecutor executor = PlayerAbilityExecutorManager.get(player.getUniqueId());
+                PlayerAbilityExecutor executor;
+            if (PlayerAbilityExecutorManager.has(player.getUniqueId())) {
+                executor = PlayerAbilityExecutorManager.get(player.getUniqueId());
+            } else {
+                executor = new PlayerAbilityExecutor(player.getUniqueId());
+                PlayerAbilityExecutorManager.add(player.getUniqueId(), executor);
+            }
 
                 if (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK) {
                     if (!player.isSneaking()) {

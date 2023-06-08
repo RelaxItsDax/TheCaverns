@@ -38,7 +38,7 @@ public class AbilityExecutor {
 
     public void executeNoCD(Ability ability) {
         if (entityData.hasMana(ability.getManaCost())) {
-            entityData.useMana(Ability.BARRIER.getManaCost());
+            entityData.useMana(ability.getManaCost());
             switch (ability) {
                 case HEAL:
                     entityData.addHealth(10);
