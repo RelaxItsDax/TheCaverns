@@ -1,4 +1,4 @@
-package me.relaxitsdax.thecaverns.game.entities;
+package me.relaxitsdax.thecaverns.game.enums;
 
 import org.bukkit.ChatColor;
 

@@ -1,8 +1,10 @@
 package me.relaxitsdax.thecaverns.game.entities;
 
 import me.relaxitsdax.thecaverns.TheCaverns;
+import me.relaxitsdax.thecaverns.game.enums.Abilities;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventPriority;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
@@ -12,8 +14,8 @@ public class PassiveEntityLoop {
 
     private final UUID uuid;
     private final BukkitTask healthCalc;
-
     private final BukkitTask manaRegenCalc;
+    private final BukkitTask cooldownReduction;
 
 
     public PassiveEntityLoop(UUID uuid) {
@@ -58,9 +60,17 @@ public class PassiveEntityLoop {
                 }
             }.runTaskTimer(INSTANCE, 0, 5);
 
+            this.cooldownReduction = new BukkitRunnable() {
+                @Override
+                public void run() {
+                    if (data != null) data.decrement(5);
+                }
+            }.runTaskTimer(INSTANCE, 0, 5);
+
         } else {
             this.healthCalc = null;
             this.manaRegenCalc = null;
+            this.cooldownReduction = null;
         }
 
         PassiveEntityLoopInstanceManager.add(uuid, this);
@@ -71,17 +81,10 @@ public class PassiveEntityLoop {
         return uuid;
     }
 
-    public BukkitTask getHealthCalc() {
-        return healthCalc;
-    }
-
-
-    public BukkitTask getManaRegenCalc() {
-        return manaRegenCalc;
-    }
 
     public void cancel() {
         this.healthCalc.cancel();
         this.manaRegenCalc.cancel();
+        this.cooldownReduction.cancel();
     }
 }

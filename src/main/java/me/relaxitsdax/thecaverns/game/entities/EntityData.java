@@ -1,17 +1,19 @@
 package me.relaxitsdax.thecaverns.game.entities;
 
 import me.relaxitsdax.thecaverns.TheCaverns;
-import me.relaxitsdax.thecaverns.game.abilities.PassiveAbility;
-import me.relaxitsdax.thecaverns.game.abilities.PassiveAbilityProcType;
-import me.relaxitsdax.thecaverns.game.abilities.players.PlayerPassiveAbilityExecutor;
+import me.relaxitsdax.thecaverns.game.enums.Abilities;
+import me.relaxitsdax.thecaverns.game.enums.PassiveAbilities;
+import me.relaxitsdax.thecaverns.game.enums.PassiveAbilityProcType;
 import me.relaxitsdax.thecaverns.game.items.CavernItem;
-import me.relaxitsdax.thecaverns.game.items.ItemStatBonuses;
+import me.relaxitsdax.thecaverns.game.enums.ItemStatBonuses;
 import me.relaxitsdax.thecaverns.game.items.StatBonuses;
 import me.relaxitsdax.thecaverns.util.Util;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.*;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 public class EntityData {
@@ -20,6 +22,8 @@ public class EntityData {
     private final UUID uuid;
     private Entity entity;
     private PassiveEntityLoop entityLoop;
+    private final Map<Abilities, Integer> cooldownMap = new HashMap<>();
+    private final Map<PassiveAbilities, Integer> passiveCooldownMap = new HashMap<>();
     private String nameBar;
     private boolean isDead = false;
     private double maxHealth;
@@ -58,6 +62,7 @@ public class EntityData {
 
         EntityDataManager.add(this.getUuid(), this);
         this.entityLoop = new PassiveEntityLoop(uuid);
+
     }
 
     public EntityData(UUID uuid, double maxHealth, double health, double barrier, double defense, double damage, double maxMana, double mana) {
@@ -77,6 +82,7 @@ public class EntityData {
 
         EntityDataManager.add(this.getUuid(), this);
         this.entityLoop = new PassiveEntityLoop(uuid);
+
     }
 
     public UUID getUuid() {
@@ -96,6 +102,54 @@ public class EntityData {
         this.entityLoop = new PassiveEntityLoop(uuid);
         PassiveEntityLoopInstanceManager.add(getUuid(), this.entityLoop);
     }
+
+    public int getCooldown(Abilities ability) {
+        return cooldownMap.getOrDefault(ability, 0);
+    }
+
+    public void addCooldown(Abilities ability, int ticks) {
+        this.cooldownMap.put(ability, ticks);
+    }
+
+    public int getPassiveCooldown(PassiveAbilities ability) {
+        return passiveCooldownMap.getOrDefault(ability, 0);
+    }
+
+    public void addPassiveCooldown(PassiveAbilities ability, int ticks) {
+        this.passiveCooldownMap.put(ability, ticks);
+    }
+
+    public void decrement(int ticks) {
+        for (Abilities abilities : cooldownMap.keySet()) {
+            int cooldown = cooldownMap.get(abilities);
+            cooldown -= ticks;
+            if (cooldown <= 0) {
+                cooldownMap.remove(abilities);
+            } else {
+                cooldownMap.put(abilities, cooldown);
+            }
+        }
+
+
+        for (PassiveAbilities abilities : passiveCooldownMap.keySet()) {
+            if (abilities.getTickCooldown() > 0) {
+
+                int cooldown = passiveCooldownMap.get(abilities);
+                cooldown -= ticks;
+                if (cooldown <= 0) {
+                    if (abilities.getProcType() == PassiveAbilityProcType.WHILEHOLDING) {
+                        passiveCooldownMap.put(abilities, abilities.getTickCooldown());
+                    } else passiveCooldownMap.remove(abilities);
+                } else {
+                    passiveCooldownMap.replace(abilities, cooldown);
+                }
+            } else {
+                passiveCooldownMap.remove(abilities);
+            }
+        }
+    }
+
+
 
     public double getMaxHealth() {
         return maxHealth;
@@ -143,6 +197,10 @@ public class EntityData {
 
     public void addBarrier(double barrier) {
         this.barrier = Math.min(this.barrier + barrier + (0.01 * getMaxHealth()), maxHealth + (0.01 * getMaxHealth()));
+    }
+
+    public void addPartBarrier(double part) { //Should be between 0 and 1
+        addBarrier(part * maxHealth);
     }
 
     public double getDefense() {
@@ -206,10 +264,13 @@ public class EntityData {
             if (entity instanceof Player) {
                 this.health = this.maxHealth;
                 Player player =  (Player) entity;
-                CavernItem item = new CavernItem(player, player.getInventory().getHeldItemSlot());
-                for (int i = 0; i < 5; i++) {
-                    PassiveAbility ability =  item.getPassiveAbility(i);
-                    if (ability != null) if (ability.getProcType() == PassiveAbilityProcType.ONDEATH) new PlayerPassiveAbilityExecutor(player.getUniqueId()).playerExecute(ability);
+                if (CavernItem.isCavernItem(player.getInventory().getItem(player.getInventory().getHeldItemSlot()))) {
+                    CavernItem item = new CavernItem(player, player.getInventory().getHeldItemSlot());
+                    for (int i = 0; i < 5; i++) {
+                        PassiveAbilities ability = item.getPassiveAbility(i);
+                        if (ability != null)
+                            if (ability.getProcType() == PassiveAbilityProcType.ONDEATH) ability.execute(this, item.getPassiveAbilityRarity(i));
+                    }
                 }
             } else {
                 this.health = 0;

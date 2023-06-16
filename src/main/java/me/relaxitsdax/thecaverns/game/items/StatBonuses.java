@@ -1,5 +1,7 @@
 package me.relaxitsdax.thecaverns.game.items;
 
+import me.relaxitsdax.thecaverns.game.enums.ItemStatBonuses;
+
 import java.util.*;
 
 public class StatBonuses {
@@ -19,7 +21,7 @@ public class StatBonuses {
     }
 
     public double get(ItemStatBonuses bonus) {
-        return bonuses.get(bonus);
+        return bonuses.getOrDefault(bonus, 0.0);
     }
 
     public void sort() {

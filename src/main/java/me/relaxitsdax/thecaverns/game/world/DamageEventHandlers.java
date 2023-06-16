@@ -1,9 +1,7 @@
 package me.relaxitsdax.thecaverns.game.world;
 
-import me.relaxitsdax.thecaverns.game.abilities.PassiveAbility;
-import me.relaxitsdax.thecaverns.game.abilities.PassiveAbilityExecutor;
-import me.relaxitsdax.thecaverns.game.abilities.PassiveAbilityProcType;
-import me.relaxitsdax.thecaverns.game.abilities.players.PlayerPassiveAbilityExecutor;
+import me.relaxitsdax.thecaverns.game.enums.PassiveAbilities;
+import me.relaxitsdax.thecaverns.game.enums.PassiveAbilityProcType;
 import me.relaxitsdax.thecaverns.game.entities.EntityData;
 import me.relaxitsdax.thecaverns.game.entities.EntityDataManager;
 import me.relaxitsdax.thecaverns.game.items.CavernItem;
@@ -47,14 +45,14 @@ public class DamageEventHandlers implements Listener {
                     CavernItem item = new CavernItem(player, player.getInventory().getHeldItemSlot());
 
                     for (int i = 0; i < 5; i++) {
-                        PassiveAbility ability =  item.getPassiveAbility(i);
-                        if (ability != null) if (ability.getProcType() == PassiveAbilityProcType.ONHIT) new PlayerPassiveAbilityExecutor(player.getUniqueId()).playerExecute(ability);
+                        PassiveAbilities ability =  item.getPassiveAbility(i);
+                        if (ability != null) if (ability.getProcType() == PassiveAbilityProcType.ONHIT) ability.execute(damagerData, item.getPassiveAbilityRarity(i));
                     }
 
                     if (targetData.isDead()) {
                         for (int i = 0; i < 5; i++) {
-                            PassiveAbility ability =  item.getPassiveAbility(i);
-                            if (ability != null) if (ability.getProcType() == PassiveAbilityProcType.ONKILL) new PlayerPassiveAbilityExecutor(player.getUniqueId()).playerExecute(ability);
+                            PassiveAbilities ability =  item.getPassiveAbility(i);
+                            if (ability != null) if (ability.getProcType() == PassiveAbilityProcType.ONKILL) ability.execute(damagerData, item.getPassiveAbilityRarity(i));
                         }
                     }
                 }

@@ -1,10 +1,6 @@
-package me.relaxitsdax.thecaverns.game.items;
+package me.relaxitsdax.thecaverns.game.enums;
 
 import org.bukkit.ChatColor;
-
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
 
 public enum ItemStatBonuses {
 

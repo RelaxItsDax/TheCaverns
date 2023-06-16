@@ -1,9 +1,8 @@
 package me.relaxitsdax.thecaverns.game.entities.livingentities.players;
 
-import me.relaxitsdax.thecaverns.game.abilities.PassiveAbility;
-import me.relaxitsdax.thecaverns.game.abilities.PassiveAbilityProcType;
-import me.relaxitsdax.thecaverns.game.abilities.players.PlayerPassiveAbilityExecutor;
-import me.relaxitsdax.thecaverns.game.entities.Stats;
+import me.relaxitsdax.thecaverns.game.enums.PassiveAbilities;
+import me.relaxitsdax.thecaverns.game.enums.PassiveAbilityProcType;
+import me.relaxitsdax.thecaverns.game.enums.Stats;
 import me.relaxitsdax.thecaverns.TheCaverns;
 import me.relaxitsdax.thecaverns.game.items.CavernItem;
 import net.md_5.bungee.api.ChatMessageType;
@@ -13,7 +12,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
-import org.checkerframework.checker.units.qual.C;
 
 import java.util.UUID;
 
@@ -40,8 +38,8 @@ public class PlayerLoop {
                             data.addBonusStats(item.getBonuses());
 
                             for (int i = 0; i < 5; i++) {
-                                PassiveAbility ability =  item.getPassiveAbility(i);
-                                if (ability != null) if (ability.getProcType() == PassiveAbilityProcType.WHILEHOLDING) new PlayerPassiveAbilityExecutor(player.getUniqueId()).playerExecute(ability);
+                                PassiveAbilities ability =  item.getPassiveAbility(i);
+                                if (ability != null) if (ability.getProcType() == PassiveAbilityProcType.WHILEHOLDING) ability.execute(data, item.getPassiveAbilityRarity(i));
                             }
 
                         } else {

@@ -1,4 +1,4 @@
-package me.relaxitsdax.thecaverns.game.abilities;
+package me.relaxitsdax.thecaverns.game.enums;
 
 public enum PassiveAbilityProcType {
     WHILEHOLDING,

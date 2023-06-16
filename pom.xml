@@ -38,7 +38,7 @@
                             <goal>shade</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>D:\Minecraft\TheCaverns\Server\plugins</outputDirectory>
+                            <outputDirectory>D:\MC\TheCaverns\Server\plugins</outputDirectory>
                         </configuration>
                     </execution>
                 </executions>
@@ -69,6 +69,11 @@
             <artifactId>spigot-api</artifactId>
             <version>1.19.2-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>hm.zelha</groupId>
+            <artifactId>particlesfx</artifactId>
+            <version>1.19.4</version>
         </dependency>
     </dependencies>
 </project>

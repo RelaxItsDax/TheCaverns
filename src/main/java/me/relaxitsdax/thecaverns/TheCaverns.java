@@ -1,10 +1,6 @@
 package me.relaxitsdax.thecaverns;
 
-import me.relaxitsdax.thecaverns.game.abilities.AbilityExecutor;
-import me.relaxitsdax.thecaverns.game.abilities.UseAbilityListener;
-import me.relaxitsdax.thecaverns.game.abilities.players.PlayerAbilityExecutor;
-import me.relaxitsdax.thecaverns.game.abilities.players.PlayerAbilityExecutorManager;
-import me.relaxitsdax.thecaverns.game.abilities.players.PlayerPassiveAbilityExecutor;
+import me.relaxitsdax.thecaverns.game.abilities.ActiveAbilityListener;
 import me.relaxitsdax.thecaverns.game.entities.livingentities.LivingEntityData;
 import me.relaxitsdax.thecaverns.game.entities.livingentities.players.PlayerDataManager;
 import me.relaxitsdax.thecaverns.game.entities.livingentities.players.JoinLeaveListener;
@@ -17,6 +13,7 @@ import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scoreboard.Team;
 
@@ -27,7 +24,6 @@ public final class TheCaverns extends JavaPlugin {
 
         INSTANCE = this;
         playerDataManager = new PlayerDataManager();
-        playerAbilityExecutorManager = new PlayerAbilityExecutorManager();
 
 
         //TEAM RESET LOGIC
@@ -40,7 +36,7 @@ public final class TheCaverns extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new DamageEventHandlers(), this);
         getServer().getPluginManager().registerEvents(new CheckEntityListener(), this);
         getServer().getPluginManager().registerEvents(new AddStatListener(), this);
-        getServer().getPluginManager().registerEvents(new UseAbilityListener(), this);
+        getServer().getPluginManager().registerEvents(new ActiveAbilityListener(), this);
 
         getCommand("giveentitiesdata").setExecutor(new GiveEnemiesDataCMD());
         getCommand("dealdamagetoself").setExecutor(new DealDamageCMD());
@@ -53,9 +49,8 @@ public final class TheCaverns extends JavaPlugin {
 
         for (Player player : getServer().getOnlinePlayers()) {
             PlayerData data = new PlayerData(player.getUniqueId());
-            new PlayerAbilityExecutor(player.getUniqueId());
-
-            if (player.getInventory().getItem(player.getInventory().getHeldItemSlot()) != null) {
+            ItemStack stack = player.getInventory().getItem(player.getInventory().getHeldItemSlot());
+            if (stack != null && CavernItem.isCavernItem(stack)) {
                 CavernItem item = new CavernItem(player, player.getInventory().getHeldItemSlot());
                 data.addBonusStats(item.getBonuses());
             }
@@ -85,11 +80,6 @@ public final class TheCaverns extends JavaPlugin {
     private static PlayerDataManager playerDataManager;
     public static PlayerDataManager getDataManager() {
         return playerDataManager;
-    }
-
-    private static PlayerAbilityExecutorManager playerAbilityExecutorManager;
-    public static PlayerAbilityExecutorManager getPlayerAbilityExecutorManager() {
-        return playerAbilityExecutorManager;
     }
 
 

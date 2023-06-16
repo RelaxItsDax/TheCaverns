@@ -1,10 +1,10 @@
 package me.relaxitsdax.thecaverns.test;
 
-import me.relaxitsdax.thecaverns.game.abilities.Ability;
-import me.relaxitsdax.thecaverns.game.abilities.PassiveAbility;
+import me.relaxitsdax.thecaverns.game.enums.Abilities;
+import me.relaxitsdax.thecaverns.game.enums.PassiveAbilities;
 import me.relaxitsdax.thecaverns.game.items.CavernItem;
-import me.relaxitsdax.thecaverns.game.items.ItemStatBonuses;
-import me.relaxitsdax.thecaverns.game.items.Rarity;
+import me.relaxitsdax.thecaverns.game.enums.ItemStatBonuses;
+import me.relaxitsdax.thecaverns.game.enums.Rarity;
 import me.relaxitsdax.thecaverns.game.items.StatBonuses;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -26,11 +26,11 @@ public class PlayerGiveCavernItemCMD implements CommandExecutor {
 
             Map<ItemStatBonuses, Double> map = new HashMap<>();
             map.put(ItemStatBonuses.DAMAGE, 100.0);
-            map.put(ItemStatBonuses.MAXHEALTH, 900.0);
             StatBonuses bonuses = new StatBonuses(map);
 
-            PassiveAbility[] a = {PassiveAbility.REGENERATION, PassiveAbility.LIFESTEAL, PassiveAbility.GROWTH, PassiveAbility.PHOENIX, null};
-            CavernItem item = new CavernItem(UUID.randomUUID(), Material.DIAMOND_SWORD, "Sord", bonuses, Rarity.DIVINE, Ability.HEAL, null, Ability.BARRIER, null, a);
+            PassiveAbilities[] a = {PassiveAbilities.REGENERATION, PassiveAbilities.LIFESTEAL, PassiveAbilities.GROWTH, PassiveAbilities.PHOENIX, null};
+            Rarity[] b = {Rarity.COMMON, Rarity.UNCOMMON, Rarity.FABLED, Rarity.LEGENDARY, null};
+            CavernItem item = new CavernItem(UUID.randomUUID(), Material.DIAMOND_SWORD, "Sord", bonuses, Rarity.DIVINE, Abilities.HEAL, null, Abilities.BARRIER, null, a, Rarity.COMMON, null, Rarity.DIVINE, null, b);
             player.getInventory().addItem(item.getItemStack());
 
         }
