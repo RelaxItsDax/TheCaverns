@@ -129,7 +129,6 @@ public class CavernItem {
         container.set(key("ShiftRightClickAbilityRarity"), PersistentDataType.INTEGER, this.srcaRarity != null ? this.srcaRarity.getNumber() : 0);
         container.set(key("ShiftLeftClickAbilityRarity"), PersistentDataType.INTEGER, this.slcaRarity != null ? this.slcaRarity.getNumber() : 0);
 
-
         if (passiveAbilities != null && passiveRarities != null) {
             for (int i = 0; i < 5; i++) {
                 container.set(key("PassiveAbility" + i), PersistentDataType.STRING, this.passiveAbilities[i] != null ? this.passiveAbilities[i].toString().toUpperCase() : "null");
@@ -150,21 +149,34 @@ public class CavernItem {
 
     public List<String> buildLore() {
         List<String> lore = new ArrayList<>(this.bonuses.toLore());
+        boolean hasAbilities = false;
 
-        if (rightClickAbility != null) lore.add(ChatColor.GOLD + "" + ChatColor.BOLD + "Right Click: " + rcaRarity.getColor() + rightClickAbility.getName() + " (" + rcaRarity.getName() + ")");
-        if (leftClickAbility != null) lore.add(ChatColor.GOLD + "" + ChatColor.BOLD + "Left Click: " + lcaRarity.getColor() + leftClickAbility.getName() + " (" + lcaRarity.getName() + ")");
-        if (sneakRightClickAbility != null) lore.add(ChatColor.GOLD + "" + ChatColor.BOLD + "Shift Right Click: " + srcaRarity.getColor() + sneakRightClickAbility.getName() + " (" + srcaRarity.getName() + ")");
-        if (sneakLeftClickAbility != null) lore.add(ChatColor.GOLD + "" + ChatColor.BOLD + "Shift Left Click: " + slcaRarity.getColor() + sneakLeftClickAbility.getName() + " (" + slcaRarity.getName() + ")");
+        if (rightClickAbility != null) {
+            lore.add(ChatColor.GOLD + "" + ChatColor.BOLD + "Right Click: " + rcaRarity.getColor() + rightClickAbility.getName() + " (" + rcaRarity.getName() + ")");
+            hasAbilities = true;
+        }
+        if (leftClickAbility != null) {
+            lore.add(ChatColor.GOLD + "" + ChatColor.BOLD + "Left Click: " + lcaRarity.getColor() + leftClickAbility.getName() + " (" + lcaRarity.getName() + ")");
+            hasAbilities = true;
+        }
+        if (sneakRightClickAbility != null) {
+            lore.add(ChatColor.GOLD + "" + ChatColor.BOLD + "Shift Right Click: " + srcaRarity.getColor() + sneakRightClickAbility.getName() + " (" + srcaRarity.getName() + ")");
+            hasAbilities = true;
+        }
+        if (sneakLeftClickAbility != null) {
+            lore.add(ChatColor.GOLD + "" + ChatColor.BOLD + "Shift Left Click: " + slcaRarity.getColor() + sneakLeftClickAbility.getName() + " (" + slcaRarity.getName() + ")");
+            hasAbilities = true;
+        }
 
-        if (passiveAbilities != null) {
-            lore.add("");
+        if (passiveAbilities != null && passiveAbilities[0] != null) {
+            if (hasAbilities) lore.add("");
             lore.add(ChatColor.GOLD + "" + ChatColor.BOLD + "Passive Abilities:");
             for (int i = 0; i < 5; i++) {
                 if (passiveAbilities[i] != null) lore.add(passiveRarities[i].getColor() + "" + passiveAbilities[i].getName() + " (" + passiveRarities[i].getName() + ")");
             }
+            lore.add("");
         }
 
-        lore.add("");
 
         lore.add(rarity.getColor() + "" + ChatColor.BOLD + "" + rarity.getName());
 

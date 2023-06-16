@@ -1,7 +1,6 @@
 package me.relaxitsdax.thecaverns.util;
 
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class Util {
 
@@ -19,5 +18,15 @@ public class Util {
         return randIntInclusive(1, 2) == 1 ? 1 : -1;
     }
 
+    public static boolean  distinctValues(Iterable<Object> objs) { //Ripped straight off stackexchange >:)
+        Set<Object> foundObjects = new HashSet<>();
+        for (Object o : objs) {
+            if (foundObjects.contains(o) && o != null) {
+                return false;
+            }
+            foundObjects.add(o);
+        }
+        return true;
+    }
 
 }

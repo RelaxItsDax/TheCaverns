@@ -4,22 +4,25 @@ import me.relaxitsdax.thecaverns.game.abilities.active.ActiveAbility;
 import me.relaxitsdax.thecaverns.game.abilities.active.BarrierActiveAbility;
 import me.relaxitsdax.thecaverns.game.abilities.active.HealActiveAbility;
 import me.relaxitsdax.thecaverns.game.entities.EntityData;
+import me.relaxitsdax.thecaverns.util.Util;
 
 public enum Abilities {
-    HEAL("Heal", Rarity.EPIC, 50, 100, new HealActiveAbility(), "a"),
-    BARRIER("Barrier", Rarity.LEGENDARY, 20, 100, new BarrierActiveAbility(), "a");
+    HEAL("Heal", Rarity.EPIC, 5, 50, 100, new HealActiveAbility(), "a"),
+    BARRIER("Barrier", Rarity.LEGENDARY, 10, 20, 100, new BarrierActiveAbility(), "a");
 
 
     private final String name;
     private final Rarity rarity;
+    private final int weight;
     private final double manaCost;
     private final int tickCooldown;
     private final String[] lore;
     private final ActiveAbility executor;
 
-    Abilities(String name, Rarity rarity, double manaCost, int tickCooldown, ActiveAbility executor, String... lore) {
+    Abilities(String name, Rarity rarity, int weight, double manaCost, int tickCooldown, ActiveAbility executor, String... lore) {
         this.name = name;
         this.rarity = rarity;
+        this.weight = weight;
         this.manaCost = manaCost;
         this.tickCooldown = tickCooldown;
         this.executor = executor;
@@ -40,6 +43,10 @@ public enum Abilities {
         return rarity;
     }
 
+    public int getWeight() {
+        return weight;
+    }
+
     public double getManaCost() {
         return manaCost;
     }
@@ -50,6 +57,23 @@ public enum Abilities {
 
     public String[] getLore() {
         return lore;
+    }
+
+
+    public static Abilities getWeightedRandom() {
+
+        int weightSum = 0;
+        for (Abilities ability : Abilities.values()) {
+            weightSum += ability.getWeight();
+        }
+        int random = Util.randIntInclusive(0, weightSum);
+
+        int target = 0;
+        for (Abilities ability : Abilities.values()) {
+            target += ability.getWeight();
+            if (target >= random) return ability;
+        }
+        return null;
     }
 
 }

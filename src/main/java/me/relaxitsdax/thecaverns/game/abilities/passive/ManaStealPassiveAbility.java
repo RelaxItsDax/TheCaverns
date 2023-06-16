@@ -5,10 +5,11 @@ import me.relaxitsdax.thecaverns.game.enums.AbilityStatus;
 import me.relaxitsdax.thecaverns.game.enums.PassiveAbilities;
 import me.relaxitsdax.thecaverns.game.enums.Rarity;
 
-public class PhoenixPassiveAbility extends PassiveAbility{
+public class ManaStealPassiveAbility extends PassiveAbility{
 
-    public PhoenixPassiveAbility() {
+    public ManaStealPassiveAbility() {
     }
+
     @Override
     public void onProc(EntityData data, PassiveAbilities passiveAbility, Rarity abilityRarity) {
         AbilityStatus status = super.getStatus(data, passiveAbility);
@@ -16,13 +17,8 @@ public class PhoenixPassiveAbility extends PassiveAbility{
 
         if (status == AbilityStatus.SUCCESS) {
 
-            data.setHealth(data.getMaxHealth());
-
-            data.addPartBarrier(0.5 + (0.1 * l));
-
-            data.addPassiveCooldown(passiveAbility, passiveAbility.getTickCooldown());
+            data.setMana(data.getMana() + 5 + 2 * l);
         }
 
     }
-
 }

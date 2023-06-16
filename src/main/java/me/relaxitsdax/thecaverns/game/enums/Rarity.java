@@ -37,7 +37,7 @@ public enum Rarity {
 
     public static Rarity getFromName(String name) {
         for (Rarity rarity : Rarity.values()) {
-            if (rarity.getName().toLowerCase() == name.toLowerCase()) {
+            if (rarity.getName().toLowerCase().equals(name.toLowerCase())) {
                 return rarity;
             }
         }
