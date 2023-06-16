@@ -171,6 +171,10 @@ public class EntityData {
         this.health = Math.min(this.health + health, this.maxHealth);
     }
 
+    public void addPartHealth(double part) {
+        addHealth(part * this.maxHealth);
+    }
+
     public String getNameBar() {
         return nameBar;
     }

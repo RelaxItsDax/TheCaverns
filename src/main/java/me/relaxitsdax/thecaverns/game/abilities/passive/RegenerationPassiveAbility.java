@@ -13,10 +13,11 @@ public class RegenerationPassiveAbility extends PassiveAbility {
     @Override
     public void onProc(EntityData data, PassiveAbilities passiveAbility, Rarity abilityRarity) {
         AbilityStatus status = super.getStatus(data, passiveAbility);
+        int l = abilityRarity.getNumber();
 
         if (status == AbilityStatus.SUCCESS) {
 
-            data.addHealth(data.getMaxHealth() * 0.0025);
+            data.addHealth(data.getMaxHealth() * 0.0005 * l);
 
             data.addPassiveCooldown(passiveAbility, passiveAbility.getTickCooldown());
         }

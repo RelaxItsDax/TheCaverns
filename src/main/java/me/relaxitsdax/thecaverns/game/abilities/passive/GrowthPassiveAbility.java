@@ -15,10 +15,11 @@ public class GrowthPassiveAbility extends PassiveAbility {
     @Override
     public void onProc(EntityData data, PassiveAbilities passiveAbility, Rarity abilityRarity) {
         AbilityStatus status = super.getStatus(data, passiveAbility);
+        int l = abilityRarity.getNumber();
 
         if (status == AbilityStatus.SUCCESS) {
 
-            data.addPartBarrier(0.2);
+            data.addPartBarrier(0.1 + 0.03 * l);
         }
     }
 

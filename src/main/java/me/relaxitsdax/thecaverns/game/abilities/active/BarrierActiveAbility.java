@@ -14,16 +14,16 @@ public class BarrierActiveAbility extends ActiveAbility {
     @Override
     public void onUse(EntityData data, Abilities ability, Rarity abilityRarity) {
         AbilityStatus status = super.getStatus(data, ability);
+        int l = abilityRarity.getNumber();
 
         if (status == AbilityStatus.SUCCESS) {
-
             data.useMana(ability.getManaCost());
 
-            data.addBarrier(50);
+
+            data.addPartBarrier(0.3 + 0.05 * l);
+
 
             data.addCooldown(ability, ability.getTickCooldown());
-
-
         }
         if (data instanceof PlayerData) {
             super.sendPlayerMessage((PlayerData) data, ability, status);

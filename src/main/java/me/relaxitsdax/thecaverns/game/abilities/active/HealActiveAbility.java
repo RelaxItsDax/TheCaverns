@@ -14,15 +14,16 @@ public class HealActiveAbility extends ActiveAbility {
     @Override
     public void onUse(EntityData data, Abilities ability, Rarity abilityRarity) {
         AbilityStatus status = super.getStatus(data, ability);
+        int l = abilityRarity.getNumber();
 
         if (status == AbilityStatus.SUCCESS) {
-
             data.useMana(ability.getManaCost());
 
-            data.addHealth(20);
+
+            data.addPartHealth(0.2 + 0.05 * l);
+
 
             data.addCooldown(ability, ability.getTickCooldown());
-
         }
         if (data instanceof PlayerData) {
             super.sendPlayerMessage((PlayerData) data, ability, status);

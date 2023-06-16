@@ -10,11 +10,13 @@ public class PhoenixPassiveAbility extends PassiveAbility{
     @Override
     public void onProc(EntityData data, PassiveAbilities passiveAbility, Rarity abilityRarity) {
         AbilityStatus status = super.getStatus(data, passiveAbility);
+        int l = abilityRarity.getNumber();
 
         if (status == AbilityStatus.SUCCESS) {
 
             data.setHealth(data.getMaxHealth());
-            data.addBarrier(data.getMaxHealth());
+
+            data.addPartBarrier(0.5 + (0.1 * l));
 
             data.addPassiveCooldown(passiveAbility, passiveAbility.getTickCooldown());
         }
