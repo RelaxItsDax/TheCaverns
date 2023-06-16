@@ -2,6 +2,7 @@ package me.relaxitsdax.thecaverns.game.abilities.active;
 
 import me.relaxitsdax.thecaverns.TheCaverns;
 import me.relaxitsdax.thecaverns.game.entities.EntityData;
+import me.relaxitsdax.thecaverns.game.entities.EntityDataManager;
 import me.relaxitsdax.thecaverns.game.entities.livingentities.players.PlayerData;
 import me.relaxitsdax.thecaverns.game.enums.Abilities;
 import me.relaxitsdax.thecaverns.game.enums.AbilityStatus;
@@ -32,19 +33,20 @@ public class ActiveAbility {
         return status;
     }
 
-    public void sendPlayerMessage(PlayerData data, Abilities ability, AbilityStatus status) {
+    public void sendPlayerMessage(PlayerData data, Abilities ability, AbilityStatus status, Rarity abilityRarity) {
         Player player = TheCaverns.getInstance().getServer().getPlayer(data.getUuid());
+
         if (player != null) {
 
             switch (status) {
                 case SUCCESS:
-                    player.sendMessage(ChatColor.WHITE + "Used " + ability.getName() + "! " + ChatColor.AQUA + "(" + ability.getManaCost() + " Mana)");
+                    player.sendMessage(ChatColor.WHITE + "Used " + abilityRarity.getColor() +  ability.getName() + " " + ChatColor.AQUA + "(" + (int) ability.getManaCost() + " Mana)");
                     break;
                 case NOTENOUGHMANA:
                     player.sendMessage(ChatColor.RED + "Not enough mana!");
                     break;
                 case ONCOOLDOWN:
-                    player.sendMessage(ChatColor.RED + "On Cooldown!");
+                    player.sendMessage(ChatColor.RED + "On Cooldown: " + ((data.getCooldown(ability) + 15) / 20) + "s");
                     break;
                 case CANNOTUSE:
                     player.sendMessage(ChatColor.RED + "You can't use this here!");

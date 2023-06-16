@@ -26,7 +26,7 @@ public class HealActiveAbility extends ActiveAbility {
             data.addCooldown(ability, ability.getTickCooldown());
         }
         if (data instanceof PlayerData) {
-            super.sendPlayerMessage((PlayerData) data, ability, status);
+            super.sendPlayerMessage((PlayerData) data, ability, status, abilityRarity);
         }
 
     }

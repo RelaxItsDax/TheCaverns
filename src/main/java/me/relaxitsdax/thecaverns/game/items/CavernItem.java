@@ -151,16 +151,16 @@ public class CavernItem {
     public List<String> buildLore() {
         List<String> lore = new ArrayList<>(this.bonuses.toLore());
 
-        if (rightClickAbility != null) lore.add(ChatColor.GOLD + "" + ChatColor.BOLD + "Right Click: " + rcaRarity.getColor() + rightClickAbility.getName());
-        if (leftClickAbility != null) lore.add(ChatColor.GOLD + "" + ChatColor.BOLD + "Left Click: " + lcaRarity.getColor() + leftClickAbility.getName());
-        if (sneakRightClickAbility != null) lore.add(ChatColor.GOLD + "" + ChatColor.BOLD + "Shift Right Click: " + srcaRarity.getColor() + sneakRightClickAbility.getName());
-        if (sneakLeftClickAbility != null) lore.add(ChatColor.GOLD + "" + ChatColor.BOLD + "Shift Left Click: " + slcaRarity.getColor() + sneakLeftClickAbility.getName());
+        if (rightClickAbility != null) lore.add(ChatColor.GOLD + "" + ChatColor.BOLD + "Right Click: " + rcaRarity.getColor() + rightClickAbility.getName() + " (" + rcaRarity.getName() + ")");
+        if (leftClickAbility != null) lore.add(ChatColor.GOLD + "" + ChatColor.BOLD + "Left Click: " + lcaRarity.getColor() + leftClickAbility.getName() + " (" + lcaRarity.getName() + ")");
+        if (sneakRightClickAbility != null) lore.add(ChatColor.GOLD + "" + ChatColor.BOLD + "Shift Right Click: " + srcaRarity.getColor() + sneakRightClickAbility.getName() + " (" + srcaRarity.getName() + ")");
+        if (sneakLeftClickAbility != null) lore.add(ChatColor.GOLD + "" + ChatColor.BOLD + "Shift Left Click: " + slcaRarity.getColor() + sneakLeftClickAbility.getName() + " (" + slcaRarity.getName() + ")");
 
         if (passiveAbilities != null) {
             lore.add("");
             lore.add(ChatColor.GOLD + "" + ChatColor.BOLD + "Passive Abilities:");
             for (int i = 0; i < 5; i++) {
-                if (passiveAbilities[i] != null) lore.add(passiveRarities[i].getColor() + "" + passiveAbilities[i].getName());
+                if (passiveAbilities[i] != null) lore.add(passiveRarities[i].getColor() + "" + passiveAbilities[i].getName() + " (" + passiveRarities[i].getName() + ")");
             }
         }
 
@@ -337,7 +337,7 @@ public class CavernItem {
     }
 
     public Rarity getPassiveAbilityRarity(int index) {
-        if (!(index <= 5 && index > 0)) return null;
+        if (!(index < 5 && index >= 0)) return null;
         return Rarity.getFromNumber(this.itemstack.getItemMeta().getPersistentDataContainer().get(key("PassiveAbilityRarity" + index), PersistentDataType.INTEGER));
     }
 
