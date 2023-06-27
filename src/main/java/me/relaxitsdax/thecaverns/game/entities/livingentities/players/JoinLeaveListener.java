@@ -1,5 +1,7 @@
 package me.relaxitsdax.thecaverns.game.entities.livingentities.players;
 
+import me.relaxitsdax.thecaverns.game.guis.GUIHandler;
+import me.relaxitsdax.thecaverns.game.guis.GUIHandlerManager;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -27,6 +29,10 @@ public class JoinLeaveListener implements Listener {
             data.reloadVisualLoop();
         }
 
+        if (!(GUIHandlerManager.contains(player.getUniqueId()))) {
+            GUIHandlerManager.add(player.getUniqueId(), new GUIHandler(player.getUniqueId()));
+        }
+
     }
 
     @EventHandler
@@ -37,6 +43,7 @@ public class JoinLeaveListener implements Listener {
         PlayerVisualLoopInstanceManager.remove(player.getUniqueId());
         data.getEntityLoop().cancel();
         data.getVisualLoop().cancel();
+        GUIHandlerManager.remove(player.getUniqueId());
     }
 
 }

@@ -50,18 +50,24 @@ public class CavernItem {
         this.leftClickAbility = leftClickAbility;
         this.sneakRightClickAbility = sneakRightClickAbility;
         this.sneakLeftClickAbility = sneakLeftClickAbility;
-        this.passiveAbilities = passiveAbilities;
+        PassiveAbilities[] a = {null, null, null, null, null};
+        this.passiveAbilities = passiveAbilities == null ? a : passiveAbilities;
         this.rcaRarity = rcaRarity;
         this.lcaRarity = lcaRarity;
         this.srcaRarity = srcaRarity;
         this.slcaRarity = slcaRarity;
-        this.passiveRarities = passiveRarities;
+        Rarity[] b = {null, null, null, null, null};
+        this.passiveRarities = passiveRarities == null ? b : passiveRarities;
 
         toItemStack();
     }
 
     public CavernItem(UUID uuid, Material material, String name, StatBonuses bonuses, Rarity rarity) {
-        new CavernItem(uuid, material, name, bonuses, rarity, null, null, null, null, null, null, null, null, null,null);
+        this.uuid = uuid;
+        this.material = material;
+        this.name = name;
+        this.bonuses = bonuses;
+        this.rarity = rarity;
     }
 
     public CavernItem(Player player, int index) { //For getting existing cavern items
@@ -89,7 +95,9 @@ public class CavernItem {
 
     }
 
-
+    public void give(Player player) {
+        player.getInventory().addItem(toItemStack());
+    }
 
     public ItemStack toItemStack() {
         this.itemstack = new ItemStack(material);
@@ -149,6 +157,7 @@ public class CavernItem {
 
     public List<String> buildLore() {
         List<String> lore = new ArrayList<>(this.bonuses.toLore());
+        lore.add("");
         boolean hasAbilities = false;
 
         if (rightClickAbility != null) {

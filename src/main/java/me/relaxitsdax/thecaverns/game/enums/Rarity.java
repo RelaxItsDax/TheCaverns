@@ -1,25 +1,28 @@
 package me.relaxitsdax.thecaverns.game.enums;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 
 public enum Rarity {
-    COMMON("Common", ChatColor.GRAY, 1),
-    UNCOMMON("Uncommon", ChatColor.GREEN, 2),
-    RARE("Rare", ChatColor.BLUE, 3),
-    EPIC("Epic", ChatColor.DARK_PURPLE, 4),
-    LEGENDARY("Legendary", ChatColor.GOLD, 5),
-    MYTHIC("Mythic", ChatColor.LIGHT_PURPLE, 6),
-    FABLED("Fabled", ChatColor.AQUA, 7),
-    DIVINE("Divine", ChatColor.RED, 8),
+    COMMON("Common", ChatColor.GRAY, Material.LIGHT_GRAY_STAINED_GLASS, 1),
+    UNCOMMON("Uncommon", ChatColor.GREEN, Material.LIME_STAINED_GLASS, 2),
+    RARE("Rare", ChatColor.BLUE, Material.BLUE_STAINED_GLASS, 3),
+    EPIC("Epic", ChatColor.DARK_PURPLE, Material.PURPLE_STAINED_GLASS, 4),
+    LEGENDARY("Legendary", ChatColor.GOLD, Material.ORANGE_STAINED_GLASS, 5),
+    MYTHIC("Mythic", ChatColor.LIGHT_PURPLE, Material.MAGENTA_STAINED_GLASS, 6),
+    FABLED("Fabled", ChatColor.AQUA, Material.LIGHT_BLUE_STAINED_GLASS, 7),
+    DIVINE("Divine", ChatColor.RED, Material.RED_STAINED_GLASS, 8),
     ;
 
     private final String name;
     private final ChatColor color;
+    private final Material glassRepresent;
     private final int number;
 
-    Rarity(String name, ChatColor color, int number) {
+    Rarity(String name, ChatColor color, Material blockRepresent, int number) {
         this.name = name;
         this.color = color;
+        this.glassRepresent = blockRepresent;
         this.number = number;
     }
 
@@ -33,6 +36,10 @@ public enum Rarity {
 
     public int getNumber() {
         return number;
+    }
+
+    public Material getGlassRepresent() {
+        return glassRepresent;
     }
 
     public static Rarity getFromName(String name) {

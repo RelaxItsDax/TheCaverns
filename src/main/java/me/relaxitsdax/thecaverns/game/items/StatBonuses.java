@@ -27,7 +27,7 @@ public class StatBonuses {
     public void sort() {
         Map<Integer, ItemStatBonuses> list = new HashMap<>();
         for (ItemStatBonuses bonus : bonuses.keySet()) {
-            list.put(bonus.getPriority(), bonus);
+            list.put(bonus.getNumber(), bonus);
         }
         Map<ItemStatBonuses, Double> sorted = new HashMap<>();
         for (ItemStatBonuses bonusInOrder : list.values()) {
@@ -44,11 +44,9 @@ public class StatBonuses {
         for (ItemStatBonuses bonus : bonuses.keySet()) {
             double num = bonuses.get(bonus);
 
-            String str = bonus.getColor() + "+" + (int) num + " " + bonus.getName();
+            String str = bonus.getColor() + (num > 0 ? "+" : "") + (int) num + " " + bonus.getName();
             list.add(str);
         }
-
-        list.add("");
 
         return list;
     }
@@ -59,6 +57,11 @@ public class StatBonuses {
 
     public Collection<ItemStatBonuses> keySet() {
         return this.bonuses.keySet();
+    }
+
+    public static StatBonuses empty() {
+        Map<ItemStatBonuses, Double> map = new HashMap<>();
+        return new StatBonuses(map);
     }
 
 
