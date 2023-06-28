@@ -21,8 +21,8 @@ public class AddStatListener implements Listener {
         PlayerData data = PlayerDataManager.get(player.getUniqueId());
         ItemStack stack = player.getInventory().getItem(event.getNewSlot());
         if (stack != null) {
-            if (CavernItem.isCavernItem(stack)) {
-                CavernItem item = new CavernItem(player, event.getNewSlot());
+            if (CavernWeapon.isCavernWeapon(stack)) {
+                CavernWeapon item = new CavernWeapon(player, event.getNewSlot());
                 data.addBonusStats(item.getBonuses());
             } else {
                 data.resetBonuses();
@@ -40,8 +40,8 @@ public class AddStatListener implements Listener {
         PlayerData data = PlayerDataManager.get(player.getUniqueId());
         ItemStack stack = player.getInventory().getItem(player.getInventory().getHeldItemSlot());
         if (stack != null) {
-            if (CavernItem.isCavernItem(stack)) {
-                CavernItem item = new CavernItem(player, player.getInventory().getHeldItemSlot());
+            if (CavernWeapon.isCavernWeapon(stack)) {
+                CavernWeapon item = new CavernWeapon(player, player.getInventory().getHeldItemSlot());
                 data.addBonusStats(item.getBonuses());
             } else {
                 data.resetBonuses();

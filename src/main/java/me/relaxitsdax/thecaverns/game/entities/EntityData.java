@@ -1,17 +1,19 @@
 package me.relaxitsdax.thecaverns.game.entities;
 
 import me.relaxitsdax.thecaverns.TheCaverns;
-import me.relaxitsdax.thecaverns.game.enums.Abilities;
-import me.relaxitsdax.thecaverns.game.enums.PassiveAbilities;
+import me.relaxitsdax.thecaverns.game.enums.ActiveAbility;
+import me.relaxitsdax.thecaverns.game.enums.PassiveAbility;
 import me.relaxitsdax.thecaverns.game.enums.PassiveAbilityProcType;
 import me.relaxitsdax.thecaverns.game.items.CavernItem;
 import me.relaxitsdax.thecaverns.game.enums.ItemStatBonuses;
+import me.relaxitsdax.thecaverns.game.items.CavernWeapon;
 import me.relaxitsdax.thecaverns.game.items.StatBonuses;
 import me.relaxitsdax.thecaverns.util.Util;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.*;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.ConcurrentModificationException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -22,8 +24,8 @@ public class EntityData {
     private final UUID uuid;
     private Entity entity;
     private PassiveEntityLoop entityLoop;
-    private final Map<Abilities, Integer> cooldownMap = new HashMap<>();
-    private final Map<PassiveAbilities, Integer> passiveCooldownMap = new HashMap<>();
+    private final Map<ActiveAbility, Integer> cooldownMap = new HashMap<>();
+    private final Map<PassiveAbility, Integer> passiveCooldownMap = new HashMap<>();
     private String nameBar;
     private boolean isDead = false;
     private double maxHealth;
@@ -103,24 +105,24 @@ public class EntityData {
         PassiveEntityLoopInstanceManager.add(getUuid(), this.entityLoop);
     }
 
-    public int getCooldown(Abilities ability) {
+    public int getCooldown(ActiveAbility ability) {
         return cooldownMap.getOrDefault(ability, 0);
     }
 
-    public void addCooldown(Abilities ability, int ticks) {
+    public void addCooldown(ActiveAbility ability, int ticks) {
         this.cooldownMap.put(ability, ticks);
     }
 
-    public int getPassiveCooldown(PassiveAbilities ability) {
+    public int getPassiveCooldown(PassiveAbility ability) {
         return passiveCooldownMap.getOrDefault(ability, 0);
     }
 
-    public void addPassiveCooldown(PassiveAbilities ability, int ticks) {
+    public void addPassiveCooldown(PassiveAbility ability, int ticks) {
         this.passiveCooldownMap.put(ability, ticks);
     }
 
-    public void decrement(int ticks) {
-        for (Abilities abilities : cooldownMap.keySet()) {
+    public void decrement(int ticks) throws ConcurrentModificationException {
+        for (ActiveAbility abilities : cooldownMap.keySet()) {
             int cooldown = cooldownMap.get(abilities);
             cooldown -= ticks;
             if (cooldown <= 0) {
@@ -131,7 +133,7 @@ public class EntityData {
         }
 
 
-        for (PassiveAbilities abilities : passiveCooldownMap.keySet()) {
+        for (PassiveAbility abilities : passiveCooldownMap.keySet()) {
             if (abilities.getTickCooldown() > 0) {
 
                 int cooldown = passiveCooldownMap.get(abilities);
@@ -268,12 +270,12 @@ public class EntityData {
             if (entity instanceof Player) {
                 this.health = this.maxHealth;
                 Player player =  (Player) entity;
-                if (CavernItem.isCavernItem(player.getInventory().getItem(player.getInventory().getHeldItemSlot()))) {
-                    CavernItem item = new CavernItem(player, player.getInventory().getHeldItemSlot());
+                if (CavernWeapon.isCavernWeapon(player.getInventory().getItem(player.getInventory().getHeldItemSlot()))) {
+                    CavernWeapon item = new CavernWeapon(player, player.getInventory().getHeldItemSlot());
                     for (int i = 0; i < 5; i++) {
-                        PassiveAbilities ability = item.getPassiveAbility(i);
+                        PassiveAbility ability = item.getPassiveAbility(i);
                         if (ability != null)
-                            if (ability.getProcType() == PassiveAbilityProcType.ONDEATH) ability.execute(this, item.getPassiveAbilityRarity(i));
+                            if (ability.getProcType() == PassiveAbilityProcType.ONDEATH) ability.execute(this, item.getPassiveRarity(i));
                     }
                 }
             } else {

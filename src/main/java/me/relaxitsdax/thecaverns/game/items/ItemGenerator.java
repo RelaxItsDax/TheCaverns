@@ -14,10 +14,8 @@ public class ItemGenerator {
     public static CavernItem generateItemFromChest(Rarity chestRarity, String name) {
         Rarity itemRarity = randomRarityFromChest(chestRarity);
 
-        Abilities rca = Abilities.getWeightedRandom();
-        Abilities lca = Abilities.getWeightedRandom();
-        Abilities srca = Abilities.getWeightedRandom();
-        Abilities slca = Abilities.getWeightedRandom();
+        ActiveAbility rca = ActiveAbility.getWeightedRandom();
+        ActiveAbility srca = ActiveAbility.getWeightedRandom();
 
 
 
@@ -38,13 +36,13 @@ public class ItemGenerator {
         int passives = randomNumberOfPassiveAbilities(chestRarity);
         System.out.println(passives);
 
-        PassiveAbilities[] passiveAbilities = {null, null, null, null, null};
+        PassiveAbility[] passiveAbilities = {null, null, null, null, null};
         for (int i = 0; i < passives; i++) {
-            passiveAbilities[i] = PassiveAbilities.getWeightedRandom();
+            passiveAbilities[i] = PassiveAbility.getWeightedRandom();
         }
         while (!(Util.distinctValues(Arrays.asList(passiveAbilities)))) {
             for (int i = 0; i < passives; i++) {
-                passiveAbilities[i] = PassiveAbilities.getWeightedRandom();
+                passiveAbilities[i] = PassiveAbility.getWeightedRandom();
             }
         }
 
@@ -57,9 +55,7 @@ public class ItemGenerator {
         Map<ItemStatBonuses, Double> bonusMap = new HashMap<>();
         bonusMap.put(ItemStatBonuses.DAMAGE, (double) Util.randIntInclusive(20, 30));
 
-
-
-        return new CavernItem(UUID.randomUUID(), Material.IRON_SWORD, name, new StatBonuses(bonusMap), itemRarity, abilities >= 1 ? rca : null, null, abilities >= 2 ? rca : null, null, passiveAbilities, abilityRarities[0], null, abilityRarities[1], null, passivesRarities);
+        return new CavernWeapon(UUID.randomUUID(), Material.IRON_SWORD, name, itemRarity, CavernItemType.WEAPON, new StatBonuses(bonusMap), abilities >= 1 ? rca : null, abilityRarities[0], abilities >= 2 ? rca : null, abilityRarities[1], passiveAbilities, passivesRarities);
     }
 
     public static CavernItem generateItemFromChest(Rarity chestRarity) {

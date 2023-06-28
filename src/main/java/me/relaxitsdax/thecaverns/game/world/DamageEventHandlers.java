@@ -1,10 +1,11 @@
 package me.relaxitsdax.thecaverns.game.world;
 
-import me.relaxitsdax.thecaverns.game.enums.PassiveAbilities;
+import me.relaxitsdax.thecaverns.game.enums.PassiveAbility;
 import me.relaxitsdax.thecaverns.game.enums.PassiveAbilityProcType;
 import me.relaxitsdax.thecaverns.game.entities.EntityData;
 import me.relaxitsdax.thecaverns.game.entities.EntityDataManager;
 import me.relaxitsdax.thecaverns.game.items.CavernItem;
+import me.relaxitsdax.thecaverns.game.items.CavernWeapon;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -41,18 +42,18 @@ public class DamageEventHandlers implements Listener {
             if (damager instanceof Player) {
                 Player player = (Player) damager;
                 ItemStack stack = player.getInventory().getItem(player.getInventory().getHeldItemSlot());
-                if (CavernItem.isCavernItem(stack)) {
-                    CavernItem item = new CavernItem(player, player.getInventory().getHeldItemSlot());
+                if (CavernWeapon.isCavernWeapon(stack)) {
+                    CavernWeapon item = new CavernWeapon(player, player.getInventory().getHeldItemSlot());
 
                     for (int i = 0; i < 5; i++) {
-                        PassiveAbilities ability =  item.getPassiveAbility(i);
-                        if (ability != null) if (ability.getProcType() == PassiveAbilityProcType.ONHIT) ability.execute(damagerData, item.getPassiveAbilityRarity(i));
+                        PassiveAbility ability =  item.getPassiveAbility(i);
+                        if (ability != null) if (ability.getProcType() == PassiveAbilityProcType.ONHIT) ability.execute(damagerData, item.getPassiveRarity(i));
                     }
 
                     if (targetData.isDead()) {
                         for (int i = 0; i < 5; i++) {
-                            PassiveAbilities ability =  item.getPassiveAbility(i);
-                            if (ability != null) if (ability.getProcType() == PassiveAbilityProcType.ONKILL) ability.execute(damagerData, item.getPassiveAbilityRarity(i));
+                            PassiveAbility ability =  item.getPassiveAbility(i);
+                            if (ability != null) if (ability.getProcType() == PassiveAbilityProcType.ONKILL) ability.execute(damagerData, item.getPassiveRarity(i));
                         }
                     }
                 }

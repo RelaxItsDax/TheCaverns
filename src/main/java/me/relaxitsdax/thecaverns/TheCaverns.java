@@ -12,6 +12,7 @@ import me.relaxitsdax.thecaverns.game.guis.types.createitem.CreateItemInventoryG
 import me.relaxitsdax.thecaverns.game.guis.types.createitem.SetRarityInventoryGUI;
 import me.relaxitsdax.thecaverns.game.items.AddStatListener;
 import me.relaxitsdax.thecaverns.game.items.CavernItem;
+import me.relaxitsdax.thecaverns.game.items.CavernWeapon;
 import me.relaxitsdax.thecaverns.game.items.StatBonuses;
 import me.relaxitsdax.thecaverns.test.*;
 import me.relaxitsdax.thecaverns.game.world.DamageEventHandlers;
@@ -66,7 +67,7 @@ public final class TheCaverns extends JavaPlugin {
 
             ItemStack stack = player.getInventory().getItem(player.getInventory().getHeldItemSlot());
             if (stack != null && CavernItem.isCavernItem(stack)) {
-                CavernItem item = new CavernItem(player, player.getInventory().getHeldItemSlot());
+                CavernWeapon item = new CavernWeapon(player, player.getInventory().getHeldItemSlot());
                 data.addBonusStats(item.getBonuses());
             }
         }

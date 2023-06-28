@@ -1,13 +1,15 @@
 package me.relaxitsdax.thecaverns.game.guis.types.createitem;
 
-import me.relaxitsdax.thecaverns.game.enums.Abilities;
-import me.relaxitsdax.thecaverns.game.enums.PassiveAbilities;
+import me.relaxitsdax.thecaverns.game.enums.ActiveAbility;
+import me.relaxitsdax.thecaverns.game.enums.CavernItemType;
+import me.relaxitsdax.thecaverns.game.enums.PassiveAbility;
 import me.relaxitsdax.thecaverns.game.enums.Rarity;
 import me.relaxitsdax.thecaverns.game.guis.GUIHandler;
 import me.relaxitsdax.thecaverns.game.guis.GUIHandlerManager;
 import me.relaxitsdax.thecaverns.game.guis.types.GUI;
 import me.relaxitsdax.thecaverns.game.guis.types.InventoryGUI;
 import me.relaxitsdax.thecaverns.game.items.CavernItem;
+import me.relaxitsdax.thecaverns.game.items.CavernWeapon;
 import me.relaxitsdax.thecaverns.game.items.StatBonuses;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -30,11 +32,11 @@ public class CreateItemInventoryGUI extends InventoryGUI implements Listener {
     private Rarity rarity;
     private String name;
     private StatBonuses bonuses;
-    private Abilities rca;
-    private Abilities srca;
-    private Abilities lca;
-    private Abilities slca;
-    private PassiveAbilities[] passives;
+    private ActiveAbility rca;
+    private ActiveAbility srca;
+    private ActiveAbility lca;
+    private ActiveAbility slca;
+    private PassiveAbility[] passives;
     private Rarity rcaRar;
     private Rarity srcaRar;
     private Rarity lcaRar;
@@ -134,8 +136,8 @@ public class CreateItemInventoryGUI extends InventoryGUI implements Listener {
                     rarity = gui.getRarity();
                     bonuses = gui.getBonuses();
                     if (bonuses != null && rarity != null) {
-                        CavernItem item = new CavernItem(UUID.randomUUID(), Material.IRON_SWORD, "Custom Weapon", bonuses, rarity, null, null, null, null, null, null, null, null, null, null);
-                        player.getInventory().addItem(item.getItemStack());
+                        CavernWeapon item = new CavernWeapon(UUID.randomUUID(), Material.IRON_SWORD, "Custom Weapon", rarity, CavernItemType.WEAPON, bonuses, null, null, null, null, null, null);
+                        player.getInventory().addItem(item.buildItemStack());
                         player.sendMessage(ChatColor.YELLOW + "Created Cavern Item!");
                     } else {
                         player.sendMessage(ChatColor.RED + "Please include a Rarity and Bonuses!");

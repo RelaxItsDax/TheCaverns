@@ -4,7 +4,7 @@ import me.relaxitsdax.thecaverns.game.abilities.passive.*;
 import me.relaxitsdax.thecaverns.game.entities.EntityData;
 import me.relaxitsdax.thecaverns.util.Util;
 
-public enum PassiveAbilities {
+public enum PassiveAbility {
     LIFESTEAL("Lifesteal", PassiveAbilityProcType.ONHIT, 10, 0, new LifestealPassiveAbility()),
     REGENERATION("Regeneration", PassiveAbilityProcType.WHILEHOLDING, 10, 20, new RegenerationPassiveAbility()),
     GROWTH("Growth", PassiveAbilityProcType.ONKILL, 10, 0, new GrowthPassiveAbility()),
@@ -16,9 +16,9 @@ public enum PassiveAbilities {
     private final PassiveAbilityProcType procType;
     private final int weight;
     private final Integer tickCooldown;
-    private final PassiveAbility executor;
+    private final me.relaxitsdax.thecaverns.game.abilities.passive.PassiveAbility executor;
 
-    PassiveAbilities(String name, PassiveAbilityProcType procType, int weight, Integer tickCooldown, PassiveAbility executor) {
+    PassiveAbility(String name, PassiveAbilityProcType procType, int weight, Integer tickCooldown, me.relaxitsdax.thecaverns.game.abilities.passive.PassiveAbility executor) {
         this.name = name;
         this.procType = procType;
         this.weight = weight;
@@ -50,24 +50,24 @@ public enum PassiveAbilities {
         return weight;
     }
 
-    public static PassiveAbilities getWeightedRandom() {
+    public static PassiveAbility getWeightedRandom() {
 
         int weightSum = 0;
-        for (PassiveAbilities ability : PassiveAbilities.values()) {
+        for (PassiveAbility ability : PassiveAbility.values()) {
             weightSum += ability.getWeight();
         }
         int random = Util.randIntInclusive(0, weightSum);
 
         int target = 0;
-        for (PassiveAbilities ability : PassiveAbilities.values()) {
+        for (PassiveAbility ability : PassiveAbility.values()) {
             target += ability.getWeight();
             if (target >= random) return ability;
         }
         return null;
     }
 
-    public static PassiveAbilities getWeightedRandom(PassiveAbilities exclude) {
-        PassiveAbilities passive = getWeightedRandom();
+    public static PassiveAbility getWeightedRandom(PassiveAbility exclude) {
+        PassiveAbility passive = getWeightedRandom();
         while (passive == exclude) {
             passive = getWeightedRandom();
             if (passive != exclude) return passive;

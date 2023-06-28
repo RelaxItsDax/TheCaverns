@@ -1,12 +1,11 @@
 package me.relaxitsdax.thecaverns.game.enums;
 
-import me.relaxitsdax.thecaverns.game.abilities.active.ActiveAbility;
 import me.relaxitsdax.thecaverns.game.abilities.active.BarrierActiveAbility;
 import me.relaxitsdax.thecaverns.game.abilities.active.HealActiveAbility;
 import me.relaxitsdax.thecaverns.game.entities.EntityData;
 import me.relaxitsdax.thecaverns.util.Util;
 
-public enum Abilities {
+public enum ActiveAbility {
     HEAL("Heal", Rarity.EPIC, 5, 50, 100, new HealActiveAbility(), "a"),
     BARRIER("Barrier", Rarity.LEGENDARY, 10, 20, 100, new BarrierActiveAbility(), "a");
 
@@ -17,9 +16,9 @@ public enum Abilities {
     private final double manaCost;
     private final int tickCooldown;
     private final String[] lore;
-    private final ActiveAbility executor;
+    private final me.relaxitsdax.thecaverns.game.abilities.active.ActiveAbility executor;
 
-    Abilities(String name, Rarity rarity, int weight, double manaCost, int tickCooldown, ActiveAbility executor, String... lore) {
+    ActiveAbility(String name, Rarity rarity, int weight, double manaCost, int tickCooldown, me.relaxitsdax.thecaverns.game.abilities.active.ActiveAbility executor, String... lore) {
         this.name = name;
         this.rarity = rarity;
         this.weight = weight;
@@ -60,16 +59,16 @@ public enum Abilities {
     }
 
 
-    public static Abilities getWeightedRandom() {
+    public static ActiveAbility getWeightedRandom() {
 
         int weightSum = 0;
-        for (Abilities ability : Abilities.values()) {
+        for (ActiveAbility ability : ActiveAbility.values()) {
             weightSum += ability.getWeight();
         }
         int random = Util.randIntInclusive(0, weightSum);
 
         int target = 0;
-        for (Abilities ability : Abilities.values()) {
+        for (ActiveAbility ability : ActiveAbility.values()) {
             target += ability.getWeight();
             if (target >= random) return ability;
         }

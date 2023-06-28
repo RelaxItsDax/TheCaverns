@@ -3,6 +3,7 @@ package me.relaxitsdax.thecaverns.game.abilities;
 import me.relaxitsdax.thecaverns.game.entities.livingentities.players.PlayerData;
 import me.relaxitsdax.thecaverns.game.entities.livingentities.players.PlayerDataManager;
 import me.relaxitsdax.thecaverns.game.items.CavernItem;
+import me.relaxitsdax.thecaverns.game.items.CavernWeapon;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -18,36 +19,20 @@ public class ActiveAbilityListener implements Listener {
         PlayerData data = PlayerDataManager.get(player.getUniqueId());
         if (stack != null) {
             if (CavernItem.isCavernItem(stack)) {
-            CavernItem item = new CavernItem(player, player.getInventory().getHeldItemSlot());
+            CavernWeapon item = new CavernWeapon(player, player.getInventory().getHeldItemSlot());
 
                 if (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK) {
                     if (!player.isSneaking()) {
-                        if (item.hasRightClickAbility()) {
-                            item.getRightClickAbility().execute(data, item.getRightClickAbilityRarity());
+                        if (item.hasRca()) {
+                            item.getRca().execute(data, item.getRcaRarity());
                         }
                     } else {
-                        if (!item.hasSneakRightClickAbility()) {
-                            if (item.hasRightClickAbility()) {
-                                item.getRightClickAbility().execute(data, item.getRightClickAbilityRarity());
+                        if (!item.hasSrca()) {
+                            if (item.hasRca()) {
+                                item.getRca().execute(data, item.getRcaRarity());
                             }
                         } else {
-                            item.getSneakRightClickAbility().execute(data, item.getShiftRightClickAbilityRarity());
-                        }
-                    }
-                }
-
-                if (event.getAction() == Action.LEFT_CLICK_AIR || event.getAction() == Action.LEFT_CLICK_BLOCK) {
-                    if (!player.isSneaking()) {
-                        if (item.hasLeftClickAbility()) {
-                            item.getLeftClickAbility().execute(data, item.getLeftClickAbilityRarity());
-                        }
-                    } else {
-                        if (!item.hasSneakLeftClickAbility()) {
-                            if (item.hasLeftClickAbility()) {
-                                item.getLeftClickAbility().execute(data, item.getLeftClickAbilityRarity());
-                            }
-                        } else {
-                            item.getSneakLeftClickAbility().execute(data, item.getShiftLeftClickAbilityRarity());
+                            item.getSrca().execute(data, item.getSrcaRarity());
                         }
                     }
                 }

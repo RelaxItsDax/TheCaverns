@@ -3,6 +3,7 @@ package me.relaxitsdax.thecaverns.game.entities.livingentities.players;
 import me.relaxitsdax.thecaverns.game.entities.livingentities.LivingEntityData;
 import me.relaxitsdax.thecaverns.TheCaverns;
 import me.relaxitsdax.thecaverns.game.items.CavernItem;
+import me.relaxitsdax.thecaverns.game.items.CavernWeapon;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Team;
 
@@ -41,7 +42,7 @@ public class PlayerData extends LivingEntityData {
 
         TheCaverns.getInstance().getServer().getPlayer(uuid).sendMessage("Player Data Made!");
         reloadVisualLoop();
-        addBonusStats(new CavernItem(player, player.getInventory().getHeldItemSlot()).getBonuses());
+        addBonusStats(new CavernWeapon(player, player.getInventory().getHeldItemSlot()).getBonuses());
     }
 
 

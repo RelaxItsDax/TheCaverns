@@ -1,10 +1,11 @@
 package me.relaxitsdax.thecaverns.game.entities.livingentities.players;
 
-import me.relaxitsdax.thecaverns.game.enums.PassiveAbilities;
+import me.relaxitsdax.thecaverns.game.enums.PassiveAbility;
 import me.relaxitsdax.thecaverns.game.enums.PassiveAbilityProcType;
 import me.relaxitsdax.thecaverns.game.enums.Stats;
 import me.relaxitsdax.thecaverns.TheCaverns;
 import me.relaxitsdax.thecaverns.game.items.CavernItem;
+import me.relaxitsdax.thecaverns.game.items.CavernWeapon;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
@@ -33,13 +34,13 @@ public class PlayerLoop {
                     //ITEM UPDATE CODE
                     ItemStack stack = player.getInventory().getItem(player.getInventory().getHeldItemSlot());
                     if (stack != null) {
-                        if (CavernItem.isCavernItem(stack)) {
-                            CavernItem item = new CavernItem(player, player.getInventory().getHeldItemSlot());
+                        if (CavernWeapon.isCavernWeapon(stack)) {
+                            CavernWeapon item = new CavernWeapon(player, player.getInventory().getHeldItemSlot());
                             data.addBonusStats(item.getBonuses());
 
                             for (int i = 0; i < 5; i++) {
-                                PassiveAbilities ability =  item.getPassiveAbility(i);
-                                if (ability != null) if (ability.getProcType() == PassiveAbilityProcType.WHILEHOLDING) ability.execute(data, item.getPassiveAbilityRarity(i));
+                                PassiveAbility ability =  item.getPassiveAbility(i);
+                                if (ability != null) if (ability.getProcType() == PassiveAbilityProcType.WHILEHOLDING) ability.execute(data, item.getPassiveRarity(i));
                             }
 
                         } else {

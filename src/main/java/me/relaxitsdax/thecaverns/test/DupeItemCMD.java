@@ -1,6 +1,7 @@
 package me.relaxitsdax.thecaverns.test;
 
 import me.relaxitsdax.thecaverns.game.items.CavernItem;
+import me.relaxitsdax.thecaverns.game.items.CavernWeapon;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -14,7 +15,7 @@ public class DupeItemCMD implements CommandExecutor {
 
         if (sender instanceof Player) {
             Player player = (Player) sender;
-            CavernItem item = new CavernItem(player, player.getInventory().getHeldItemSlot());
+            CavernWeapon item = new CavernWeapon(player, player.getInventory().getHeldItemSlot());
             player.getInventory().addItem(item.toItemStack());
         }
 
