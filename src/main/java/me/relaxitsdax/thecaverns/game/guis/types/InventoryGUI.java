@@ -1,14 +1,21 @@
 package me.relaxitsdax.thecaverns.game.guis.types;
 
+import me.relaxitsdax.thecaverns.game.guis.GUIHandler;
+import me.relaxitsdax.thecaverns.game.guis.GUIHandlerManager;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.Arrays;
+import java.util.List;
 
-public class InventoryGUI extends GUI{
+public class InventoryGUI extends GUI implements Listener {
 
     public InventoryGUI() {
     }
@@ -45,6 +52,5 @@ public class InventoryGUI extends GUI{
 
         return item;
     }
-
 
 }

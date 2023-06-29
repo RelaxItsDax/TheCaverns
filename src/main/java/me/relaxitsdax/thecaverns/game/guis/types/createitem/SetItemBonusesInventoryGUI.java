@@ -1,15 +1,11 @@
 package me.relaxitsdax.thecaverns.game.guis.types.createitem;
 
 import me.relaxitsdax.thecaverns.game.enums.ItemStatBonuses;
-import me.relaxitsdax.thecaverns.game.enums.Rarity;
 import me.relaxitsdax.thecaverns.game.guis.GUIHandlerManager;
 import me.relaxitsdax.thecaverns.game.guis.types.GUI;
-import me.relaxitsdax.thecaverns.game.guis.types.InventoryGUI;
-import me.relaxitsdax.thecaverns.game.items.StatBonuses;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -21,12 +17,12 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SetBonusesInventoryGUI extends CreateItemInventoryGUI implements Listener {
+public class SetItemBonusesInventoryGUI extends CreateItemInventoryGUI implements Listener {
 
     private final Inventory inv;
 
 
-    public SetBonusesInventoryGUI() {
+    public SetItemBonusesInventoryGUI() {
         this.inv = Bukkit.createInventory(null, 18, "Add Bonuses");
     }
 
@@ -38,6 +34,7 @@ public class SetBonusesInventoryGUI extends CreateItemInventoryGUI implements Li
         ItemStack back = new ItemStack(Material.ARROW);
         ItemMeta backMeta = back.getItemMeta();
         backMeta.setDisplayName(ChatColor.RED + "Back");
+        back.setItemMeta(backMeta);
 
         inv.setItem(13, back);
 

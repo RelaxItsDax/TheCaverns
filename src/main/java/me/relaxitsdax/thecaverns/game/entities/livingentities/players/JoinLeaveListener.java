@@ -43,6 +43,8 @@ public class JoinLeaveListener implements Listener {
         PlayerVisualLoopInstanceManager.remove(player.getUniqueId());
         data.getEntityLoop().cancel();
         data.getVisualLoop().cancel();
+        GUIHandler handler = GUIHandlerManager.get(player.getUniqueId());
+        handler.removeCurrent();
         GUIHandlerManager.remove(player.getUniqueId());
     }
 

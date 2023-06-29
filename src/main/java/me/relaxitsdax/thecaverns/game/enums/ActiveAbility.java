@@ -4,23 +4,26 @@ import me.relaxitsdax.thecaverns.game.abilities.active.BarrierActiveAbility;
 import me.relaxitsdax.thecaverns.game.abilities.active.HealActiveAbility;
 import me.relaxitsdax.thecaverns.game.entities.EntityData;
 import me.relaxitsdax.thecaverns.util.Util;
+import org.bukkit.Material;
 
 public enum ActiveAbility {
-    HEAL("Heal", Rarity.EPIC, 5, 50, 100, new HealActiveAbility(), "a"),
-    BARRIER("Barrier", Rarity.LEGENDARY, 10, 20, 100, new BarrierActiveAbility(), "a");
+    HEAL("Heal", Rarity.EPIC, Material.APPLE, 5, 50, 100, new HealActiveAbility(), "a"),
+    BARRIER("Barrier", Rarity.LEGENDARY, Material.GOLDEN_APPLE, 10, 20, 100, new BarrierActiveAbility(), "a");
 
 
     private final String name;
     private final Rarity rarity;
+    private final Material materialIcon;
     private final int weight;
     private final double manaCost;
     private final int tickCooldown;
     private final String[] lore;
     private final me.relaxitsdax.thecaverns.game.abilities.active.ActiveAbility executor;
 
-    ActiveAbility(String name, Rarity rarity, int weight, double manaCost, int tickCooldown, me.relaxitsdax.thecaverns.game.abilities.active.ActiveAbility executor, String... lore) {
+    ActiveAbility(String name, Rarity rarity, Material materialIcon, int weight, double manaCost, int tickCooldown, me.relaxitsdax.thecaverns.game.abilities.active.ActiveAbility executor, String... lore) {
         this.name = name;
         this.rarity = rarity;
+        this.materialIcon = materialIcon;
         this.weight = weight;
         this.manaCost = manaCost;
         this.tickCooldown = tickCooldown;
@@ -40,6 +43,10 @@ public enum ActiveAbility {
 
     public Rarity getRarity() {
         return rarity;
+    }
+
+    public Material getMaterialIcon() {
+        return materialIcon;
     }
 
     public int getWeight() {
