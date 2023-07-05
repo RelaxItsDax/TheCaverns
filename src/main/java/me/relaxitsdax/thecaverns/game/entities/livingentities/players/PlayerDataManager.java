@@ -17,6 +17,8 @@ public class PlayerDataManager {
     }
 
     public static PlayerData get(UUID uuid) {
+
+
         if (!(dataMap.containsKey(uuid))) return null;
 
         return dataMap.get(uuid);

@@ -1,5 +1,6 @@
 package me.relaxitsdax.thecaverns;
 
+import com.onarandombox.MultiverseCore.MultiverseCore;
 import me.relaxitsdax.thecaverns.game.abilities.ActiveAbilityListener;
 import me.relaxitsdax.thecaverns.game.entities.livingentities.LivingEntityData;
 import me.relaxitsdax.thecaverns.game.entities.livingentities.players.PlayerDataManager;
@@ -29,6 +30,7 @@ public final class TheCaverns extends JavaPlugin {
 
         INSTANCE = this;
         playerDataManager = new PlayerDataManager();
+        multiverseCore = (MultiverseCore) getServer().getPluginManager().getPlugin("Multiverse-Core");
 
 
         //TEAM RESET LOGIC
@@ -102,10 +104,21 @@ public final class TheCaverns extends JavaPlugin {
         return INSTANCE;
     }
 
+    private static MultiverseCore multiverseCore;
+    public static MultiverseCore getMultiverseCore() {
+        return multiverseCore;
+    }
+
     private static PlayerDataManager playerDataManager;
-    public static PlayerDataManager getDataManager() {
+    public static PlayerDataManager getPlayerDataManager() {
         return playerDataManager;
     }
+
+
+
+
+
+
 
 
 }
