@@ -13,7 +13,7 @@ public class PlayerData extends LivingEntityData {
 
     private Player player;
     private PlayerLoop loop;
-    private Scoreboard scoreboard;
+    private final Scoreboard scoreboard;
     private final Team team;
 
 

@@ -4,7 +4,6 @@ import me.relaxitsdax.thecaverns.TheCaverns;
 import me.relaxitsdax.thecaverns.game.enums.ActiveAbility;
 import me.relaxitsdax.thecaverns.game.enums.PassiveAbility;
 import me.relaxitsdax.thecaverns.game.enums.PassiveAbilityProcType;
-import me.relaxitsdax.thecaverns.game.items.CavernItem;
 import me.relaxitsdax.thecaverns.game.enums.ItemStatBonuses;
 import me.relaxitsdax.thecaverns.game.items.CavernWeapon;
 import me.relaxitsdax.thecaverns.game.items.StatBonuses;
@@ -32,6 +31,7 @@ public class EntityData {
     private double baseMaxHealth;
     private double bonusMaxHealth;
     private double health;
+    private double healthRegen;
     private double effectiveHealth;
     private double barrier;
 
@@ -45,17 +45,21 @@ public class EntityData {
     private double maxMana;
     private double baseMaxMana;
     private double bonusMaxMana;
+    private double manaRegen;
     private double mana;
 
     public EntityData(UUID uuid) {
         this.uuid = uuid;
         this.baseMaxHealth = 100;
         this.health = 100;
+        this.healthRegen = health / 200;
         this.barrier = 0;
         this.baseDefense = 0;
         this.baseDamage = 10;
         this.baseMaxMana = 100;
+        this.manaRegen = mana / 50;
         this.mana = 100;
+
 
         resetBonuses();
 
@@ -357,5 +361,13 @@ public class EntityData {
         this.maxHealth = baseMaxHealth;
         this.maxMana = baseMaxMana;
 
+    }
+
+    public void doPassiveHealthRegen() {
+        this.health = Math.min(maxHealth, health + healthRegen);
+    }
+
+    public void doPassiveManaRegen() {
+        this.mana = Math.min(maxMana, mana + manaRegen);
     }
 }
